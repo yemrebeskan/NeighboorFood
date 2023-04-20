@@ -1,12 +1,17 @@
-import React from 'react';
+// ChefAbout.js
+import React from 'react'
 
-const ChefAbout = () => {
-    return (
-        <div>
-            <h2 className="text-xl font-bold mb-4">About</h2>
-            <p>About content goes here...</p>
-        </div>
-    );
-};
+const ChefAbout = ({ about }) => {
+  return (
+    <div className="bg-white px-8 py-4 rounded-md">
+      <div>
+        {about.split('\n').map((i, key) => {
+          return <div key={key}>{i}</div>
+        })}
+      </div>
+      
+    </div>
+  )
+}
 
-export default ChefAbout;
+export default ChefAbout

@@ -5,6 +5,10 @@ import ChefAbout from './ChefAbout';
 import ChefReviews from './ChefReviews';
 
 function SectionIndicator() {
+  //This should come from backend
+  const aboutText =
+"Hello, my name is Ally and I am a home chef in my 60s.\nCooking has been my passion for as long as I can remember and I have spent countless hours experimenting with different ingredients and techniques to create delicious and wholesome meals.\nOver the years, I have honed my skills and developed a keen sense of taste and presentation, which I bring to every dish I create."
+
   const [selectedSection, setSelectedSection] = useState('Menus');
 
   const sections = ['Menus', 'About', 'Reviews'];
@@ -18,7 +22,7 @@ function SectionIndicator() {
       case 'Menus':
         return <ChefMenus />;
       case 'About':
-        return <ChefAbout />;
+        return <ChefAbout about={aboutText} />;
       case 'Reviews':
         return <ChefReviews />;
       default:
