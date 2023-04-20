@@ -9,10 +9,13 @@ const NavBar = () => {
                         <button className="text-green-700 items-end mb-10 mt-10 mr-16">
                             About Us
                         </button>
-                        <button className="text-green-700 mb-10 mt-10 mr-20">
-                            SIGN UP
-                        </button>
-                        <button className="text-green-700 items-end mb-10 mt-10 mr-16">
+                        <div className="border-r-4 border-gray-50 mt-8 mb-7">
+                            <button className="text-green-700 mb-10 mt-2 mb-3 mr-10">
+                                SIGN UP
+                            </button>
+                        </div>
+
+                        <button className="text-green-700 items-end mb-10 mt-10 mr-16 ml-12">
                             LOG IN
                         </button>
 
