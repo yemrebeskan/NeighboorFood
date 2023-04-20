@@ -14,8 +14,6 @@ router
     .get(chefController.getChefMenu)
     .put(chefController.updateChefMenu)
 
-
-
 router
     .route('/district/:district/menu/:menu')
     .get(chefController.getChefAndMenuByDistrict)

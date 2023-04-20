@@ -23,17 +23,6 @@ const userSchema = new mongoose.Schema({
         minlength: 8,
         select: false,
     },
-    passwordConfirm: {
-        type: String,
-        required: [true, 'A user must confirm their password'],
-        validate: {
-            // This only works on CREATE and SAVE!!!
-            validator: function (el) {
-                return el === this.password
-            },
-            message: 'Passwords are not the same!',
-        },
-    },
     role: {
         type: String,
         enum: ['User', 'Chef', 'Admin'],
@@ -69,7 +58,6 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next()
     this.password = await bcrypt.hashSync(this.password, 12)
-    this.passwordConfirm = undefined
     next()
 })
 

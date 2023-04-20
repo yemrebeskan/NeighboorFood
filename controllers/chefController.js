@@ -15,9 +15,10 @@ exports.getAllChefs = catchAsync(async (req, res, next) => {
 })
 
 exports.getChefById = catchAsync(async (req, res, next) => {
-    const chefs = await User.find({ _id: req.params.id, role: 'chef' })
+    const chefs = await User.find({ _id: req.params.id, role: 'Chef' })
     if (!chefs || chefs.length === 0) {
         const id = req.params.id
+        console.log(id)
         return next(new AppError(`No chef found with that ${id}`, 404))
     }
     res.status(200).json({
@@ -112,7 +113,7 @@ exports.updateChef = catchAsync(async (req, res, next) => {
         return next(new AppError('No chef found with that id', 404))
     }
 
-    if (chef.role !== 'chef') {
+    if (chef.role !== 'Chef') {
         return next(
             new AppError('You are not authorized to perform this action', 403)
         )
@@ -131,19 +132,14 @@ exports.updateChef = catchAsync(async (req, res, next) => {
 })
 
 exports.updateChefMenu = catchAsync(async (req, res, next) => {
-    console.log(req.body)
     const { menu } = req.body
-    console.log(menu)
-    
-    
+
     const chef = await User.findById(req.params.id)
-    console.log(chef.role)
     if (!chef) {
         return next(new AppError('No chef found with that id', 404))
     }
 
     if (chef.role !== 'Chef') {
-        console.log(chef.role)
         return next(
             new AppError('You are not authorized to perform this action', 403)
         )
