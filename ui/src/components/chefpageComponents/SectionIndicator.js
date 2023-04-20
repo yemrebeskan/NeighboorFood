@@ -38,8 +38,8 @@ function SectionIndicator() {
             key={section}
             onClick={() => handleClick(section)}
             className={`${
-              section === selectedSection ? 'bg-green-800  text-black px-12 py-4 rounded-md' : 'bg-transparent px-12 py-4' 
-            }  font-semibold text-lg bg-opacity-30`}
+              section === selectedSection ? 'bg-green-700  text-black px-12 py-4 rounded-md' : 'bg-transparent px-12 py-4' 
+            }  font-semibold hover:bg-green-700 hover:rounded-md hover:opacity-32 text-lg bg-opacity-30`}
           >
             {section}
           </button>
