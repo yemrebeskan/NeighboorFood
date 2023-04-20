@@ -60,9 +60,6 @@ const ChefProfile = ({ chef = {
               <StarRating stars={chef.rating} totalVotes={chef.totalVotes} />
             </span>
           </div>
-          <button className="mt-4 px-4 py-2 border-2 border-black rounded-lg bg-transparent text-black font-semibold hover:bg-black hover:text-white transition-colors duration-300">
-            Follow {chef.name}
-          </button>
         </div>
       </div>
     );
