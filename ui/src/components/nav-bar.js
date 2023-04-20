@@ -1,4 +1,4 @@
-import logo from './homepageComponents.js/logo.jpeg'
+import logo from './homepageComponents.js/logo.png'
 
 const NavBar = () => {
     return (

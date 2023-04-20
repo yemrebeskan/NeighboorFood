@@ -2,7 +2,7 @@ import Foods from '../components/homepageComponents.js/foods'
 const HomePage = () => {
     return (
         <div className="">
-            <div className="py-36 bg-gray-100"></div>
+            <div className="py-60 bg-gray-100"></div>
 
             <div className=" bg-teal-600 flex justify-center">
                 <div className="">
