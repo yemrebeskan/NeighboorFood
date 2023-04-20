@@ -20,7 +20,7 @@ const ChefSections = ({ children }) => {
                     </button>
                 ))}
             </div>
-            <div>
+            <div className='flex flex-col'>
                 {children[activeSection]}
             </div>
         </div>
