@@ -11,6 +11,7 @@ const ChefProfile = ({ chef = {
     profileImage: 'https://media-private.canva.com/MADFs4Vp_BY/1/screen.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJWF6QO3UH4PAAJ6Q%2F20230420%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230420T035004Z&X-Amz-Expires=62745&X-Amz-Signature=06ebeeaa9db6cc0378ba0fbc367131dc512c05620fa1b17fd2b6a978f809c934&X-Amz-SignedHeaders=host&response-expires=Thu%2C%2020%20Apr%202023%2021%3A15%3A49%20GMT',
     address: '123 Street, City, State, Country',
     rating: 4.5,
+    totalVotes: 100,
     distance: '3.2 km',
 } }) => {
     const [isFavorited, setIsFavorited] = useState(false);
@@ -56,7 +57,7 @@ const ChefProfile = ({ chef = {
           </p>
           <div className="flex items-center mt-2">
             <span className="text-lg font-semibold opacity-80">
-              <StarRating stars={chef.rating} />
+              <StarRating stars={chef.rating} totalVotes={chef.totalVotes} />
             </span>
           </div>
           <button className="mt-4 px-4 py-2 border-2 border-black rounded-lg bg-transparent text-black font-semibold hover:bg-black hover:text-white transition-colors duration-300">
