@@ -7,8 +7,8 @@ import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 const ChefProfile = ({ chef = {
     id: 1,
     name: 'Ally Doe',
-    backgroundImage: 'https://media-private.canva.com/V5u_Y/MAEEylV5u_Y/1/s2.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJWF6QO3UH4PAAJ6Q%2F20230420%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230420T054831Z&X-Amz-Expires=54728&X-Amz-Signature=35754d95c49d0b81b9946c44ef2c0011237e9677f9588373482bcb5a6cbbb55c&X-Amz-SignedHeaders=host&response-expires=Thu%2C%2020%20Apr%202023%2021%3A00%3A39%20GMT',
-    profileImage: 'https://media-private.canva.com/MADFs4Vp_BY/1/screen.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJWF6QO3UH4PAAJ6Q%2F20230420%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230420T035004Z&X-Amz-Expires=62745&X-Amz-Signature=06ebeeaa9db6cc0378ba0fbc367131dc512c05620fa1b17fd2b6a978f809c934&X-Amz-SignedHeaders=host&response-expires=Thu%2C%2020%20Apr%202023%2021%3A15%3A49%20GMT',
+    backgroundImage: 'https://thumbs.dreamstime.com/b/fresh-food-ingredients-vegetarian-kitchen-wooden-background-top-view-raw-vegetable-143531625.jpg',
+    profileImage: 'https://www.gravatar.com/avatar/993455f0ba0ccbcfcf99819b4292c744',
     address: '123 Street, City, State, Country',
     rating: 4.5,
     totalVotes: 100,

@@ -8,7 +8,7 @@ const DropdownMenu = ( {setIsLoggedIn}) => {
       };
 
   return (
-    <ul className="absolute right-0 mt-11  bg-white shadow-lg rounded-md p-4 text-green-800 w-48 scale-125">
+    <ul className="absolute right-0 mt-11  bg-white shadow-lg rounded-md p-4 text-green-800 w-48 scale-125 z-10">
       <li className="mb-3 hover:bg-gray-100">
         <button
           onClick={() => console.log('Settings')}
