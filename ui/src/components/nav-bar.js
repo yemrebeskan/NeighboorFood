@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import logo from './homepageComponents.js/logo.png'
+import logo from './homepageComponents/logo.png'
 import DropdownMenu from './navbarComponents/DropdownMenu'
 
 const NavBar = ({
@@ -31,13 +31,13 @@ const NavBar = ({
       <nav className="flex bg-stone-200 justify-end">
         <div className="buttons">
           <div className="flex justify-end mr-8">
-            <button className="text-green-700 items-end mb-10 mt-10 mr-16">
+            <button className="text-green-700 items-end mb-10 mt-10 mr-16 hover:text-gray-950">
               About Us
             </button>
             {!isLoggedIn && (
               <div className="border-r-4 border-gray-50 mt-8 mb-7">
                 <button
-                  className="text-green-700 mb-10 mt-2 mb-3 mr-10"
+                  className="text-green-700 mb-10 mt-2 mb-3 mr-10 p-2 hover:bg-green-700 hover:text-stone-200 rounded"
                   onClick={handleSignUp}
                 >
                   SIGN UP
@@ -46,7 +46,7 @@ const NavBar = ({
             )}
             {!isLoggedIn && (
               <button
-                className="text-green-700 items-end mb-10 mt-10 mr-16 ml-12"
+                className="text-green-700 items-end mb-10 mt-10 mr-16 ml-12 hover:bg-green-700 p-2 hover:text-stone-200 rounded"
                 onClick={handleLogin}
               >
                 LOG IN

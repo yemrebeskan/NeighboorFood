@@ -3,8 +3,8 @@ import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import NavBar from './components/nav-bar'
 import ChefPage from './pages/ChefPage'
-import SignUpPage from './components/homepageComponents.js/SignUpPage'
-import SignInPage from './components/homepageComponents.js/SignInPage'
+import SignUpPage from './components/homepageComponents/SignUpPage'
+import SignInPage from './components/homepageComponents/SignInPage'
 
 import HomePage from './pages/homepage'
 import './App.css'
@@ -43,16 +43,19 @@ const App = () => {
             setIsClickedSignUpButton={setIsClickedSignUpButton}
           />
         </div>
-        {isClickedSignUpButton && (
-          <div className="absolute ml-40 blur-none block z-40">
-            <SignUpPage onSignUp={signupHandler}></SignUpPage>
-          </div>
-        )}
-        {isClickedLogInButton && (
-          <div className="absolute mb-40 ml-40 blur-none block z-50">
-            <SignInPage onLogin={loginHandler}></SignInPage>
-          </div>
-        )}
+        <div className="flex justify-center">
+          {isClickedSignUpButton && (
+            <div className="absolute blur-none mr-96 z-40">
+              <SignUpPage onSignUp={signupHandler}></SignUpPage>
+            </div>
+          )}
+          {isClickedLogInButton && (
+            <div className="absolute mb-40 mr-96 blur-none z-50">
+              <SignInPage onLogin={loginHandler}></SignInPage>
+            </div>
+          )}
+        </div>
+
         <BrowserRouter>
           <Routes>
             <Route
