@@ -1,20 +1,33 @@
-import React, { useState } from 'react';
-import logo from './homepageComponents.js/logo.png';
-import DropdownMenu from './navbarComponents/DropdownMenu';
+import React, { useState } from 'react'
+import logo from './homepageComponents.js/logo.png'
+import DropdownMenu from './navbarComponents/DropdownMenu'
 
-const NavBar = ({ isLoggedIn, setIsLoggedIn }) => {
-  const [showDropdown, setShowDropdown] = useState(false);
+const NavBar = ({
+  isLoggedIn,
+  setIsLoggedIn,
+  setIsOnClickedSignButton,
+  setIsClickedLogInButton,
+  setIsClickedSignUpButton,
+}) => {
+  const [showDropdown, setShowDropdown] = useState(false)
 
   const toggleDropdown = () => {
-    setShowDropdown((prevState) => !prevState);
-  };
+    setShowDropdown((prevState) => !prevState)
+  }
 
   const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
+    setIsClickedLogInButton((prevState) => !prevState)
+    setIsOnClickedSignButton((prevState) => !prevState)
+  }
+
+  const handleSignUp = () => {
+    // databaseye kaydetme işlemi yapılacak
+    setIsClickedSignUpButton((prevState) => !prevState)
+    setIsOnClickedSignButton((prevState) => !prevState)
+  }
 
   return (
-    <div className="">
+    <div className="relative z-50">
       <nav className="flex bg-stone-200 justify-end">
         <div className="buttons">
           <div className="flex justify-end mr-8">
@@ -23,7 +36,10 @@ const NavBar = ({ isLoggedIn, setIsLoggedIn }) => {
             </button>
             {!isLoggedIn && (
               <div className="border-r-4 border-gray-50 mt-8 mb-7">
-                <button className="text-green-700 mb-10 mt-2 mb-3 mr-10">
+                <button
+                  className="text-green-700 mb-10 mt-2 mb-3 mr-10"
+                  onClick={handleSignUp}
+                >
                   SIGN UP
                 </button>
               </div>
@@ -61,9 +77,9 @@ const NavBar = ({ isLoggedIn, setIsLoggedIn }) => {
           </div>
         </div>
       </nav>
-      <img src={logo} className="w-40 -mt-16 ml-10 absolute mb-10"></img>
+      <img src={logo} className="w-40 -mt-16 ml-10 mb-10 mr-40"></img>
     </div>
-  );
-};
+  )
+}
 
-export default NavBar;
+export default NavBar
