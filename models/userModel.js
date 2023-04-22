@@ -1,71 +1,101 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
-const Food = require('./foodModel')
+const Review = require('./reviewModel')
+const Order = require('./orderModel')
 
 const userSchema = new mongoose.Schema({
-    name: {
+  name: {
+    type: String,
+    trim: true,
+  },
+  email: {
+    type: String,
+    unique: [true, 'Email already exists'],
+    lowercase: true,
+    trim: true,
+    validate: [validator.isEmail, 'Please provide a valid email'],
+  },
+  password: {
+    type: String,
+    minlength: 8,
+    select: false,
+  },
+  district: {
+    type: String,
+    trim: true,
+    default: '',
+  },
+  favourites: {
+    type: Array,
+    default: [],
+  },
+  orderHistory: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Order',
+    },
+  ],
+  role: {
+    type: String,
+    enum: ['User', 'Chef', 'Admin'],
+    default: 'User',
+  },
+  menu: [
+    {
+      name: {
         type: String,
-        required: [true, 'Please tell us your name!'],
         trim: true,
-    },
-    email: {
-        type: String,
-        required: [true, 'Please provide your email'],
-        unique: [true, 'Email already exists'],
-        lowercase: true,
-        trim: true,
-        validate: [validator.isEmail, 'Please provide a valid email'],
-    },
-    password: {
-        type: String,
-        required: [true, 'A user must have a password'],
-        minlength: 8,
-        select: false,
-    },
-    role: {
-        type: String,
-        enum: ['User', 'Chef', 'Admin'],
-        default: 'User',
-    },
-    district: {
-        type: String,
-        trim: true,
-        default: '',
-    },
-    menu: {
-        type: Array,
-        default: [],
-    },
-    rating: {
+        default: 'undefined',
+      },
+      price: {
         type: Number,
         default: 0,
+      },
     },
-    ratingCount: {
-        type: Number,
-        default: 0,
-    },
-    about: {
-        type: String,
-        default: '',
-    },
-    reviews: {
-        type: Array,
-        default: [],
-    },
+  ],
+
+  rating: {
+    type: Number,
+    default: 0,
+  },
+  ratingCount: {
+    type: Number,
+    default: 0,
+  },
+  about: {
+    type: String,
+    default: '',
+  },
+  reviews: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
+    default: [],
+  },
 })
 
 userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next()
-    this.password = await bcrypt.hashSync(this.password, 12)
-    next()
+  if (!this.isModified('password')) return next()
+  this.password = await bcrypt.hashSync(this.password, 12)
+  next()
 })
 
 userSchema.methods.correctPassword = async function (
-    candidatePassword,
-    userPassword
+  candidatePassword,
+  userPassword
 ) {
-    return await bcrypt.compare(candidatePassword, userPassword)
+  return await bcrypt.compare(candidatePassword, userPassword)
+}
+
+userSchema.methods.toJSON = function () {
+  const obj = this.toObject()
+  if (this.role === 'User') {
+    delete obj.menu
+    delete obj.rating
+    delete obj.ratingCount
+    delete obj.about
+    delete obj.reviews
+  }
+  return obj
 }
 
 const User = mongoose.model('User', userSchema)
