@@ -1,0 +1,67 @@
+.signin {
+    width: 36%;
+    max-width: 40rem;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #e8e5e0;
+    display:flex;
+    flex-direction: row;
+  }
+.button-class {
+    color: white;   
+    background-color:rgba(69,128,120,255);
+    width: 70px;
+    height: 40px;
+    border-radius: 2px;
+    border: none;
+}
+.button-class:disabled {
+  background-color: rgba(69,128,120,0.5); /* reduce opacity to fade more */
+  cursor: not-allowed;
+}
+.input-class{
+  position: relative;
+  right: 0px;
+  width: 190%  ;
+  padding: 10px;
+  flex-grow:2;
+  border:none;
+}
+
+.input-class:focus {
+  outline: none;
+}
+
+.buttonpassword{
+  display: block;
+  width: 40px;
+  background-color: white;
+}
+.form-class{
+    display:flex;
+    flex-direction:row;
+    width: 190%;
+    padding:1px;
+  }
+
+  .create-account {
+    margin-left: 1rem;
+    font-size: 0.8rem;
+  }
+  
+  .create-account a {
+    color: #333;
+    text-decoration: underline;
+  }
+  .google-button img {
+    display: flex;
+    justify-content: space-between;
+    width: 30px;
+  }
+  
+  .google-button {
+    float: right;
+    margin-right: -240px;
+    text-align: right;
+    cursor: pointer;
+  }
