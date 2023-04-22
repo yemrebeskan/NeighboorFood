@@ -32,7 +32,7 @@ const App = () => {
   }
 
   return (
-    <div className="relative">
+    <div className="">
       <div>
         <div className={isOnClickedSignButton ? 'blur-sm' : ''}>
           <NavBar

@@ -13,13 +13,13 @@ const HomePage = ({ isLoggedIn, isOnClickedSignButton }) => {
         <img src={img} className="-mt-32 ml-96 rounded-lg -mt-52"></img>
       </div>
 
-      <div className=" bg-teal-600 flex justify-center">
+      <div className=" bg-teal-500 flex justify-center">
         <div className="">
           <Foods></Foods>
         </div>
-        <div className=" bg-orange-200 rounded-full px-36 py-36 absolute mt-48"></div>
+        <div className=" bg-orange-100 rounded-full px-36 py-36 absolute mt-48"></div>
       </div>
-      <div className="py-44 bg-orange-200"></div>
+      <div className="py-44 bg-orange-100"></div>
     </div>
   )
 }
