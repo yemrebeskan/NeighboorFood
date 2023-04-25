@@ -8,6 +8,10 @@ module.exports = {
           "url('./src/components/homepageComponents/backgroundimage.png')",
       },
     },
+
+    fontFamily: {
+      "dancing": 'Dancing Script, cursive',
+    }
   },
   plugins: [],
 }
