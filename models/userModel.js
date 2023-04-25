@@ -9,6 +9,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  surname: {
+    type: String,
+    trim: true,
+  },
   email: {
     type: String,
     unique: [true, 'Email already exists'],
@@ -26,7 +30,7 @@ const userSchema = new mongoose.Schema({
     trim: true,
     default: '',
   },
-  favourites: {
+  favouriteChefs: {
     type: Array,
     default: [],
   },
@@ -48,6 +52,15 @@ const userSchema = new mongoose.Schema({
         trim: true,
         default: 'undefined',
       },
+      description: {
+        type: String,
+        trim: true,
+        default: 'undefined',
+      },
+      Image: {
+        type: String,
+        default: 'undefined',
+      },
       price: {
         type: Number,
         default: 0,
@@ -56,6 +69,10 @@ const userSchema = new mongoose.Schema({
   ],
 
   rating: {
+    type: Number,
+    default: 0,
+  },
+  favouriteCount: {
     type: Number,
     default: 0,
   },
