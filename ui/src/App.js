@@ -30,6 +30,12 @@ const App = () => {
     setIsClickedLogInButton(false)
     setIsOnClickedSignButton((prevState) => !prevState)
   }
+  const exitHandler = () => {
+    setIsLoggedIn(false)
+    setIsClickedLogInButton(false)
+    setIsClickedSignUpButton(false)
+    setIsOnClickedSignButton((prevState) => !prevState)
+  }
 
   return (
     <div className="">
@@ -46,12 +52,14 @@ const App = () => {
         <div className="flex justify-center">
           {isClickedSignUpButton && (
             <div className="absolute blur-none mr-96 z-40">
-              <SignUpPage onSignUp={signupHandler}></SignUpPage>
+              <SignUpPage onSignUp={signupHandler} onClickSignExit={exitHandler}></SignUpPage>
             </div>
           )}
           {isClickedLogInButton && (
             <div className="absolute mb-40 mr-96 blur-none z-50">
-              <SignInPage onLogin={loginHandler}></SignInPage>
+              <SignInPage onLogin={loginHandler} onClickSignExit={exitHandler}  />
+
+
             </div>
           )}
         </div>

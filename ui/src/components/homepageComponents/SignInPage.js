@@ -20,11 +20,13 @@ const SignInPage = (props) => {
       clearTimeout(identifier)
     }
   }, [enteredEmail, enteredPassword])
-  const togglePasswordVisibility = () => {
+  const togglePasswordVisibility = (event) => {
+    event.preventDefault()
     setShowPassword(!showPassword)
   }
 
   const emailChangeHandler = (event) => {
+    event.preventDefault()
     setEnteredEmail(event.target.value)
     setFormIsValid(
       event.target.value.includes('@') && enteredPassword.trim().length > 6
@@ -39,6 +41,7 @@ const SignInPage = (props) => {
   }
   //password is valid kullanacaksan burada var
   const passwordChangeHandler = (event) => {
+    event.preventDefault()
     setEnteredPassword(event.target.value)
     setFormIsValid(
       enteredEmail.includes('@') && event.target.value.trim().length > 6
@@ -50,8 +53,13 @@ const SignInPage = (props) => {
     props.onLogin(enteredEmail, enteredPassword)
   }
 
+  const exitHandlerSignInPage = (event) => {
+    event.preventDefault()
+    props.onClickSignExit()
+  }
   return (
     <div className="signin rounded">
+    <img className="exitButton" src='https://icon-library.com/images/x-button-icon/x-button-icon-17.jpg' onClick={exitHandlerSignInPage}/>
       <form onSubmit={submitHandler}>
         <label htmlFor="email"></label>
         <input

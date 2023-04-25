@@ -1,38 +1,47 @@
+.exitButton{
+  display:block;
+  cursor: pointer;
+  height: 14px;
+  margin-left: 95%;
+}
+
 .signup {
   width: 85%;
   max-width: 40rem;
-
+  margin: 2rem auto;
   padding: 2rem;
   background-color: #e8e5e0;
-  display: flex;
+  display: block;
   flex-direction: row;
-  margin-left: 40%;
-  margin-right: 60%;
+  margin-left: 400px;
+  height: 600px;
+  margin-top: -200px;
 }
 
-.signup .form-class {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  padding: 1px;
-  margin-top: 1rem;
-}
-
-.signup .input-class {
+.input-class {
+  position: relative;
   right: 0px;
-  width: 100%;
+  width: 520px;
   padding: 10px;
   flex-grow: 2;
   border: none;
-  margin-right: 1rem;
 }
-
+.input-class:focus {
+  outline: none;
+}
+.buttonpassword {
+  display: block;
+  width: 20px;
+  background-color: white;
+}
 .signup .buttonpassword {
   display: block;
   width: 40px;
   background-color: white;
 }
-
+.error-text{
+  color:rgb(82, 82, 82);
+}
 .signup .button-class {
   color: white;
   background-color: rgba(69, 128, 120, 255);
@@ -40,7 +49,7 @@
   height: 40px;
   border-radius: 2px;
   border: none;
-  margin-top: 1rem;
+  margin-top: 20px;
 }
 
 .signup .button-class:disabled {

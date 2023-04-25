@@ -10,12 +10,37 @@ const SignUpPage = (props) => {
   const [passwordIsValid, setPasswordIsValid] = useState(false)
   const [confirmPasswordIsValid, setConfirmPasswordIsValid] = useState(false)
   const [formIsValid, setFormIsValid] = useState(false)
+  const [enteredName, setEnteredName] = useState('')
+  const [enteredSurname, setEnteredSurname] = useState('')
 
-  const togglePasswordVisibility = () => {
+  const nameHandler = (event) => {
+    event.preventDefault();
+    const enteredName = event.target.value.trim();
+    const onlyLettersRegex = /^[A-Za-z]+$/; // regular expression for letters only
+  
+    if (enteredName.length > 1 && onlyLettersRegex.test(enteredName)) {
+      setEnteredName(enteredName);
+    }
+  };
+
+  const surnameHandler = (event) => {
+    event.preventDefault();
+    const enteredSurName = event.target.value.trim();
+    const onlyLettersRegex = /^[A-Za-z]+$/; // regular expression for letters only
+  
+    if (enteredSurName.length > 1 && onlyLettersRegex.test(enteredSurName)) {
+      setEnteredName(enteredSurName);
+    }
+  };
+  
+
+  const togglePasswordVisibility = (event) => {
+    event.preventDefault()
     setShowPassword((prevState) => !prevState)
   }
 
   const emailChangeHandler = (event) => {
+    event.preventDefault()
     const enteredEmail = event.target.value
     setEnteredEmail(enteredEmail)
     setEmailIsValid(
@@ -30,6 +55,7 @@ const SignUpPage = (props) => {
   }
 
   const passwordChangeHandler = (event) => {
+    event.preventDefault()
     setEnteredPassword(event.target.value)
     setPasswordIsValid(event.target.value.trim().length >= 6)
     setFormIsValid(
@@ -41,6 +67,7 @@ const SignUpPage = (props) => {
   }
 
   const confirmPasswordChangeHandler = (event) => {
+    event.preventDefault()
     setEnteredConfirmPassword(event.target.value)
     setConfirmPasswordIsValid(event.target.value.trim().length >= 6)
     setFormIsValid(
@@ -97,12 +124,40 @@ const SignUpPage = (props) => {
     // handle signup logic
   }
 
+  const exitHandlerSignInPage = (event) => {
+    event.preventDefault()
+    props.onClickSignExit()
+  }
+
   return (
     <div className="signup flex">
+      <img className="exitButton" src='https://icon-library.com/images/x-button-icon/x-button-icon-17.jpg' onClick={exitHandlerSignInPage}/>
       <form onSubmit={submitHandler} className="signup-form">
-        <label htmlFor="email">Email</label>
+        <label htmlFor="name"></label>
         <input
-          className="input-class"
+          className="input-class mt-5 ml-4"
+          placeholder="name"
+          type="text"
+          id="name"
+          value={enteredName}
+          onChange={nameHandler}
+          onBlur={nameHandler}
+        />
+        <br />
+        <label htmlFor="surname"></label>
+        <input
+          className="input-class mt-5 ml-4"
+          placeholder="surname"
+          type="text"
+          id="surname"
+          value={enteredSurname}
+          onChange={surnameHandler}
+          onBlur={surnameHandler}
+        />
+        <br />
+        <label htmlFor="email"></label>
+        <input
+          className="input-class mt-5 ml-4"
           placeholder="e-mail"
           type="email"
           id="email"
@@ -111,28 +166,35 @@ const SignUpPage = (props) => {
           onBlur={emailChangeHandler}
         />
         {!emailIsValid && (
-          <p className="error-text">Please enter a valid email address.</p>
+          <p className="error-text ml-4">Please enter a valid email address.</p>
         )}
         <br />
         <br />
-        <label htmlFor="password">Password</label>
-        <div className="form-class">
-          <input
-            className="input-class"
-            placeholder="password"
-            type={showPassword ? 'text' : 'password'}
-            id="password"
-            value={enteredPassword}
-            onChange={passwordChangeHandler}
-            onBlur={passwordChangeHandler}
-          />
-
+        <label htmlFor="password"></label>
+        <div className="form-class ml-4" >
+          <input className="input-class "
+          id="password"
+          value={enteredPassword}
+          type={showPassword ? 'text' : 'password'}
+          onChange={passwordChangeHandler}
+          onBlur={passwordChangeHandler}
+            placeholder="password"/><button onClick={togglePasswordVisibility} className="buttonpassword">
+          {showPassword ? (
+            <img src="https://raw.githubusercontent.com/Hasan-S-SELCUK/photos/main/eye1.png" />
+          ) : (
+            <img src="https://cdn.discordapp.com/attachments/978313692519202867/1098617294650867772/eye2.png" />
+          )}
+        </button></div>
+           
+          
+        
           {!passwordIsValid && (
-            <p className="error-text">
+            <p className="error-text ml-4">
               Password should be at least 7 characters long.
             </p>
           )}
           <br />
+          <div className="form-class ml-4">
           <input
             className="input-class"
             placeholder="confirm password"
@@ -142,14 +204,20 @@ const SignUpPage = (props) => {
             onChange={confirmPasswordChangeHandler}
             onBlur={confirmPasswordChangeHandler}
           />
+          <button onClick={togglePasswordVisibility} className="buttonpassword">
+          {showPassword ? (
+            <img src="https://raw.githubusercontent.com/Hasan-S-SELCUK/photos/main/eye1.png" />
+          ) : (
+            <img src="https://cdn.discordapp.com/attachments/978313692519202867/1098617294650867772/eye2.png" />
+          )}
+        </button>
+        </div>
           {enteredPassword !== enteredConfirmPassword && (
-            <p className="error-text">Passwords do not match.</p>
+            <p className="error-text ml-4">Passwords do not match.</p>
           )}
           <br />
-          <button onClick={togglePasswordVisibility}>
-            {showPassword ? 'Hide' : 'Show'} password
-          </button>
-        </div>
+          
+     
         {passwordIsValid && confirmPasswordIsValid && (
           <div className="strength-meter">
             <p>Password strength:</p>
@@ -160,7 +228,7 @@ const SignUpPage = (props) => {
             />
           </div>
         )}
-        <button type="submit" className="button-class" disabled={!formIsValid}>
+        <button type="submit" className="button-class ml-4" disabled={!formIsValid}>
           Sign Up
         </button>
       </form>
