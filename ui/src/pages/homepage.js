@@ -10,7 +10,7 @@ const HomePage = ({ isLoggedIn, isOnClickedSignButton }) => {
           <SearchBar></SearchBar>
         </div>
 
-        <img src={img} className="-mt-32 ml-96 rounded-lg -mt-52"></img>
+        <img src={img} className="-mt-32 ml-64 rounded-lg -mt-52"></img>
       </div>
 
       <div className=" bg-teal-500 flex justify-center">

@@ -5,6 +5,7 @@ import NavBar from './components/nav-bar'
 import ChefPage from './pages/ChefPage'
 import SignUpPage from './components/homepageComponents/SignUpPage'
 import SignInPage from './components/homepageComponents/SignInPage'
+import axios from 'axios'
 
 import HomePage from './pages/homepage'
 import './App.css'
@@ -15,8 +16,12 @@ const App = () => {
   const [isClickedLogInButton, setIsClickedLogInButton] = useState(false)
   const [isClickedSignUpButton, setIsClickedSignUpButton] = useState(false)
 
-  const signupHandler = (email, password) => {
-    console.log(email, password)
+  const signupHandler = async (signUpInfo) => {
+    const res = await axios.post(
+      'http://localhost:3000/api/v1/users/signup',
+      signUpInfo
+    )
+    console.log(res)
     // save the database
     setIsLoggedIn(true)
     setIsClickedSignUpButton(false)
@@ -52,14 +57,18 @@ const App = () => {
         <div className="flex justify-center">
           {isClickedSignUpButton && (
             <div className="fixed blur-none mr-96 z-40">
-              <SignUpPage onSignUp={signupHandler} onClickSignExit={exitHandler}></SignUpPage>
+              <SignUpPage
+                onSignUp={signupHandler}
+                onClickSignExit={exitHandler}
+              ></SignUpPage>
             </div>
           )}
           {isClickedLogInButton && (
             <div className="fixed mb-40 mr-96 blur-none z-50">
-              <SignInPage onLogin={loginHandler} onClickSignExit={exitHandler}  />
-
-
+              <SignInPage
+                onLogin={loginHandler}
+                onClickSignExit={exitHandler}
+              />
             </div>
           )}
         </div>
