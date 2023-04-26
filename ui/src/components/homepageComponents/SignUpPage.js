@@ -15,31 +15,46 @@ const SignUpPage = (props) => {
   useEffect(() => {
     const identifier = setTimeout(() => {
       setFormIsValid(
-        emailIsValid && passwordIsValid
+        emailIsValid &&
+         passwordIsValid
+         && enteredName.trim().length > 0 && enteredSurname.trim().length > 0
       )
-    }, 200)
+    })
     //backende az request atmak için bu kod var
     return () => {
       clearTimeout(identifier)
     }
-  }, [enteredEmail, enteredPassword, enteredConfirmPassword])
+  }, [enteredEmail, enteredPassword, enteredConfirmPassword, enteredName, enteredSurname])
 
   const nameHandler = (event) => {
     event.preventDefault();
     const enteredName = event.target.value
-    const onlyLettersRegex = /^$|^[A-Za-z]+(\s+[A-Za-z]*)*$/; // regular expression for letters only
+    const onlyLettersRegex = /^(|[\u0041-\u005a\u0061-\u007a\u00c0-\u00d6\u00d8-\u00f6\u011e\u015e\u011f\u015f\u00dc\u00fc\u0130\u0131]*(\s+[\u0041-\u005a\u0061-\u007a\u00c0-\u00d6\u00d8-\u00f6\u011e\u015e\u011f\u015f\u00dc\u00fc\u0130\u0131]*)*)$/
+
+
+    // regular expression for letters only
     if (onlyLettersRegex.test(enteredName)) {
       setEnteredName(enteredName);
     }
+    setFormIsValid(
+      emailIsValid &&
+         passwordIsValid
+         && enteredName.trim().length > 0 && enteredSurname.trim().length > 0
+     )
   };
   const surnameHandler = (event) => {
     event.preventDefault();
     const enteredSurName = event.target.value
-    const onlyLettersRegex = /^$|^[A-Za-z]+(\s+[A-Za-z]*)*$/; // regular expression for letters only
+    const onlyLettersRegex = /^(|[\u0041-\u005a\u0061-\u007a\u00c0-\u00d6\u00d8-\u00f6\u011e\u015e\u011f\u015f\u00dc\u00fc\u0130\u0131]*(\s+[\u0041-\u005a\u0061-\u007a\u00c0-\u00d6\u00d8-\u00f6\u011e\u015e\u011f\u015f\u00dc\u00fc\u0130\u0131]*)*)$/
   
     if ( onlyLettersRegex.test(enteredSurName)) {
       setEnteredSurname(enteredSurName);
     }
+    setFormIsValid(
+      emailIsValid &&
+         passwordIsValid
+         && enteredName.trim().length > 0 && enteredSurname.trim().length > 0
+     )
   };
   
 
@@ -58,6 +73,7 @@ const SignUpPage = (props) => {
     setFormIsValid(
      emailIsValid &&
         passwordIsValid
+        && enteredName.trim().length > 0 && enteredSurname.trim().length > 0
     )
   }
 
@@ -67,7 +83,8 @@ const SignUpPage = (props) => {
     setPasswordIsValid(event.target.value.trim()===enteredConfirmPassword.trim()&&event.target.value.trim().length >= 6)
     setFormIsValid(
       emailIsValid &&
-      passwordIsValid
+      passwordIsValid 
+      && enteredName.trim().length > 0 && enteredSurname.trim().length > 0
     )
   }
 
@@ -78,6 +95,7 @@ const SignUpPage = (props) => {
     setFormIsValid(
       emailIsValid &&
         passwordIsValid
+        && enteredName.trim().length > 0 && enteredSurname.trim().length > 0
     )
   }
 
