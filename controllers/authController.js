@@ -11,22 +11,28 @@ const signToken = (id) => {
 }
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const newUser = await User.create({
-    name: req.body.name,
-    surname: req.body.surname,
-    email: req.body.email,
-    password: req.body.password,
-  })
-  console.log(newUser)
-  const token = signToken(newUser._id)
+  const body = Object.keys(req.body)[0]
+  const fixedResponse = body.replace(/'/g, '"')
+  const parsedResponse = JSON.parse(fixedResponse)
+  try {
+    const newUser = await User.create({
+      name: parsedResponse.enteredName,
+      surname: parsedResponse.enteredSurname,
+      email: parsedResponse.enteredEmail,
+      password: parsedResponse.enteredPassword,
+    })
+    const token = signToken(newUser._id)
 
-  res.status(201).json({
-    status: 'success',
-    token,
-    data: {
-      user: newUser,
-    },
-  })
+    res.status(201).json({
+      status: 'success',
+      token,
+      data: {
+        user: newUser,
+      },
+    })
+  } catch (err) {
+    console.log(err)
+  }
 })
 
 exports.login = catchAsync(async (req, res, next) => {

@@ -160,10 +160,10 @@ const SignUpPage = (props) => {
   const submitHandler = async (event) => {
     event.preventDefault()
     await props.onSignUp({
-      enteredName,
-      enteredSurname,
-      enteredEmail,
-      enteredPassword,
+      enteredName: enteredName,
+      enteredSurname: enteredSurname,
+      enteredEmail: enteredEmail,
+      enteredPassword: enteredPassword,
     })
     // handle signup logic
   }

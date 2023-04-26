@@ -17,11 +17,17 @@ const App = () => {
   const [isClickedSignUpButton, setIsClickedSignUpButton] = useState(false)
 
   const signupHandler = async (signUpInfo) => {
-    const res = await axios.post(
-      'http://localhost:3000/api/v1/users/signup',
-      signUpInfo
-    )
-    console.log(res)
+    try {
+      const res = await axios.post(
+        'http://127.0.0.1:3000/api/v1/users/signup',
+
+        JSON.stringify(signUpInfo)
+      )
+      console.log(res)
+    } catch (err) {
+      console.log(err)
+    }
+
     // save the database
     setIsLoggedIn(true)
     setIsClickedSignUpButton(false)

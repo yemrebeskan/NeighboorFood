@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    minlength: 8,
+    minlength: 6,
     select: false,
   },
   district: {
@@ -111,6 +111,7 @@ userSchema.methods.toJSON = function () {
     delete obj.ratingCount
     delete obj.about
     delete obj.reviews
+    delete obj.favouriteCount
   }
   return obj
 }
