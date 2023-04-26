@@ -51,12 +51,12 @@ const App = () => {
         </div>
         <div className="flex justify-center">
           {isClickedSignUpButton && (
-            <div className="absolute blur-none mr-96 z-40">
+            <div className="fixed blur-none mr-96 z-40">
               <SignUpPage onSignUp={signupHandler} onClickSignExit={exitHandler}></SignUpPage>
             </div>
           )}
           {isClickedLogInButton && (
-            <div className="absolute mb-40 mr-96 blur-none z-50">
+            <div className="fixed mb-40 mr-96 blur-none z-50">
               <SignInPage onLogin={loginHandler} onClickSignExit={exitHandler}  />
 
 

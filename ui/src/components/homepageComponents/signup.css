@@ -6,9 +6,7 @@
 }
 
 .signup {
-  width: 85%;
-  max-width: 40rem;
-  margin: 2rem auto;
+  width: 600px;
   padding: 2rem;
   background-color: #e8e5e0;
   display: block;
@@ -19,28 +17,38 @@
 }
 
 .input-class {
-  position: relative;
+  position: block;
+  margin-bottom:20px;
   right: 0px;
-  width: 520px;
-  padding: 10px;
-  flex-grow: 2;
+  width: 90%;
   border: none;
 }
 .input-class:focus {
   outline: none;
 }
-.buttonpassword {
-  display: block;
-  width: 20px;
-  background-color: white;
+.buttonpassword img {
+  display: flex;
+  float:right;
 }
-.signup .buttonpassword {
-  display: block;
-  width: 40px;
+.form-class {
+  margin-top:-30px;
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  padding: 1px;
+}
+
+
+.buttonpassword {
+  display: relative;
+  width: 20px;
+  height: 44px;
   background-color: white;
 }
 .error-text{
   color:rgb(82, 82, 82);
+  font-size: 0.9rem;
+  margin-bottom:8px;
 }
 .signup .button-class {
   color: white;
@@ -49,7 +57,7 @@
   height: 40px;
   border-radius: 2px;
   border: none;
-  margin-top: 20px;
+  margin-top: px;
 }
 
 .signup .button-class:disabled {
@@ -61,6 +69,7 @@
   width: 100%;
   height: 10px;
   border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .strength-meter__bar--weak {

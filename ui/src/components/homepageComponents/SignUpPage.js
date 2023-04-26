@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './signup.css'
 
 const SignUpPage = (props) => {
@@ -8,28 +8,37 @@ const SignUpPage = (props) => {
   const [showPassword, setShowPassword] = useState(false)
   const [emailIsValid, setEmailIsValid] = useState(false)
   const [passwordIsValid, setPasswordIsValid] = useState(false)
-  const [confirmPasswordIsValid, setConfirmPasswordIsValid] = useState(false)
   const [formIsValid, setFormIsValid] = useState(false)
   const [enteredName, setEnteredName] = useState('')
   const [enteredSurname, setEnteredSurname] = useState('')
 
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      setFormIsValid(
+        emailIsValid && passwordIsValid
+      )
+    }, 200)
+    //backende az request atmak için bu kod var
+    return () => {
+      clearTimeout(identifier)
+    }
+  }, [enteredEmail, enteredPassword, enteredConfirmPassword])
+
   const nameHandler = (event) => {
     event.preventDefault();
-    const enteredName = event.target.value.trim();
-    const onlyLettersRegex = /^[A-Za-z]+$/; // regular expression for letters only
-  
-    if (enteredName.length > 1 && onlyLettersRegex.test(enteredName)) {
+    const enteredName = event.target.value
+    const onlyLettersRegex = /^$|^[A-Za-z]+(\s+[A-Za-z]*)*$/; // regular expression for letters only
+    if (onlyLettersRegex.test(enteredName)) {
       setEnteredName(enteredName);
     }
   };
-
   const surnameHandler = (event) => {
     event.preventDefault();
-    const enteredSurName = event.target.value.trim();
-    const onlyLettersRegex = /^[A-Za-z]+$/; // regular expression for letters only
+    const enteredSurName = event.target.value
+    const onlyLettersRegex = /^$|^[A-Za-z]+(\s+[A-Za-z]*)*$/; // regular expression for letters only
   
-    if (enteredSurName.length > 1 && onlyLettersRegex.test(enteredSurName)) {
-      setEnteredName(enteredSurName);
+    if ( onlyLettersRegex.test(enteredSurName)) {
+      setEnteredSurname(enteredSurName);
     }
   };
   
@@ -47,34 +56,28 @@ const SignUpPage = (props) => {
       enteredEmail.includes('@') && enteredEmail.trim().length > 0
     )
     setFormIsValid(
-      enteredEmail.includes('@') &&
-        enteredPassword.trim().length > 0 &&
-        enteredConfirmPassword.trim().length > 0 &&
-        enteredPassword === enteredConfirmPassword
+     emailIsValid &&
+        passwordIsValid
     )
   }
 
   const passwordChangeHandler = (event) => {
     event.preventDefault()
     setEnteredPassword(event.target.value)
-    setPasswordIsValid(event.target.value.trim().length >= 6)
+    setPasswordIsValid(event.target.value.trim()===enteredConfirmPassword.trim()&&event.target.value.trim().length >= 6)
     setFormIsValid(
-      enteredEmail.includes('@') &&
-        event.target.value.trim().length >= 6 && // update here
-        enteredConfirmPassword.trim().length > 0 &&
-        enteredPassword === enteredConfirmPassword
+      emailIsValid &&
+      passwordIsValid
     )
   }
 
   const confirmPasswordChangeHandler = (event) => {
     event.preventDefault()
     setEnteredConfirmPassword(event.target.value)
-    setConfirmPasswordIsValid(event.target.value.trim().length >= 6)
+    setPasswordIsValid(event.target.value.trim()===enteredPassword.trim()&&event.target.value.trim().length >= 6)
     setFormIsValid(
-      enteredEmail.includes('@') &&
-        enteredPassword.trim().length > 6 &&
-        event.target.value.trim().length > 6 &&
-        enteredPassword === event.target.value
+      emailIsValid &&
+        passwordIsValid
     )
   }
 
@@ -171,8 +174,8 @@ const SignUpPage = (props) => {
         <br />
         <br />
         <label htmlFor="password"></label>
-        <div className="form-class ml-4" >
-          <input className="input-class "
+        <div className=" flex form-class ml-4" >
+          <input className='input-class'
           id="password"
           value={enteredPassword}
           type={showPassword ? 'text' : 'password'}
@@ -218,7 +221,7 @@ const SignUpPage = (props) => {
           <br />
           
      
-        {passwordIsValid && confirmPasswordIsValid && (
+        {passwordIsValid  && (
           <div className="strength-meter">
             <p>Password strength:</p>
             <div
