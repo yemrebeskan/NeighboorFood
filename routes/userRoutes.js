@@ -14,6 +14,8 @@ router
   .put(userController.updateUser)
   .delete(userController.deleteUser)
 
-router.route('/:id/rate').put(userController.rateChefAndComment)
+router
+  .route('/:id/rate')
+  .put(authController.protect, userController.rateChefAndComment)
 
 module.exports = router
