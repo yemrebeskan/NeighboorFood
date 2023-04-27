@@ -6,7 +6,7 @@ import ChefPage from './pages/ChefPage'
 import SignUpPage from './components/homepageComponents/SignUpPage'
 import SignInPage from './components/homepageComponents/SignInPage'
 import axios from 'axios'
-
+import Footer from './components/footer'
 import HomePage from './pages/homepage'
 import './App.css'
 
@@ -17,29 +17,35 @@ const App = () => {
   const [isClickedSignUpButton, setIsClickedSignUpButton] = useState(false)
 
   const signupHandler = async (signUpInfo) => {
-    try {
-      const res = await axios.post(
-        'http://127.0.0.1:3000/api/v1/users/signup',
+    const res = await axios.post(
+      'http://127.0.0.1:3000/api/v1/users/signup',
 
-        JSON.stringify(signUpInfo)
-      )
-      console.log(res)
-    } catch (err) {
-      console.log(err)
-    }
-
-    // save the database
+      JSON.stringify(signUpInfo)
+    )
+    console.log(res)
     setIsLoggedIn(true)
     setIsClickedSignUpButton(false)
     setIsOnClickedSignButton((prevState) => !prevState)
   }
 
-  const loginHandler = (email, password) => {
-    // assump log in is successful
-    console.log(email, password)
-    setIsLoggedIn(true)
-    setIsClickedLogInButton(false)
-    setIsOnClickedSignButton((prevState) => !prevState)
+  const loginHandler = async (signInInfo) => {
+    try {
+      const res = await axios.post(
+        'http://127.0.0.1:3000/api/v1/users/login',
+        JSON.stringify(signInInfo)
+      )
+      console.log(res)
+      if (res.data.status === 'success') {
+        setIsLoggedIn(true)
+        setIsClickedLogInButton(false)
+        setIsOnClickedSignButton((prevState) => !prevState)
+      } else {
+        console.log('Wrong password or email')
+      }
+      // assump log in is successful
+    } catch (err) {
+      console.log(err)
+    }
   }
   const exitHandler = () => {
     setIsLoggedIn(false)
@@ -51,7 +57,7 @@ const App = () => {
   return (
     <div className="">
       <div>
-        <div className={isOnClickedSignButton ? 'blur-sm' : ''}>
+        <div className={isOnClickedSignButton ? 'blur-sm ' : ''}>
           <NavBar
             isLoggedIn={isLoggedIn}
             setIsLoggedIn={setIsLoggedIn}
@@ -98,6 +104,9 @@ const App = () => {
             />
           </Routes>
         </BrowserRouter>
+        <div>
+          <Footer></Footer>
+        </div>
       </div>
     </div>
   )

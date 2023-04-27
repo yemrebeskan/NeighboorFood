@@ -7,6 +7,7 @@ const app = express()
 const userRouter = require('./routes/userRoutes')
 const chefRouter = require('./routes/chefRoutes')
 const reviewRouter = require('./routes/reviewRoutes')
+const cors = require('cors')
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
@@ -14,7 +15,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(bodyparser.urlencoded({ extended: true }))
 app.use(bodyparser.json())
-
+app.use(cors())
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/chefs', chefRouter)
 app.use('/api/v1/reviews', reviewRouter)

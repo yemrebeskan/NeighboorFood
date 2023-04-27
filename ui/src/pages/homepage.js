@@ -1,6 +1,7 @@
 import Foods from '../components/homepageComponents/foods'
 import SearchBar from '../components/homepageComponents/SearchBar'
 import img from './photo4.png'
+import CardItem from '../components/homepageComponents/CardItem'
 
 const HomePage = ({ isLoggedIn, isOnClickedSignButton }) => {
   return (
@@ -19,7 +20,16 @@ const HomePage = ({ isLoggedIn, isOnClickedSignButton }) => {
         </div>
         <div className=" bg-orange-100 rounded-full px-36 py-36 absolute mt-48"></div>
       </div>
-      <div className="py-44 bg-orange-100"></div>
+      <div className="py-44 bg-orange-100 flex">
+        <div className="ml-32">
+          <CardItem></CardItem>
+        </div>
+        <div>
+          <h1 className="ml-80 text-3xl italic text-teal-700">
+            KOMŞUDA PİŞER BİZE DE DÜŞER
+          </h1>
+        </div>
+      </div>
     </div>
   )
 }

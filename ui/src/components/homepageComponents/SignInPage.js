@@ -50,7 +50,10 @@ const SignInPage = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault()
-    props.onLogin(enteredEmail, enteredPassword)
+    props.onLogin({
+      email: enteredEmail,
+      password: enteredPassword,
+    })
   }
 
   const exitHandlerSignInPage = (event) => {
@@ -59,7 +62,11 @@ const SignInPage = (props) => {
   }
   return (
     <div className="signin rounded">
-    <img className="exitButton" src='https://icon-library.com/images/x-button-icon/x-button-icon-17.jpg' onClick={exitHandlerSignInPage}/>
+      <img
+        className="exitButton"
+        src="https://icon-library.com/images/x-button-icon/x-button-icon-17.jpg"
+        onClick={exitHandlerSignInPage}
+      />
       <form onSubmit={submitHandler}>
         <label htmlFor="email"></label>
         <input
