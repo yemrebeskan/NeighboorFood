@@ -7,10 +7,8 @@ const SignInPage = (props) => {
   const [enteredEmail, setEnteredEmail] = useState('')
   const [enteredPassword, setEnteredPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [emailIsValid, setEmailIsValid] = useState()
-  const [passwordIsValid, setPasswordIsValid] = useState()
   const [formIsValid, setFormIsValid] = useState(false)
-  //use EmailCheck.js for email and password validation
+  
   const authCtx = useContext(AuthContext)
 
   useEffect(() => {
@@ -19,7 +17,7 @@ const SignInPage = (props) => {
         enteredEmail.includes('@') && enteredPassword.trim().length > 6
       )
     }, 500)
-    //backende az request atmak için bu kod var
+
     return () => {
       clearTimeout(identifier)
     }
@@ -36,14 +34,7 @@ const SignInPage = (props) => {
       event.target.value.includes('@') && enteredPassword.trim().length > 6
     )
   }
-  const validateEmailHandler = () => {
-    setEmailIsValid(enteredEmail.includes('@'))
-  }
-  //email is valid kullanacaksan burada var
-  const validatePasswordHandler = () => {
-    setPasswordIsValid(enteredPassword.trim().length > 6)
-  }
-  //password is valid kullanacaksan burada var
+
   const passwordChangeHandler = (event) => {
     event.preventDefault()
     setEnteredPassword(event.target.value)
@@ -99,7 +90,6 @@ const SignInPage = (props) => {
           id="email"
           value={enteredEmail}
           onChange={emailChangeHandler}
-          onBlur={validateEmailHandler}
         />
         <br />
         <br />
@@ -112,16 +102,15 @@ const SignInPage = (props) => {
             id="password"
             value={enteredPassword}
             onChange={passwordChangeHandler}
-            onBlur={validatePasswordHandler}
           />
 
-          <button onClick={togglePasswordVisibility} className="buttonpassword">
+          <a onClick={togglePasswordVisibility} className="buttonpassword">
             {showPassword ? (
               <img src="https://raw.githubusercontent.com/Hasan-S-SELCUK/photos/main/eye1.png" />
             ) : (
               <img src="https://cdn.discordapp.com/attachments/978313692519202867/1098617294650867772/eye2.png" />
             )}
-          </button>
+          </a>
         </div>
         <br />
         <br />

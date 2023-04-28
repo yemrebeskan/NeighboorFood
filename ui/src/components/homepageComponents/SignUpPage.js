@@ -246,13 +246,13 @@ const SignUpPage = (props) => {
             onBlur={passwordChangeHandler}
             placeholder="password"
           />
-          <button onClick={togglePasswordVisibility} className="buttonpassword">
+          <a onClick={togglePasswordVisibility} className="buttonpassword">
             {showPassword ? (
               <img src="https://raw.githubusercontent.com/Hasan-S-SELCUK/photos/main/eye1.png" />
             ) : (
               <img src="https://cdn.discordapp.com/attachments/978313692519202867/1098617294650867772/eye2.png" />
             )}
-          </button>
+          </a>
         </div>
 
         {!passwordIsValid && (
@@ -271,13 +271,13 @@ const SignUpPage = (props) => {
             onChange={confirmPasswordChangeHandler}
             onBlur={confirmPasswordChangeHandler}
           />
-          <button onClick={togglePasswordVisibility} className="buttonpassword">
+          <a onClick={togglePasswordVisibility} className="buttonpassword">
             {showPassword ? (
               <img src="https://raw.githubusercontent.com/Hasan-S-SELCUK/photos/main/eye1.png" />
             ) : (
               <img src="https://cdn.discordapp.com/attachments/978313692519202867/1098617294650867772/eye2.png" />
             )}
-          </button>
+          </a>
         </div>
         {enteredPassword !== enteredConfirmPassword && (
           <p className="error-text ml-4">Passwords do not match.</p>

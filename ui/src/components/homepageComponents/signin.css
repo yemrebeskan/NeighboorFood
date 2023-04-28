@@ -43,8 +43,10 @@
 }
 
 .buttonpassword {
-  display: block;
+  display: flex;
   width: 20px;
+  cursor:pointer;
+  align-items: center;
   background-color: white;
 }
 .form-class {
