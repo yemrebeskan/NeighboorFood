@@ -7,6 +7,7 @@ const app = express()
 const userRouter = require('./routes/userRoutes')
 const chefRouter = require('./routes/chefRoutes')
 const reviewRouter = require('./routes/reviewRoutes')
+const orderRouter = require('./routes/orderRoutes')
 const cors = require('cors')
 
 if (process.env.NODE_ENV === 'development') {
@@ -19,6 +20,7 @@ app.use(cors())
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/chefs', chefRouter)
 app.use('/api/v1/reviews', reviewRouter)
+app.use('/api/v1/orders', orderRouter)
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404))
