@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import ChefProfile from '../components/chefpageComponents/ChefProfile'
 import SectionIndicator from '../components/chefpageComponents/SectionIndicator'
+import AuthContext from '../context/AuthContext'
 
-function ChefPage({ isOnClickedSignButton }) {
+function ChefPage() {
+  const authCtx = useContext(AuthContext)
   return (
-    <div className={isOnClickedSignButton ? 'blur-sm' : ''}>
+    <div className={authCtx.isOnClickedSignButton ? 'blur-sm' : ''}>
       <div className="max-w-[75%] mx-auto px-8 py-4">
         <ChefProfile />
         <SectionIndicator />

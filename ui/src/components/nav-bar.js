@@ -1,29 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import logo from './homepageComponents/logo.png'
 import DropdownMenu from './navbarComponents/DropdownMenu'
+import AuthContext from '../context/AuthContext'
 
-const NavBar = ({
-  isLoggedIn,
-  setIsLoggedIn,
-  setIsOnClickedSignButton,
-  setIsClickedLogInButton,
-  setIsClickedSignUpButton,
-}) => {
+const NavBar = ({}) => {
   const [showDropdown, setShowDropdown] = useState(false)
-
+  const authCtx = useContext(AuthContext)
   const toggleDropdown = () => {
     setShowDropdown((prevState) => !prevState)
-  }
-
-  const handleLogin = () => {
-    setIsClickedLogInButton((prevState) => !prevState)
-    setIsOnClickedSignButton((prevState) => !prevState)
-  }
-
-  const handleSignUp = () => {
-    // databaseye kaydetme işlemi yapılacak
-    setIsClickedSignUpButton((prevState) => !prevState)
-    setIsOnClickedSignButton((prevState) => !prevState)
   }
 
   return (
@@ -34,31 +18,31 @@ const NavBar = ({
             <button className="text-green-700 items-end mb-10 mt-10 mr-16 hover:text-gray-950">
               About Us
             </button>
-            {!isLoggedIn && (
+            {!authCtx.isLoggedIn && (
               <div className="border-r-4 border-gray-50 mt-8 mb-7">
                 <button
                   className="text-green-700 mb-10 mt-2 mb-3 mr-10 p-2 hover:bg-green-700 hover:text-stone-200 rounded"
-                  onClick={handleSignUp}
+                  onClick={authCtx.handleSignUp}
                 >
                   SIGN UP
                 </button>
               </div>
             )}
-            {!isLoggedIn && (
+            {!authCtx.isLoggedIn && (
               <button
                 className="text-green-700 items-end mb-10 mt-10 mr-16 ml-12 hover:bg-green-700 p-2 hover:text-stone-200 rounded"
-                onClick={handleLogin}
+                onClick={authCtx.handleLogin}
               >
                 LOG IN
               </button>
             )}
 
-            {isLoggedIn && (
+            {authCtx.isLoggedIn && (
               <button className="text-green-700 items-end mb-10 mt-10 mr-16 ml-4 hover:bg-green-700 p-2 hover:text-stone-200 rounded">
                 Be Chef
               </button>
             )}
-            {isLoggedIn && (
+            {authCtx.isLoggedIn && (
               <button className="relative w-10 h-10 mt-8 mr-12 p-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +60,7 @@ const NavBar = ({
                 </svg>
               </button>
             )}
-            {isLoggedIn && (
+            {authCtx.isLoggedIn && (
               <button
                 onClick={toggleDropdown}
                 className="relative w-10 h-10 mt-8 mr-2"
@@ -95,7 +79,7 @@ const NavBar = ({
                     d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
-                {showDropdown && <DropdownMenu setIsLoggedIn={setIsLoggedIn} />}
+                {showDropdown && <DropdownMenu />}
               </button>
             )}
           </div>

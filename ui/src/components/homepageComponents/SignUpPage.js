@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import './signup.css'
+import AuthContext from '../../context/AuthContext'
+import axios from 'axios'
 
 const SignUpPage = (props) => {
   const [enteredEmail, setEnteredEmail] = useState('')
@@ -11,6 +13,8 @@ const SignUpPage = (props) => {
   const [formIsValid, setFormIsValid] = useState(false)
   const [enteredName, setEnteredName] = useState('')
   const [enteredSurname, setEnteredSurname] = useState('')
+
+  const authCtx = useContext(AuthContext)
 
   useEffect(() => {
     const identifier = setTimeout(() => {
@@ -158,19 +162,32 @@ const SignUpPage = (props) => {
   }
 
   const submitHandler = async (event) => {
-    event.preventDefault()
-    await props.onSignUp({
+    const signUpInfo = {
       enteredName: enteredName,
       enteredSurname: enteredSurname,
       enteredEmail: enteredEmail,
       enteredPassword: enteredPassword,
-    })
+    }
+    event.preventDefault()
+    const res = await axios.post(
+      'http://127.0.0.1:3000/api/v1/users/signup',
+
+      JSON.stringify(signUpInfo)
+    )
+    if (res.data.status === 'success') {
+      authCtx.onSignUp()
+      localStorage.setItem('uid', res.data.uid)
+      localStorage.setItem(
+        'userInfo',
+        JSON.stringify({ email: signUpInfo.email })
+      )
+    }
     // handle signup logic
   }
 
   const exitHandlerSignInPage = (event) => {
     event.preventDefault()
-    props.onClickSignExit()
+    authCtx.exitHandler()
   }
 
   return (

@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import AuthContext from '../../context/AuthContext'
 
 const DropdownMenu = ({ setIsLoggedIn }) => {
-  const handleLogout = () => {
-    setIsLoggedIn(false)
-  }
+  const authCtx = useContext(AuthContext)
 
   return (
     <ul className="absolute right-0 mt-11  bg-white shadow-lg rounded-md  text-green-800 w-48 scale-125 z-10 text-sm">
@@ -48,7 +47,10 @@ const DropdownMenu = ({ setIsLoggedIn }) => {
         </button>
       </li>
       <li className="mb-2 hover:bg-gray-100">
-        <button onClick={handleLogout} className="w-full text-left text-sm p-4">
+        <button
+          onClick={authCtx.onLogout}
+          className="w-full text-left text-sm p-4"
+        >
           Logout
         </button>
       </li>

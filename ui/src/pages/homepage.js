@@ -2,10 +2,13 @@ import Foods from '../components/homepageComponents/foods'
 import SearchBar from '../components/homepageComponents/SearchBar'
 import img from './photo4.png'
 import CardItem from '../components/homepageComponents/CardItem'
+import AuthContext from '../context/AuthContext'
+import { useContext } from 'react'
 
-const HomePage = ({ isLoggedIn, isOnClickedSignButton }) => {
+const HomePage = () => {
+  const authCtx = useContext(AuthContext)
   return (
-    <div className={isOnClickedSignButton ? 'blur-sm' : ''}>
+    <div className={authCtx.isOnClickedSignButton ? 'blur-sm' : ''}>
       <div className="py-36 flex">
         <div className="ml-32 -mt-20 justify-self-start">
           <SearchBar></SearchBar>

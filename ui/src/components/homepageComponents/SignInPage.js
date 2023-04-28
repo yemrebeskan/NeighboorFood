@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import './signin.css'
+import AuthContext from '../../context/AuthContext'
+import axios from 'axios'
+
 const SignInPage = (props) => {
   const [enteredEmail, setEnteredEmail] = useState('')
   const [enteredPassword, setEnteredPassword] = useState('')
@@ -8,6 +11,7 @@ const SignInPage = (props) => {
   const [passwordIsValid, setPasswordIsValid] = useState()
   const [formIsValid, setFormIsValid] = useState(false)
   //use EmailCheck.js for email and password validation
+  const authCtx = useContext(AuthContext)
 
   useEffect(() => {
     const identifier = setTimeout(() => {
@@ -48,17 +52,36 @@ const SignInPage = (props) => {
     )
   }
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
+    const signInInfo = { email: enteredEmail, password: enteredPassword }
     event.preventDefault()
-    props.onLogin({
-      email: enteredEmail,
-      password: enteredPassword,
-    })
+    try {
+      const res = await axios.post(
+        'http://127.0.0.1:3000/api/v1/users/login',
+        JSON.stringify(signInInfo)
+      )
+      if (res.data.status === 'success') {
+        localStorage.setItem('uid', res.data.uid)
+        localStorage.setItem(
+          'userInfo',
+          JSON.stringify({ email: signInInfo.email })
+        )
+        authCtx.onLogin({
+          email: enteredEmail,
+          password: enteredPassword,
+        })
+      } else {
+        console.log('Wrong password or email')
+      }
+      // assump log in is successful
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const exitHandlerSignInPage = (event) => {
     event.preventDefault()
-    props.onClickSignExit()
+    authCtx.exitHandler()
   }
   return (
     <div className="signin rounded">
