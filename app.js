@@ -8,6 +8,8 @@ const userRouter = require('./routes/userRoutes')
 const chefRouter = require('./routes/chefRoutes')
 const reviewRouter = require('./routes/reviewRoutes')
 const orderRouter = require('./routes/orderRoutes')
+const settingsRouter = require('./routes/settingsRoutes')
+const favouriteRouter = require('./routes/favouriteRoutes')
 const cors = require('cors')
 
 if (process.env.NODE_ENV === 'development') {
@@ -21,6 +23,8 @@ app.use('/api/v1/users', userRouter)
 app.use('/api/v1/chefs', chefRouter)
 app.use('/api/v1/reviews', reviewRouter)
 app.use('/api/v1/orders', orderRouter)
+app.use('/api/v1/settings', settingsRouter)
+app.use('/api/v1/favourites', favouriteRouter)
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404))

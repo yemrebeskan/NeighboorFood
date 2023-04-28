@@ -15,7 +15,7 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 })
 
 exports.getUserById = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id)
+  const user = await User.findById(req.user)
   if (!user) {
     const id = req.params.id
     return next(new AppError(`No user found with that ${id}`, 404))
@@ -28,32 +28,19 @@ exports.getUserById = catchAsync(async (req, res, next) => {
   })
 })
 
-exports.updateUser = catchAsync(async (req, res, next) => {
-  const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  })
-  if (!user) {
-    const id = req.params.id
-    return next(new AppError(`No user found with that ${id}`, 404))
+exports.beChef = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(req.params.id)
+  if (user.role === 'Chef') {
+    return next(new AppError('You are already a chef', 400))
   }
+  user.role = 'Chef'
+  await user.save({ validateBeforeSave: false })
   res.status(200).json({
     status: 'success',
     data: {
       user,
+      userRole: user.role,
     },
-  })
-})
-
-exports.deleteUser = catchAsync(async (req, res, next) => {
-  const user = await User.findByIdAndDelete(req.params.id)
-  if (!user) {
-    const id = req.params.id
-    return next(new AppError(`No user found with that ${id}`, 404))
-  }
-  res.status(204).json({
-    status: 'success',
-    data: null,
   })
 })
 
