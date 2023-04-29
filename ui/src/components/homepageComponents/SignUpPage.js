@@ -170,7 +170,7 @@ const SignUpPage = (props) => {
     }
     event.preventDefault()
     const res = await axios.post(
-      'http://127.0.0.1:3000/api/v1/users/signup',
+      'http://127.0.0.1:3001/api/v1/users/signup',
 
       JSON.stringify(signUpInfo)
     )
