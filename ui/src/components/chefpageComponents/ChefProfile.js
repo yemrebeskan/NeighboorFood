@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import StarRating from './StarRating'
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
+import EditImage from './EditImage'
 
 // TODO: chef should come from backend
 const ChefProfile = ({
+  isChef,
   chef = {
     id: 1,
     name: 'Ally Doe',
@@ -33,11 +35,28 @@ const ChefProfile = ({
         className="bg-cover bg-center h-72 relative"
         style={{ backgroundImage: `url(${chef.backgroundImage})` }}
       >
+        {isChef && (
+          <EditImage
+            className="absolute bottom-2 right-2"
+            circle={false}
+            onPictureChange={() => console.log('Background picture changed')}
+            onPictureRemove={() => console.log('Background picture removed')}
+          />
+        )}
+        
         <img
           src={chef.profileImage}
           alt={chef.name}
           className="w-48 h-48 object-cover rounded-full border-4 border-white absolute bottom-[-90px] left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         />
+        {isChef && (
+          <EditImage
+            className="absolute bottom-[-20px] left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2"
+            circle={true}
+            onPictureChange={() => console.log('Profile picture changed')}
+            onPictureRemove={() => console.log('Profile picture removed')}
+          />
+        )}
         <div className="absolute -bottom-20 right-4">
           {isFavorited ? (
             <AiFillHeart

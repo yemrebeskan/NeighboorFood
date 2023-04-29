@@ -1,15 +1,14 @@
-// ChefAbout.js
 import React from 'react'
 
-const ChefAbout = ({ about }) => {
+const ChefAbout = ({ isChef, about }) => {
   return (
-    <div className="bg-white px-8 py-4 rounded-md">
-      <div>
-        {about.split('\n').map((i, key) => {
-          return <div key={key}>{i}</div>
-        })}
-      </div>
-      
+    <div>
+      {isChef && (
+        <button className="mt-2 bg-green-700 text-white px-4 py-2 rounded-md">
+          Edit About
+        </button>
+      )}
+      <pre className="font-light whitespace-pre-wrap">{about}</pre>
     </div>
   )
 }

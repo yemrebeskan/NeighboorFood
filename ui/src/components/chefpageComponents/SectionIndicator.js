@@ -4,7 +4,7 @@ import ChefMenus from './ChefMenus';
 import ChefAbout from './ChefAbout';
 import ChefReviews from './ChefReviews';
 
-function SectionIndicator() {
+function SectionIndicator({ isChef }) {
   //This should come from backend
   const aboutText =
 "Hello, my name is Ally and I am a home chef in my 60s.\nCooking has been my passion for as long as I can remember and I have spent countless hours experimenting with different ingredients and techniques to create delicious and wholesome meals.\nOver the years, I have honed my skills and developed a keen sense of taste and presentation, which I bring to every dish I create."
@@ -20,9 +20,9 @@ function SectionIndicator() {
   const renderSelectedSection = () => {
     switch (selectedSection) {
       case 'Menus':
-        return <ChefMenus />;
+        return <ChefMenus isChef={isChef} />;
       case 'About':
-        return <ChefAbout about={aboutText} />;
+        return <ChefAbout isChef={isChef} about={aboutText} />;
       case 'Reviews':
         return <ChefReviews />;
       default:
