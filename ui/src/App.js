@@ -7,6 +7,7 @@ import SignUpPage from './components/homepageComponents/SignUpPage'
 import SignInPage from './components/homepageComponents/SignInPage'
 import Footer from './components/footer'
 import HomePage from './pages/homepage'
+import Favorites from './components/navbarComponents/Favorites'
 import './App.css'
 import AuthContext from './context/AuthContext'
 
@@ -36,6 +37,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/chef/:id" element={<ChefPage />} />
+            <Route path="/favorites" element={<Favorites/>} />
           </Routes>
         </BrowserRouter>
         <div className={authCtx.isOnClickedSignButton ? 'blur-sm ' : ''}>

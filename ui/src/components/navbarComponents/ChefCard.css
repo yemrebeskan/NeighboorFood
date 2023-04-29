@@ -1,0 +1,36 @@
+.chefcard{
+    width: 98%;
+    height: 200px;
+    display:block;
+    border-radius: 10px; 
+    border: 3px solid rgb(20, 105, 68);
+    background-color: beige;
+    margin-bottom:10px;
+    margin-left:10px;
+}
+
+.name{
+    margin-bottom: 4px;
+}
+
+.chefPhoto {
+    width: 200px;
+    margin-left:10px;
+    display:flex;
+    flex-direction: row;
+}
+
+
+.chefRating{
+    margin-right:10px;
+    display:flex;
+    flex-direction: row;
+    float:right;
+    margin-bottom:100px;
+}
+
+.chefRating img{
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}

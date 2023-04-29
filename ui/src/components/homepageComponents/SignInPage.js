@@ -3,7 +3,7 @@ import './signin.css'
 import AuthContext from '../../context/AuthContext'
 import axios from 'axios'
 
-const SignInPage = (props) => {
+const SignInPage = () => {
   const [enteredEmail, setEnteredEmail] = useState('')
   const [enteredPassword, setEnteredPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)

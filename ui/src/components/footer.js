@@ -1,6 +1,7 @@
+import "./footerclass.css";
 const Footer = () => {
   return (
-    <div className="bg-teal-900 flex text-slate-200 p-4">
+    <div className="footerclass bg-teal-900 flex text-slate-200 p-4">
       <div className="mt-8 flex">
         <p className="mr-16 ml-12 h-40">© 2023 NeighborFood</p>
         <div>

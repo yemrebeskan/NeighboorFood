@@ -36,6 +36,7 @@
   padding: 10px;
   flex-grow: 2;
   border: none;
+  background-color: white;
 }
 
 .input-class:focus {

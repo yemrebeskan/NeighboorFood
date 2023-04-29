@@ -3,7 +3,7 @@ import './signup.css'
 import AuthContext from '../../context/AuthContext'
 import axios from 'axios'
 
-const SignUpPage = (props) => {
+const SignUpPage = () => {
   const [enteredEmail, setEnteredEmail] = useState('')
   const [enteredPassword, setEnteredPassword] = useState('')
   const [enteredConfirmPassword, setEnteredConfirmPassword] = useState('')
