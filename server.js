@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 dotenv.config({ path: './config.env' })
-const port = 3000
+const port = 3001
 const app = require('./app')
 const hostname = '127.0.0.1'
 

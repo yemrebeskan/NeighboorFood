@@ -20,7 +20,7 @@
         "web-vitals": "^2.1.4"
     },
     "scripts": {
-        "start": "node server.js & cd ui && PORT=3001 npm start",
+        "start": "node server.js & cd ui && PORT=3000 npm start",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
