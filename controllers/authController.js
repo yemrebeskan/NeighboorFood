@@ -49,11 +49,13 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('Incorrect email or password', 401))
   }
   const token = signToken(user._id)
-  res.status(200).json({
-    status: 'success',
-    token,
-    uid : user._id,
-  })
+    return res.status(200).json({
+      status: 'success',
+      token,
+      uid: user._id,
+      role: user.role,
+      //chefId: user.chefId,
+    })
 })
 
 exports.protect = catchAsync(async (req, res, next) => {

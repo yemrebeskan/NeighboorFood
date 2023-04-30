@@ -1,6 +1,6 @@
 import { Fragment, useContext, useState } from 'react'
 import './App.css'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes} from 'react-router-dom'
 import NavBar from './components/nav-bar'
 import ChefPage from './pages/ChefPage'
 import SignUpPage from './components/homepageComponents/SignUpPage'
@@ -17,6 +17,7 @@ const App = () => {
   return (
     <div className="">
       <div>
+        <BrowserRouter>
         <div className={authCtx.isOnClickedSignButton ? 'blur-sm ' : ''}>
           <NavBar />
         </div>
@@ -33,7 +34,6 @@ const App = () => {
           )}
         </div>
 
-        <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/chef/:id" element={<ChefPage />} />

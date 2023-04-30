@@ -5,12 +5,15 @@ const AuthContext = React.createContext({
   isOnClickedSignButton: false,
   isClickedLogInButton: false,
   isClickedSignUpButton: false,
+  userRole: null,
+  //chefId: null,
   onLogout: () => {},
   onLogin: () => {},
   handleLogin: () => {},
   handleSignUp: () => {},
   exitHandler: () => {},
   onSignUp: () => {},
+  setUserData: () => {},
 })
 
 export const AuthContextProvider = (props) => {
@@ -18,6 +21,9 @@ export const AuthContextProvider = (props) => {
   const [isOnClickedSignButton, setIsOnClickedSignButton] = useState(false)
   const [isClickedLogInButton, setIsClickedLogInButton] = useState(false)
   const [isClickedSignUpButton, setIsClickedSignUpButton] = useState(false)
+  const [userRole, setUserRole] = useState(null);
+  //const [chefId, setChefId] = useState(null);
+
   useEffect(() => {
     const uid = localStorage.getItem('uid')
     if (uid !== undefined && uid !== null) {
@@ -57,6 +63,13 @@ export const AuthContextProvider = (props) => {
     setIsClickedSignUpButton(false)
     setIsOnClickedSignButton((prevState) => !prevState)
   }
+
+  const setUserData = (role, id) => {
+    //console.log('Setting userRole and chefId:', role, id);
+    setUserRole(role);
+    //setChefId(id);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -64,6 +77,9 @@ export const AuthContextProvider = (props) => {
         isOnClickedSignButton: isOnClickedSignButton,
         isClickedLogInButton: isClickedLogInButton,
         isClickedSignUpButton: isClickedSignUpButton,
+        userRole: userRole,
+        //chefId: chefId,
+        setUserData: setUserData,
         onLogout: logoutHandler,
         onLogin: loginHandler,
         handleLogin: handleLogin,

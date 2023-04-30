@@ -8,7 +8,7 @@ const SignInPage = () => {
   const [enteredPassword, setEnteredPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [formIsValid, setFormIsValid] = useState(false)
-  
+
   const authCtx = useContext(AuthContext)
 
   useEffect(() => {
@@ -57,6 +57,11 @@ const SignInPage = () => {
           'userInfo',
           JSON.stringify({ email: signInInfo.email })
         )
+        const userRole = res.data.role
+        //const chefId = res.data.chefId
+
+        //authCtx.setUserData(userRole, chefId)
+        authCtx.setUserData(userRole)
         authCtx.onLogin({
           email: enteredEmail,
           password: enteredPassword,
