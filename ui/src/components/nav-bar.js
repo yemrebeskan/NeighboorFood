@@ -2,12 +2,20 @@ import React, { useContext, useState } from 'react'
 import logo from './homepageComponents/logo.png'
 import DropdownMenu from './navbarComponents/DropdownMenu'
 import AuthContext from '../context/AuthContext'
-import { NavLink } from 'react-router-dom';
+import FoodBasket from './navbarComponents/FoodBasket'
+import { NavLink } from 'react-router-dom'
 
 const NavBar = ({}) => {
   const [showDropdown, setShowDropdown] = useState(false)
+  const [showBasket, setShowBasket] = useState(false)
   const authCtx = useContext(AuthContext)
+
+  const toggleBasket = () => {
+    setShowDropdown(false)
+    setShowBasket((prevState) => !prevState)
+  }
   const toggleDropdown = () => {
+    setShowBasket(false)
     setShowDropdown((prevState) => !prevState)
   }
 
@@ -38,15 +46,14 @@ const NavBar = ({}) => {
               </button>
             )}
 
-            {authCtx.isLoggedIn && authCtx.userRole == "Chef" && (
+            {authCtx.isLoggedIn && authCtx.userRole == 'Chef' && (
               <NavLink
-              
                 to={`/chef/:1`}
                 className="text-green-700 items-end mb-10 mt-10 mr-16 ml-4 hover:bg-green-700 p-2 hover:text-stone-200 rounded"
               >
                 My Chef Page
               </NavLink>
-            ) }
+            )}
 
             {authCtx.isLoggedIn && authCtx.userRole !== 'Chef' && (
               <button className="text-green-700 items-end mb-10 mt-10 mr-16 ml-4 hover:bg-green-700 p-2 hover:text-stone-200 rounded">
@@ -62,6 +69,7 @@ const NavBar = ({}) => {
                   stroke-width="1.5"
                   stroke="currentColor"
                   class="w-8 h-8 hover:text-green-700 hover:cursor-pointer hover:scale-150"
+                  onClick={toggleBasket}
                 >
                   <path
                     stroke-linecap="round"
@@ -69,6 +77,7 @@ const NavBar = ({}) => {
                     d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
                   />
                 </svg>
+                {showBasket && <FoodBasket />}
               </button>
             )}
             {authCtx.isLoggedIn && (
