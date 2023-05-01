@@ -3,12 +3,15 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App'
 import { AuthContextProvider } from './context/AuthContext'
+import { OrderedFoodContextProvider } from './context/OrderedFoodContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <App />
+      <OrderedFoodContextProvider>
+        <App />
+      </OrderedFoodContextProvider>
     </AuthContextProvider>
   </React.StrictMode>
 )

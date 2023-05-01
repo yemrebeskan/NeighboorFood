@@ -1,8 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { AiOutlinePlus, AiFillLike, AiFillDislike } from 'react-icons/ai'
 import { FaShoppingBasket } from 'react-icons/fa'
+import OrderedFoodContext from '../../context/OrderedFoodContext'
 
 const Menu = ({ menu }) => {
+  const foodCtx = useContext(OrderedFoodContext)
+  const addBasketHandler = (menu) => {
+    if (foodCtx.orderedFoods.some((item) => item.id === menu.id)) {
+      foodCtx.incrementCountOfFood(menu.id)
+    } else {
+      foodCtx.addItemToOrders(menu)
+    }
+  }
   return (
     <div className="grid grid-cols-8 w-full py-8 my-4 mb-8 bg-white rounded-lg">
       <div className="col-span-2 flex justify-center items-center w-full h-full">
@@ -27,11 +36,14 @@ const Menu = ({ menu }) => {
 
       <div className="col-span-2 grid grid-rows-6">
         <div className="row-span-5 w-full h-full flex justify-center items-center">
-          <AiOutlinePlus
-            className="bg-[#87bfb3] w-16 h-16 rounded-full cursor-pointer mr-2 mb-2 hover:mb-0 hover:mr-0 relative z-10"
-            size={36}
-            color="white"
-          />
+          <button onClick={() => addBasketHandler(menu)}>
+            <AiOutlinePlus
+              className="bg-[#87bfb3] w-16 h-16 rounded-full cursor-pointer mr-2 mb-2 hover:mb-0 hover:mr-0 relative z-10"
+              size={36}
+              color="white"
+            />
+          </button>
+
           <div className="absolute w-16 h-16 rounded-full z-0 bg-[#537a72]"></div>
         </div>
 
