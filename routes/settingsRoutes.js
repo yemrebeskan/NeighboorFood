@@ -12,4 +12,9 @@ router
   .route('/:id/password')
   .put(authController.protect, settingsController.updatePassword)
 
+router
+  .route('/:id/image')
+  .put(authController.protect, settingsController.changeImage)
+  .delete(authController.protect, settingsController.removeImage)
+
 module.exports = router

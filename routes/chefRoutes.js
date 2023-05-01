@@ -18,4 +18,9 @@ router
   .get(chefController.getChefMenu)
   .put(authController.protect, chefController.updateChefMenu)
 
+router
+  .route('/:id/thumbnail')
+  .put(authController.protect, chefController.changeThumbnail)
+  .delete(authController.protect, chefController.removeThumbnail)
+
 module.exports = router

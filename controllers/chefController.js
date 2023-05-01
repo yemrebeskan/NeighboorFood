@@ -129,3 +129,39 @@ exports.cancelChef = catchAsync(async (req, res, next) => {
     },
   })
 })
+
+exports.changeThumbnail = catchAsync(async (req, res, next) => {
+  const thumbnail = await Chef.findByIdAndUpdate(
+    req.params.id,
+    { thumbnail: req.body.thumbnail },
+    { new: true, runValidators: true }
+  )
+  if (!thumbnail) {
+    const id = req.params.id
+    return next(new AppError(`No chef found with that ${id}`, 404))
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      thumbnail,
+    },
+  })
+})
+
+exports.removeThumbnail = catchAsync(async (req, res, next) => {
+  const thumbnail = await Chef.findByIdAndUpdate(
+    req.params.id,
+    { thumbnail: '' },
+    { new: true, runValidators: true }
+  )
+  if (!thumbnail) {
+    const id = req.params.id
+    return next(new AppError(`No chef found with that ${id}`, 404))
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      thumbnail,
+    },
+  })
+})

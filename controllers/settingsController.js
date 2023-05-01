@@ -19,6 +19,42 @@ exports.updateUser = catchAsync(async (req, res, next) => {
   })
 })
 
+exports.changeImage = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(
+    req.params.id,
+    { image: req.body.image },
+    { new: true, runValidators: true }
+  )
+  if (!user) {
+    const id = req.params.id
+    return next(new AppError(`No user found with that ${id}`, 404))
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user,
+    },
+  })
+})
+
+exports.removeImage = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(
+    req.params.id,
+    { image: null },
+    { new: true, runValidators: true }
+  )
+  if (!user) {
+    const id = req.params.id
+    return next(new AppError(`No user found with that ${id}`, 404))
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user,
+    },
+  })
+})
+
 exports.updatePassword = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.params.id).select('+password')
   if (!user) {
