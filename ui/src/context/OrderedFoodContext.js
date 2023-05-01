@@ -7,12 +7,12 @@ const OrderedFoodContext = React.createContext({
   incrementCountOfFood: (itemId) => {},
   decreaseCountOfFood: (itemId) => {},
   calculateTotalPrice: () => {},
+  deleteOrders: () => {},
 })
 
 export const OrderedFoodContextProvider = (props) => {
   const [orderedFoods, setOrderedFoods] = useState([])
   const [totalPrice, setTotalPrice] = useState([])
-
   const addItemToOrders = (newItem) => {
     newItem.count = 1
     setOrderedFoods((prevState) => {
@@ -63,13 +63,25 @@ export const OrderedFoodContextProvider = (props) => {
       prevState.filter((item) => item.id != removedItemId)
     )
   }
+  const giveOrderHandler = () => {
+    //burayı düzenle
+    const ordered_Foods = [orderedFoods];
+   
+    return ordered_Foods;
+  }
+  const deleteOrders = () => {
+    setOrderedFoods([])
+  }
   useEffect(() => {})
   //useEffect() => adding ordered items from database
   //setOrderedFoods()
 
+  
   return (
     <OrderedFoodContext.Provider
       value={{
+        giveOrderHandler: giveOrderHandler,
+        deleteOrders: deleteOrders,
         orderedFoods: orderedFoods,
         totalPrice: totalPrice,
         addItemToOrders: addItemToOrders,

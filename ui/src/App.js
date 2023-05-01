@@ -10,6 +10,7 @@ import HomePage from './pages/homepage'
 import Favorites from './components/navbarComponents/Favorites'
 import './App.css'
 import AuthContext from './context/AuthContext'
+import Orders from './components/navbarComponents/Orders'
 
 const App = () => {
   const authCtx = useContext(AuthContext)
@@ -38,6 +39,7 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/chef/:id" element={<ChefPage />} />
             <Route path="/favorites" element={<Favorites/>} />
+            <Route path="/orders" element={<Orders/>} />
           </Routes>
         </BrowserRouter>
         <div className={authCtx.isOnClickedSignButton ? 'blur-sm ' : ''}>
