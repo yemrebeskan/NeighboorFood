@@ -1,4 +1,5 @@
 const User = require('../models/userModel')
+const Chef = require('../models/chefModel')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 const Review = require('../models/reviewModel')
@@ -32,11 +33,13 @@ exports.getAllReviewsForUser = catchAsync(async (req, res, next) => {
 exports.makeReview = catchAsync(async (req, res, next) => {
   const { name, rating, comment } = req.body
   const user = req.user.id
+  const chef = req.params.id
   const review = await Review.create({
     name,
     rating,
     comment,
     user,
+    chef,
   })
   res.status(200).json({
     status: 'success',

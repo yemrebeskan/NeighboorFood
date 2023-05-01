@@ -1,8 +1,6 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
-const Review = require('./reviewModel')
-const Order = require('./orderModel')
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -25,68 +23,33 @@ const userSchema = new mongoose.Schema({
     minlength: 6,
     select: false,
   },
+  image: {
+    type: String,
+    default:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png',
+  },
+
   district: {
     type: String,
     trim: true,
     default: '',
   },
-  favouriteChefs: {
-    type: Array,
-    default: [],
-  },
+  favouriteChefs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Chef',
+    },
+  ],
+
   orderHistory: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Order',
     },
   ],
-  role: {
-    type: String,
-    enum: ['User', 'Chef', 'Admin'],
-    default: 'User',
-  },
-  menu: [
-    {
-      name: {
-        type: String,
-        trim: true,
-        default: 'undefined',
-      },
-      description: {
-        type: String,
-        trim: true,
-        default: 'undefined',
-      },
-      Image: {
-        type: String,
-        default: 'undefined',
-      },
-      price: {
-        type: Number,
-        default: 0,
-      },
-    },
-  ],
-
-  rating: {
-    type: Number,
-    default: 0,
-  },
-  favouriteCount: {
-    type: Number,
-    default: 0,
-  },
-  ratingCount: {
-    type: Number,
-    default: 0,
-  },
-  about: {
-    type: String,
-    default: '',
-  },
-  reviews: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
-    default: [],
+  isChef: {
+    type: Boolean,
+    default: false,
   },
 })
 
@@ -101,19 +64,6 @@ userSchema.methods.correctPassword = async function (
   userPassword
 ) {
   return await bcrypt.compare(candidatePassword, userPassword)
-}
-
-userSchema.methods.toJSON = function () {
-  const obj = this.toObject()
-  if (this.role === 'User') {
-    delete obj.menu
-    delete obj.rating
-    delete obj.ratingCount
-    delete obj.about
-    delete obj.reviews
-    delete obj.favouriteCount
-  }
-  return obj
 }
 
 const User = mongoose.model('User', userSchema)

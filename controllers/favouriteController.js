@@ -1,4 +1,5 @@
 const User = require('../models/userModel')
+const Chef = require('../models/chefModel')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 
@@ -20,7 +21,7 @@ exports.getFavouriteChefsById = catchAsync(async (req, res, next) => {
 
 exports.addFavouriteChef = catchAsync(async (req, res, next) => {
   const { chefId } = req.params
-  const chef = await User.findById(chefId)
+  const chef = await Chef.findById(chefId)
   const user = await User.findById(req.user._id)
   const favouriteChefs = user.favouriteChefs
 
@@ -44,7 +45,7 @@ exports.addFavouriteChef = catchAsync(async (req, res, next) => {
 
 exports.deleteFavouriteChef = catchAsync(async (req, res, next) => {
   const { chefId } = req.params
-  const chef = await User.findById(chefId)
+  const chef = await Chef.findById(chefId)
   const user = await User.findById(req.user._id)
   const favouriteChefs = user.favouriteChefs
 

@@ -5,11 +5,15 @@ const router = express.Router()
 const orderController = require('./../controllers/orderController')
 
 router
-  .post('/createOrder', authController.protect, orderController.makeOrder)
-  .get(
-    '/order/:id',
-    authController.protect,
-    orderController.getAllOrdersForUser
-  )
+  .route('/createOrder')
+  .post(authController.protect, orderController.makeOrder)
+
+router
+  .route('/order/:id')
+  .get(authController.protect, orderController.getAllOrdersForUser)
+
+router
+  .route('/order/:id/cancel')
+  .delete(authController.protect, orderController.cancelOrder)
 
 module.exports = router

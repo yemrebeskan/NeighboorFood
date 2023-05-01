@@ -8,12 +8,12 @@ router.post('/login', authController.login)
 
 router.route('/').get(userController.getAllUsers)
 
-router
-  .route('/:id')
-  .get(userController.getUserById)
+router.route('/:id').get(userController.getUserById)
 
 router
   .route('/:id/rate')
   .put(authController.protect, userController.rateChefAndComment)
+
+router.route('/:id/bechef').put(authController.protect, userController.beChef)
 
 module.exports = router

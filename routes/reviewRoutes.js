@@ -15,10 +15,6 @@ router
 
 router
   .route('/user/:id')
-  .get(
-    authController.protect,
-    authController.restrictTo('Admin'),
-    reviewController.getAllReviewsForUser
-  )
+  .get(authController.protect, reviewController.getAllReviewsForUser)
 
 module.exports = router

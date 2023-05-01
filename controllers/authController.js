@@ -49,13 +49,12 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('Incorrect email or password', 401))
   }
   const token = signToken(user._id)
-    return res.status(200).json({
-      status: 'success',
-      token,
-      uid: user._id,
-      role: user.role,
-      //chefId: user.chefId,
-    })
+  return res.status(200).json({
+    status: 'success',
+    token,
+    uid: user._id,
+    //chefId: user.chefId,
+  })
 })
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -88,15 +87,3 @@ exports.protect = catchAsync(async (req, res, next) => {
   req.user = currentUser
   next()
 })
-
-exports.restrictTo = (...roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return next(
-        new AppError('You do not have permission to perform this action', 403)
-      )
-    }
-
-    next()
-  }
-}

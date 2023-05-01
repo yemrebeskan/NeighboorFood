@@ -5,10 +5,9 @@ const reviewSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
-  name: {
-    type: String,
-    trim: true,
-    default: 'undefined',
+  chef: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Chef',
   },
   rating: {
     type: Number,

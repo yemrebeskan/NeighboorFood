@@ -7,27 +7,26 @@ const orderSchema = new mongoose.Schema({
   },
   chef: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Chef',
   },
   items: [
     {
       name: {
         type: String,
-        required: [true, 'An item must have a name.'],
       },
       price: {
         type: Number,
-        required: [true, 'An item must have a price.'],
-      },
-      quantity: {
-        type: Number,
-        default: 1,
       },
     },
   ],
   date: {
     type: Date,
     default: Date.now(),
+  },
+  state: {
+    type: String,
+    enum: ['pending', 'accepted', 'rejected', 'completed'],
+    default: 'pending',
   },
 })
 
