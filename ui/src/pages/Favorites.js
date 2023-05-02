@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import ChefCard from './ChefCard';
-
+import React, { useState } from 'react'
+import ChefCard from '../components/navbarComponents/ChefCard'
 
 //authcontext ile düzenlenecek
 const initialChefsData = [
@@ -25,16 +24,16 @@ const initialChefsData = [
       'https://www.themanual.com/wp-content/uploads/sites/9/2022/03/chef-tobais-dorzon.jpg?resize=1200%2C630&p=1',
     rating: 5,
   },
-];
+]
 
 const Favorites = () => {
-  const [chefsData, setChefsData] = useState(initialChefsData);
+  const [chefsData, setChefsData] = useState(initialChefsData)
 
   const handleChefDelete = (chefId) => {
     setChefsData((prevChefsData) =>
       prevChefsData.filter((chef) => chef.id !== chefId)
-    );
-  };
+    )
+  }
 
   return (
     <div>
@@ -47,11 +46,9 @@ const Favorites = () => {
           id={chef.id}
           onDelete={handleChefDelete}
         />
-     
       ))}
-         
     </div>
-  );
-};
+  )
+}
 
-export default Favorites;
+export default Favorites

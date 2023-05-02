@@ -1,21 +1,28 @@
-import React, { useContext, useState } from "react";
-import OrderedFoodContext from "../../context/OrderedFoodContext";
-import "./Orders.css";
+import React, { useContext, useState } from 'react'
+import OrderedFoodContext from '../context/OrderedFoodContext'
+import './Orders.css'
 
 const Orders = () => {
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const ordersCtx = useContext(OrderedFoodContext);
-  const orders = ordersCtx.giveOrderHandler();
+  const [selectedOrder, setSelectedOrder] = useState(null)
+  const ordersCtx = useContext(OrderedFoodContext)
+  const orders = ordersCtx.giveOrderHandler()
 
   const closeSelectedOrder = () => {
-    setSelectedOrder(null);
-  };  
+    setSelectedOrder(null)
+  }
 
   return (
     <div className="mb-64">
       <ul className="order">
         {orders.map((order, index) => (
-          <li key={index} onClick={selectedOrder===order?closeSelectedOrder:() => setSelectedOrder(order)}>
+          <li
+            key={index}
+            onClick={
+              selectedOrder === order
+                ? closeSelectedOrder
+                : () => setSelectedOrder(order)
+            }
+          >
             Order {index + 1}
           </li>
         ))}
@@ -30,19 +37,15 @@ const Orders = () => {
                   <div>{food.menuName}</div>
                   <div>{food.price}</div>
                   <div>{food.count}</div>
-                  
                 </div>
-               
               </li>
             ))}
             <div>Total Price: {ordersCtx.totalPrice}</div>
           </ul>
-           
-          
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Orders;
+export default Orders

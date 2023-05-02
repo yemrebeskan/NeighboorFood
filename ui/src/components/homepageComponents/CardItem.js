@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import chefImg from './chef_img.jpeg'
 const CardItem = () => {
   return (
@@ -9,9 +10,11 @@ const CardItem = () => {
         warmth. There was no way to anticipate what was about to happen. It was
         a worst-case scenario and there was no way out of it.
       </p>
-      <button className="border-solid border-2 border-slate-400 mt-4 mb-4 bg-teal-500 mr-4 rounded-lg p-3 w-28 text-slate-50 hover:bg-teal-700 place-self-center">
-        Be Chef
-      </button>
+      <Link to="/bechef">
+        <button className="border-solid border-2 border-slate-400 mt-4 mb-4 bg-teal-500 mr-4 rounded-lg p-3 w-28 text-slate-50 hover:bg-teal-700 place-self-center">
+          Be Chef
+        </button>
+      </Link>
     </div>
   )
 }

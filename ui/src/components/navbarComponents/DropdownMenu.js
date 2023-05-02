@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
 import AuthContext from '../../context/AuthContext'
 
 const DropdownMenu = ({ setIsLoggedIn }) => {
@@ -14,21 +15,26 @@ const DropdownMenu = ({ setIsLoggedIn }) => {
           Profile
         </button>
       </li>
+
       <li className="mb-2 hover:bg-gray-100">
-        <button
-          onClick={() => console.log('Favorites')}
-          className="w-full text-left p-4"
-        >
-          Favorites
-        </button>
+        <Link to="/favorites">
+          <button
+            onClick={() => console.log('Favorites')}
+            className="w-full text-left p-4"
+          >
+            Favorites
+          </button>
+        </Link>
       </li>
       <li className="mb-2 hover:bg-gray-100">
-        <button
-          onClick={() => console.log('Settings')}
-          className="w-full text-left p-4"
-        >
-          Orders
-        </button>
+        <Link to="/orders">
+          <button
+            onClick={() => console.log('Settings')}
+            className="w-full text-left p-4"
+          >
+            Orders
+          </button>
+        </Link>
       </li>
       <li className="mb-2 hover:bg-gray-100">
         <button
@@ -39,12 +45,14 @@ const DropdownMenu = ({ setIsLoggedIn }) => {
         </button>
       </li>
       <li className="mb-2 hover:bg-gray-100">
-        <button
-          onClick={() => console.log('Settings')}
-          className="w-full text-left p-4"
-        >
-          Be Chef
-        </button>
+        <Link to="/bechef">
+          <button
+            onClick={() => console.log('Settings')}
+            className="w-full text-left p-4"
+          >
+            Be Chef
+          </button>
+        </Link>
       </li>
       <li className="mb-2 hover:bg-gray-100">
         <button
