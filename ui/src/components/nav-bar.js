@@ -25,7 +25,7 @@ const NavBar = ({}) => {
         <div className="buttons">
           <div className="flex justify-end mr-8">
             <Link to="/aboutus">
-              <button className="text-green-700 items-end mb-10 mt-10 mr-16 hover:text-gray-950">
+              <button className="text-green-700 items-end mb-10 mt-12 mr-16 hover:text-gray-950">
                 About Us
               </button>
             </Link>
