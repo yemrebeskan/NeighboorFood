@@ -4,15 +4,24 @@
     display:block;
     border-radius: 10px; 
     border: 3px solid rgb(20, 105, 68);
-    background-color: beige;
+    background-color: #e7e5e4;
     margin-bottom:10px;
     margin-left:10px;
 }
 
 .name{
     margin-bottom: 4px;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
 }
 
+.heart{
+    display: flex;
+    float:right;
+    color: red;
+  }
+  
 .chefPhoto {
     width: 200px;
     margin-left:10px;
