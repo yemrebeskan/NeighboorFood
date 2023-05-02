@@ -12,8 +12,10 @@ router.route('/:id').get(userController.getUserById)
 
 router
   .route('/:id/rate')
-  .put(userController.rateChefAndComment)
+  .put(/*authController.protect,*/ userController.rateChefAndComment)
 
-router.route('/:id/bechef').put(userController.beChef)
+router
+  .route('/:id/bechef')
+  .put(/*authController.protect,*/ userController.beChef)
 
 module.exports = router

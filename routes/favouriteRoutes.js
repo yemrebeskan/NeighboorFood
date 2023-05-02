@@ -5,8 +5,8 @@ const router = express.Router()
 
 router
   .route('/:id')
-  .get(authController.protect, favouriteController.getFavouriteChefsById)
-  .put(authController.protect, favouriteController.addFavouriteChef)
-  .delete(authController.protect, favouriteController.deleteFavouriteChef)
+  .get(/*authController.protect,*/ favouriteController.getFavouriteChefsById)
+  .put(/*authController.protect,*/ favouriteController.addFavouriteChef)
+  .delete(/*authController.protect,*/ favouriteController.deleteFavouriteChef)
 
 module.exports = router

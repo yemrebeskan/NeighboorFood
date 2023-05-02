@@ -5,16 +5,16 @@ const router = express.Router()
 
 router
   .route('/makeReview')
-  .post(authController.protect, reviewController.makeReview)
+  .post(/*authController.protect,*/ reviewController.makeReview)
 
 router
   .route('/:id')
   .get(reviewController.getAllReviewsById)
-  .put(authController.protect, reviewController.updateReview)
-  .delete(authController.protect, reviewController.deleteReview)
+  .put(/*authController.protect,*/ reviewController.updateReview)
+  .delete(/*authController.protect,*/ reviewController.deleteReview)
 
 router
   .route('/user/:id')
-  .get(authController.protect, reviewController.getAllReviewsForUser)
+  .get(/*authController.protect,*/ reviewController.getAllReviewsForUser)
 
 module.exports = router

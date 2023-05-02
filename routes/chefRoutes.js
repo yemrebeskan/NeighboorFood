@@ -9,18 +9,18 @@ router.route('/').get(chefController.getAllChefs)
 router
   .route('/:id')
   .get(chefController.getChefById)
-  .delete(authController.protect, chefController.cancelChef)
+  .delete(/*authController.protect,*/ chefController.cancelChef)
 
 router.route('/district/:district').get(chefController.getChefByDistrict)
 
 router
   .route('/:id/menu')
   .get(chefController.getChefMenu)
-  .put(authController.protect, chefController.updateChefMenu)
+  .put(/*authController.protect, */chefController.updateChefMenu)
 
 router
   .route('/:id/thumbnail')
-  .put(authController.protect, chefController.changeThumbnail)
-  .delete(authController.protect, chefController.removeThumbnail)
+  .put(/*authController.protect,*/ chefController.changeThumbnail)
+  .delete(/*authController.protect,*/ chefController.removeThumbnail)
 
 module.exports = router

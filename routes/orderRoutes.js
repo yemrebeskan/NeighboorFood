@@ -6,14 +6,14 @@ const orderController = require('./../controllers/orderController')
 
 router
   .route('/createOrder')
-  .post(authController.protect, orderController.makeOrder)
+  .post(/*authController.protect,*/ orderController.makeOrder)
 
 router
   .route('/order/:id')
-  .get(authController.protect, orderController.getAllOrdersForUser)
+  .get(/*authController.protect,*/ orderController.getAllOrdersForUser)
 
 router
   .route('/order/:id/cancel')
-  .delete(authController.protect, orderController.cancelOrder)
+  .delete(/*authController.protect,*/ orderController.cancelOrder)
 
 module.exports = router
