@@ -49,7 +49,7 @@ const AboutUs = (props) => {
       <div className="flex mb-60 justify-center grid grid-cols-3 ml-20 p-4 ">
         {developerTeams.map((developer) => {
           return (
-            <div className="border-2 mr-12 mt-12 bg-teal-500 flex mr-4 text-slate-100 h-72">
+            <div className="border-2 mr-12 mt-12 bg-teal-500 flex mr-4 text-slate-100 h-72 hover:bg-teal-600">
               <img
                 src={developer.image}
                 className="rounded-full ml-6 h-60 mt-8"
