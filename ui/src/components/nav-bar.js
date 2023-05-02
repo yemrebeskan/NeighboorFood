@@ -24,9 +24,12 @@ const NavBar = ({}) => {
       <nav className="flex bg-stone-200 justify-end">
         <div className="buttons">
           <div className="flex justify-end mr-8">
-            <button className="text-green-700 items-end mb-10 mt-10 mr-16 hover:text-gray-950">
-              About Us
-            </button>
+            <Link to="/aboutus">
+              <button className="text-green-700 items-end mb-10 mt-10 mr-16 hover:text-gray-950">
+                About Us
+              </button>
+            </Link>
+
             {!authCtx.isLoggedIn && (
               <div className="border-r-4 border-gray-50 mt-8 mb-7">
                 <button

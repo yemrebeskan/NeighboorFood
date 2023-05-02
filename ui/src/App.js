@@ -12,6 +12,7 @@ import './App.css'
 import AuthContext from './context/AuthContext'
 import Orders from './pages/Orders'
 import BeChefPage from './pages/BeChefPage'
+import AboutUs from './pages/AboutUs'
 
 const App = () => {
   const authCtx = useContext(AuthContext)
@@ -42,6 +43,7 @@ const App = () => {
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/bechef" element={<BeChefPage />}></Route>
+            <Route path="/aboutus" element={<AboutUs />}></Route>
           </Routes>
         </BrowserRouter>
         <div className={authCtx.isOnClickedSignButton ? 'blur-sm ' : ''}>
