@@ -3,7 +3,7 @@ import logo from './homepageComponents/logo.png'
 import DropdownMenu from './navbarComponents/DropdownMenu'
 import AuthContext from '../context/AuthContext'
 import FoodBasket from './navbarComponents/FoodBasket'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 const NavBar = ({}) => {
   const [showDropdown, setShowDropdown] = useState(false)
@@ -56,9 +56,11 @@ const NavBar = ({}) => {
             )}
 
             {authCtx.isLoggedIn && authCtx.userRole !== 'Chef' && (
-              <button className="text-green-700 items-end mb-10 mt-10 mr-16 ml-4 hover:bg-green-700 p-2 hover:text-stone-200 rounded">
-                Be a Chef
-              </button>
+              <Link to="/bechef">
+                <button className="text-green-700 items-end mb-10 mt-10 mr-16 ml-4 hover:bg-green-700 p-2 hover:text-stone-200 rounded">
+                  Be a Chef
+                </button>
+              </Link>
             )}
             {authCtx.isLoggedIn && (
               <button className="relative w-10 h-10 mt-8 mr-12 p-2">
