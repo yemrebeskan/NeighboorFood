@@ -35,6 +35,7 @@ exports.beChef = catchAsync(async (req, res, next) => {
     { isChef: true },
     { new: true, runValidators: true }
   )
+  console.log(user)
   const newChef = new Chef({
     userInfos: user._id,
   })

@@ -53,6 +53,7 @@ exports.login = catchAsync(async (req, res, next) => {
     status: 'success',
     token,
     uid: user._id,
+    ischef: user.isChef,
     //chefId: user.chefId,
   })
 })

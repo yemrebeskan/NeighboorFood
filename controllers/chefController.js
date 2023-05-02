@@ -2,10 +2,12 @@ const Chef = require('../models/chefModel')
 const Food = require('../models/foodModel')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
+const User = require('../models/userModel')
 
 exports.getAllChefs = catchAsync(async (req, res, next) => {
-  const chef = await Chef.find()
-
+  const chef = await Chef.find().populate({
+    path: 'userInfos',
+  })
   res.status(200).json({
     status: 'success',
     results: chef.length,
@@ -16,24 +18,29 @@ exports.getAllChefs = catchAsync(async (req, res, next) => {
 })
 
 exports.getChefById = catchAsync(async (req, res, next) => {
-  const chefs = await Chef.findById(req.params.id)
-  if (!chefs || chefs.length === 0) {
+  const userId = req.params.id
+  const chef = await Chef.find({ userInfos: userId }).populate({
+    path: 'userInfos',
+  })
+  console.log(chef)
+  if (!chef || chef.length === 0) {
     const id = req.params.id
     return next(new AppError(`No chef found with that ${id}`, 404))
   }
   res.status(200).json({
     status: 'success',
-    results: chefs.length,
+    results: chef.length,
     data: {
-      chefs,
+      chef,
     },
   })
 })
 
 exports.getChefByDistrict = catchAsync(async (req, res, next) => {
   const district = req.params.district
-  const chefs = await Chef.find({
-    district: new RegExp(district, 'i'),
+  const chefs = await Chef.find().populate({
+    path: 'userInfos',
+    match: { district: district },
   })
 
   if (!chefs || chefs.length === 0) {
@@ -50,7 +57,16 @@ exports.getChefByDistrict = catchAsync(async (req, res, next) => {
 })
 
 exports.getChefMenu = catchAsync(async (req, res, next) => {
-  const chef = await Chef.findById(req.params.id).populate('menu')
+  const userId = req.params.id
+  const chef = await Chef.findOne({ userInfos: userId })
+    .populate({
+      path: 'menu',
+      model: 'Food',
+    })
+    .populate({
+      path: 'userInfos',
+    })
+
   if (!chef) {
     const id = req.params.id
     return next(new AppError(`No chef found with that ${id}`, 404))
@@ -58,22 +74,31 @@ exports.getChefMenu = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: {
-      chefName: chef.name,
+      chef,
       menu: chef.menu,
     },
   })
 })
 
 exports.updateChef = catchAsync(async (req, res, next) => {
-  const { name, menu } = req.body
-  const chef = await Chef.findById(req.params.id)
+  const chefId = req.params.id
+  const { thumbnail, menu, about } = req.body
 
+  const chef = await Chef.findOne({ userInfos: chefId })
   if (!chef) {
-    return next(new AppError('No chef found with that id', 404))
+    return next(new AppError(`No chef found with that ${chefId}`, 404))
   }
 
-  chef.name = name
-  chef.menu = menu
+  if (thumbnail) {
+    chef.thumbnail = thumbnail
+  }
+  if (menu) {
+    chef.menu = menu
+  }
+  if (about) {
+    chef.about = about
+  }
+
   await chef.save()
 
   res.status(200).json({
@@ -85,38 +110,40 @@ exports.updateChef = catchAsync(async (req, res, next) => {
 })
 
 exports.updateChefMenu = catchAsync(async (req, res, next) => {
-  const { chefId, foodIds } = req.body
-  const chef = await Chef.findById(chefId)
-  const foods = await Promise.all(
-    foodIds.map(async (foodId) => {
-      let food = await Food.findById(foodId)
-      if (!food) {
-        food = await new Food({
-          chef: chefId,
-          _id: foodId,
-        }).save()
-      }
-      return food
-    })
-  )
-  chef.menu = foods.map((food) => food._id)
+  const chefId = req.params.id
+  const { menu } = req.body
+
+  const chef = await Chef.findOne({ userInfos: chefId })
+  if (!chef) {
+    return next(new AppError(`No chef found with that ${chefId}`, 404))
+  }
+
+  if (menu) {
+    chef.menu = menu
+  }
+
   await chef.save()
+
   res.status(200).json({
     status: 'success',
     data: {
       chef,
-      menu: chef.menu,
     },
   })
 })
-
+// BURA ÇALIŞIYO AMA CANCEL CHEF OLAN BİRİ USERID'SİNİ GİRİNCE HATA VERİYO AMA TÜM USERLARDA ARAYINCA O ID İLE ÇIKIYOR
 exports.cancelChef = catchAsync(async (req, res, next) => {
+  const userId = req.params.id
   const user = await User.findByIdAndUpdate(
     req.params.id,
     { isChef: false },
     { new: true, runValidators: true }
   )
-  const chef = await Chef.findOneAndDelete({ userInfos: user._id })
+  const chef = await Chef.findOneAndDelete({ userInfos: userId })
+    .populate({
+      path: 'userInfos',
+    })
+    .exec()
   if (!user) {
     const id = req.params.id
     return next(new AppError(`No user found with that ${id}`, 404))
@@ -131,37 +158,41 @@ exports.cancelChef = catchAsync(async (req, res, next) => {
 })
 
 exports.changeThumbnail = catchAsync(async (req, res, next) => {
-  const thumbnail = await Chef.findByIdAndUpdate(
-    req.params.id,
-    { thumbnail: req.body.thumbnail },
-    { new: true, runValidators: true }
-  )
-  if (!thumbnail) {
-    const id = req.params.id
-    return next(new AppError(`No chef found with that ${id}`, 404))
+  const userId = req.params.id
+  const chef = await Chef.findOne({ userInfos: userId })
+
+  if (!chef) {
+    return next(new AppError(`No chef found with that id: ${userId}`, 404))
   }
+
+  chef.thumbnail = req.body.thumbnail
+  await chef.save({ validateBeforeSave: true })
+
   res.status(200).json({
     status: 'success',
     data: {
-      thumbnail,
+      thumbnail: chef.thumbnail,
     },
   })
 })
 
 exports.removeThumbnail = catchAsync(async (req, res, next) => {
-  const thumbnail = await Chef.findByIdAndUpdate(
-    req.params.id,
+  const userId = req.params.id
+  const chef = await Chef.findOneAndUpdate(
+    { userInfos: userId },
     { thumbnail: '' },
     { new: true, runValidators: true }
   )
-  if (!thumbnail) {
-    const id = req.params.id
-    return next(new AppError(`No chef found with that ${id}`, 404))
+
+  if (!chef) {
+    return next(new AppError(`No chef found with that id: ${userId}`, 404))
   }
+
   res.status(200).json({
     status: 'success',
     data: {
-      thumbnail,
+      thumbnail: chef.thumbnail,
     },
   })
 })
+

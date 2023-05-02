@@ -9,7 +9,7 @@ router.route('/').get(chefController.getAllChefs)
 router
   .route('/:id')
   .get(chefController.getChefById)
-  .delete(chefController.cancelChef)
+  .delete(authController.protect, chefController.cancelChef)
 
 router.route('/district/:district').get(chefController.getChefByDistrict)
 
