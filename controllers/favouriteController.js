@@ -3,13 +3,20 @@ const Chef = require('../models/chefModel')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 
+//BURALAR TAMAM GİBİ AMA FRONT KONTROLÜ OLMADIĞI İÇİN BİLMİYORUM
 exports.getFavouriteChefsById = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user._id)
-  const favouriteChefs = user.favouriteChefs
+  const user = await User.findById(req.user._id).populate('favouriteChefs')
   if (!user) {
     const id = req.params.id
     return next(new AppError(`No user found with that ${id}`, 404))
   }
+  const favouriteChefs = user.favouriteChefs.map((chef) => ({
+    id: chef.userInfos._id,
+    name: `${chef.userInfos.name} ${chef.userInfos.surname}`,
+    image: chef.userInfos.image,
+    rating: chef.rating,
+    about: chef.about,
+  }))
   res.status(200).json({
     status: 'success',
     data: {
@@ -21,45 +28,45 @@ exports.getFavouriteChefsById = catchAsync(async (req, res, next) => {
 
 exports.addFavouriteChef = catchAsync(async (req, res, next) => {
   const { chefId } = req.params
-  const chef = await Chef.findById(chefId)
+  const realChefId = Chef.findOne({ userInfos: chefId })
   const user = await User.findById(req.user._id)
   const favouriteChefs = user.favouriteChefs
 
-  if (favouriteChefs.includes(chefId)) {
+  if (favouriteChefs.some((chef) => chef.id === realChefId)) {
     return next(
       new AppError('You have already added this chef to your favourites', 400)
     )
   }
-  favouriteChefs.push(chefId)
-  chef.favouriteCount += 1
-  await chef.save()
+  favouriteChefs.push(realChefId)
   await user.save()
   res.status(200).json({
     status: 'success',
-    data: {
+    length: favouriteChefs.length,
+    data : {
       user,
-      favouriteChefs,
-    },
-  })
+      favouriteChefs
+    }
+})
 })
 
 exports.deleteFavouriteChef = catchAsync(async (req, res, next) => {
   const { chefId } = req.params
-  const chef = await Chef.findById(chefId)
+  const realChefId = Chef.findOne({ userInfos: chefId })
   const user = await User.findById(req.user._id)
   const favouriteChefs = user.favouriteChefs
 
-  if (!favouriteChefs.includes(chefId)) {
+  if (!favouriteChefs.includes(realChefId)) {
     return next(
       new AppError('You have not added this chef to your favourites', 400)
     )
   }
-  favouriteChefs.pull(chefId)
+  favouriteChefs.pull(realChefId)
   chef.favouriteCount -= 1
   await chef.save()
   await user.save()
   res.status(200).json({
     status: 'success',
+    length: favouriteChefs.length,
     data: {
       user,
       favouriteChefs,
