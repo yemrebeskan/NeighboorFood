@@ -1,8 +1,31 @@
+const multer = require('multer')
+const path = require('path')
 const Chef = require('../models/chefModel')
 const Food = require('../models/foodModel')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 const User = require('../models/userModel')
+
+const multerStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'images/thumbnails')
+  },
+  filename: (req, file, cb) => {
+    const ext = file.mimetype.split('/')[1]
+    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`)
+  },
+})
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image')) {
+      cb(null, true)
+    } else {
+      cb(new AppError('Not an image! Please upload only images.', 400), false)
+    }
+  },
+})
 
 exports.getAllChefs = catchAsync(async (req, res, next) => {
   const chef = await Chef.find().populate({
@@ -156,25 +179,35 @@ exports.cancelChef = catchAsync(async (req, res, next) => {
     },
   })
 })
+;(exports.changeThumbnail = upload.single('thumbnail')),
+  catchAsync(async (req, res, next) => {
+    const userId = req.params.id
+    const chef = await Chef.findOne({ userInfos: userId })
+    const realChefId = chef.userInfos._id
 
-exports.changeThumbnail = catchAsync(async (req, res, next) => {
-  const userId = req.params.id
-  const chef = await Chef.findOne({ userInfos: userId })
+    if (!chef) {
+      return next(new AppError(`No chef found with that id: ${userId}`, 404))
+    }
 
-  if (!chef) {
-    return next(new AppError(`No chef found with that id: ${userId}`, 404))
-  }
+    //burası çalışcak mı emin değilim
+    if (chef.thumbnail) {
+      removeThumbnail(chef.thumbnail)
+    }
+    const imagePath = path.join('images', 'thumbnails', req.file.filename)
 
-  chef.thumbnail = req.body.thumbnail
-  await chef.save({ validateBeforeSave: true })
+    await Chef.findOneAndUpdate(
+      { userInfos: realChefId },
+      { thumbnail: imagePath },
+      { new: true, runValidators: true }
+    )
 
-  res.status(200).json({
-    status: 'success',
-    data: {
-      thumbnail: chef.thumbnail,
-    },
+    res.status(200).json({
+      status: 'success',
+      data: {
+        thumbnail: chef.thumbnail,
+      },
+    })
   })
-})
 
 exports.removeThumbnail = catchAsync(async (req, res, next) => {
   const userId = req.params.id
@@ -195,4 +228,3 @@ exports.removeThumbnail = catchAsync(async (req, res, next) => {
     },
   })
 })
-
