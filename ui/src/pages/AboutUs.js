@@ -3,7 +3,8 @@ import gencay from './teamphotos/gencay.jpg'
 import emre from './teamphotos/emre.jpg'
 import kagan from './teamphotos/kagan.jpg'
 import hasan from './teamphotos/hasan.jpg'
-import unknown from './teamphotos/unknown.jpg'
+import gozde from './teamphotos/gözde.jpg'
+import tugce from './teamphotos/tuğçe.jpg'
 const AboutUs = (props) => {
   const developerTeams = [
     {
@@ -20,7 +21,7 @@ const AboutUs = (props) => {
     },
     {
       id: '3',
-      name: 'Kagan Yalım',
+      name: 'Mustafa Kağan Yalım',
       image: kagan,
       mail: 'kagan@shanzee.com',
     },
@@ -33,13 +34,13 @@ const AboutUs = (props) => {
     {
       id: '5',
       name: 'Gözde Kurtulmuş',
-      image: unknown,
+      image: gozde,
       mail: 'gözde@gmail.com',
     },
     {
       id: '6',
       name: 'Tuğçe Türkmenler',
-      image: unknown,
+      image: tugce,
       mail: 'tugce@gmail.com',
     },
   ]
