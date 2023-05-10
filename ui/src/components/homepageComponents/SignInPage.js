@@ -79,6 +79,12 @@ const SignInPage = () => {
     event.preventDefault()
     authCtx.exitHandler()
   }
+
+  const createAnAccountHandler = (event) => {
+    event.preventDefault()
+    authCtx.exitHandler()
+    authCtx.handleSignUp()
+  }
   return (
     <div className="signin rounded">
       <img
@@ -126,7 +132,7 @@ const SignInPage = () => {
         >
           SIGN IN
         </button>
-        <span className="create-account">
+        <span className="create-account" onClick={createAnAccountHandler} >
           or <a href="#">Create an account</a>
         </span>
         <button className="google-button mt-16 ml-4">

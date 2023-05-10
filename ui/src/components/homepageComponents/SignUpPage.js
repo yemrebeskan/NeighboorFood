@@ -111,7 +111,7 @@ const SignUpPage = () => {
     setEnteredConfirmPassword(event.target.value)
     setPasswordIsValid(
       event.target.value.trim() === enteredPassword.trim() &&
-        event.target.value.trim().length >= 6
+        event.target.value.trim().length > 6
     )
     setFormIsValid(
       emailIsValid &&
