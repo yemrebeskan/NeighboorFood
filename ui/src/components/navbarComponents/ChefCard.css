@@ -18,6 +18,8 @@
 
 .heart{
     display: flex;
+    margin-right:4px;
+    margin-top:4px;
     float:right;
     color: red;
   }

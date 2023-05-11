@@ -36,7 +36,7 @@ const Favorites = () => {
   }
 
   return (
-    <div>
+    <div className='grid'>
       {chefsData.map((chef) => (
         <ChefCard
           name={chef.name}
