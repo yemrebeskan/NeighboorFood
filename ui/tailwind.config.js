@@ -10,8 +10,8 @@ module.exports = {
     },
 
     fontFamily: {
-      "dancing": 'Dancing Script, cursive',
-    }
+      dancing: 'Dancing Script, cursive',
+    },
   },
   plugins: [],
 }

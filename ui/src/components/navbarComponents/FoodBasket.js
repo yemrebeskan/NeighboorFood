@@ -26,7 +26,9 @@ const FoodBasket = () => {
             <div className="mb-4 ml-48">{foodCtx.totalPrice}$</div>
           </div>
           <Link to="/orders">
-            <button className="h-12 w-24 border-2 rounded-md text-slate-200 bg-teal-500 hover:bg-teal-600" /*onClick={()=>foodCtx.deleteOrders()}*/> 
+            <button
+              className="h-12 w-24 border-2 rounded-md text-slate-200 bg-teal-500 hover:bg-teal-600" /*onClick={()=>foodCtx.deleteOrders()}*/
+            >
               Give Order
             </button>
           </Link>
