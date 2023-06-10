@@ -10,6 +10,10 @@ router.route('/').get(userController.getAllUsers)
 
 router.route('/:id').get(userController.getUserById)
 
+router.route('/cart').put(userController.addToCart)
+
+router.route('/cart').delete(userController.removeFromCart)
+
 router
   .route('/:id/rate')
   .put(/*authController.protect,*/ userController.rateChefAndComment)

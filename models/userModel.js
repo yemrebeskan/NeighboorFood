@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
   surname: {
     type: String,
     trim: true,
+    validate: [validator.isAlpha, 'Surname must be in Alpha'],
   },
   email: {
     type: String,
@@ -38,6 +39,13 @@ const userSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Chef',
+    },
+  ],
+
+  cart: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Food',
     },
   ],
 

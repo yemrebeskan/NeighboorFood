@@ -78,3 +78,43 @@ exports.rateChefAndComment = catchAsync(async (req, res, next) => {
     },
   })
 })
+
+exports.addToCart = async (req, res) => {
+  try {
+    const userId = req.user._id
+    const foodId = req.body.id
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $push: { cart: foodId } },
+      { new: true }
+    )
+    res.status(202).json({
+      status: 'success',
+      data: {
+        user: updatedUser,
+      },
+    })
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err,
+    })
+  }
+}
+
+exports.removeFromCart = async (req, res) => {
+  try {
+    const userId = req.user._id
+    const foodId = req.body.id
+    const user = await User.findById(userId)
+
+    const updatedCarts = user.cart.filter((food) => food._id !== foodId)
+    user.cart = updatedCarts
+    await user.save()
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    })
+  }
+}

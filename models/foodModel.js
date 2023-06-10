@@ -6,6 +6,9 @@ const foodSchema = new mongoose.Schema({
     trim: true,
     default: 'undefined',
   },
+  kcal: {
+    type: Number,
+  },
   price: {
     type: Number,
     default: 0,

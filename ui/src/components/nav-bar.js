@@ -49,7 +49,7 @@ const NavBar = ({}) => {
               </button>
             )}
 
-            {authCtx.isLoggedIn && authCtx.userRole == 'Chef' && (
+            {authCtx.isLoggedIn && authCtx.userRole === 'Chef' && (
               <NavLink
                 to={`/chef/:1`}
                 className="text-green-700 items-end mb-10 mt-10 mr-16 ml-4 hover:bg-green-700 p-2 hover:text-stone-200 rounded"
