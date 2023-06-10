@@ -1,5 +1,6 @@
 const User = require('../models/userModel')
 const Chef = require('../models/chefModel')
+const Food = require('../models/foodModel')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 
@@ -83,14 +84,9 @@ exports.addToCart = async (req, res) => {
   try {
     const userId = req.body.user_id
     const foodId = req.body.food_id
-    console.log(req.body)
     const user = await User.findById(userId)
-    console.log(user)
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { $push: { cart: foodId } },
-      { new: true }
-    )
+    const food = await Food.findById(foodId)
+    const updatedUser = await user.addToCart(food)
     res.status(202).json({
       status: 'success',
       data: {
@@ -110,10 +106,14 @@ exports.removeFromCart = async (req, res) => {
     const userId = req.user._id
     const foodId = req.body.id
     const user = await User.findById(userId)
-
-    const updatedCarts = user.cart.filter((food) => food._id !== foodId)
-    user.cart = updatedCarts
-    await user.save()
+    const food = await Food.findById(foodId)
+    const updatedUser = await user.removeFromCart(food)
+    res.status(202).json({
+      status: 'success',
+      data: {
+        user: updatedUser,
+      },
+    })
   } catch (err) {
     res.status(404).json({
       status: 'fail',

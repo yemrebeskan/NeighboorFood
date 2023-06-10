@@ -42,12 +42,22 @@ const userSchema = new mongoose.Schema({
     },
   ],
 
-  cart: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Food',
+  cart: {
+    foods: [
+      {
+        foodId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Food',
+          required: true,
+        },
+        quantity: { type: Number, required: true },
+      },
+    ],
+    totalPrice: {
+      type: Number,
+      default: 0,
     },
-  ],
+  },
 
   orderHistory: [
     {
@@ -72,6 +82,59 @@ userSchema.methods.correctPassword = async function (
   userPassword
 ) {
   return await bcrypt.compare(candidatePassword, userPassword)
+}
+
+userSchema.methods.addToCart = function (food) {
+  const cartFoodIndex = this.cart.foods.findIndex((cp) => {
+    return cp.foodId.toString() === food._id.toString()
+  })
+  let newQuantity = 1
+  const updatedCartFoods = [...this.cart.foods]
+
+  if (cartFoodIndex >= 0) {
+    newQuantity = this.cart.foods[cartFoodIndex].quantity + 1
+    updatedCartFoods[cartFoodIndex].quantity = newQuantity
+  } else {
+    updatedCartFoods.push({
+      foodId: food._id,
+      quantity: newQuantity,
+    })
+  }
+  const updatedTotalPrice = this.cart.totalPrice + food.price
+  const updatedCart = {
+    foods: updatedCartFoods,
+    totalPrice: updatedTotalPrice,
+  }
+  this.cart = updatedCart
+  return this.save()
+}
+
+userSchema.methods.removeFromCart = function (food) {
+  const cartFoodIndex = this.cart.foods.findIndex((cp) => {
+    return cp.foodId.toString() === food._id.toString()
+  })
+  let newQuantity = 0
+  let updatedCartFoods = [...this.cart.foods]
+
+  if (cartFoodIndex >= 0) {
+    newQuantity = this.cart.foods[cartFoodIndex].quantity - 1
+    updatedCartFoods[cartFoodIndex].quantity = newQuantity
+    if (newQuantity === 0) {
+      updatedCartFoods = this.cart.foods.filter((food) => {
+        return food.foodId.toString() !== food._id.toString()
+      })
+    }
+    const updatedTotalPrice = this.cart.totalPrice - food.price
+    this.cart.foods = updatedCartFoods
+    this.totalPrice = updatedTotalPrice
+    return this.save()
+  }
+  return new Error('error')
+}
+
+userSchema.methods.clearCart = function () {
+  this.cart = { foods: [] }
+  return this.save()
 }
 
 const User = mongoose.model('User', userSchema)
