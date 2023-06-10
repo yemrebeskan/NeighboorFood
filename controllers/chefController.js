@@ -134,15 +134,18 @@ exports.updateChef = catchAsync(async (req, res, next) => {
 
 exports.updateChefMenu = catchAsync(async (req, res, next) => {
   const chefId = req.params.id
-  const { menu } = req.body
+  const food = req.body
 
   const chef = await Chef.findOne({ userInfos: chefId })
   if (!chef) {
     return next(new AppError(`No chef found with that ${chefId}`, 404))
   }
+  const newFood = new Food(req.body)
+  newFood.chef = chefId
+  await newFood.save()
 
-  if (menu) {
-    chef.menu = menu
+  if (food) {
+    chef.menu.push(newFood)
   }
 
   await chef.save()

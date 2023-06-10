@@ -81,8 +81,11 @@ exports.rateChefAndComment = catchAsync(async (req, res, next) => {
 
 exports.addToCart = async (req, res) => {
   try {
-    const userId = req.user._id
-    const foodId = req.body.id
+    const userId = req.body.user_id
+    const foodId = req.body.food_id
+    console.log(req.body)
+    const user = await User.findById(userId)
+    console.log(user)
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { $push: { cart: foodId } },
