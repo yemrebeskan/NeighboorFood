@@ -108,7 +108,26 @@ exports.removeFromCart = async (req, res) => {
     const user = await User.findById(userId)
     const food = await Food.findById(foodId)
     const updatedUser = await user.removeFromCart(food)
-    res.status(202).json({
+    res.status(204).json({
+      status: 'success',
+      data: {
+        user: updatedUser,
+      },
+    })
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    })
+  }
+}
+
+exports.clearCart = async (req, res) => {
+  try {
+    const userId = req.user._id
+    const user = await User.findById(userId)
+    const updatedUser = await User.clearCart()
+    res.status(204).json({
       status: 'success',
       data: {
         user: updatedUser,

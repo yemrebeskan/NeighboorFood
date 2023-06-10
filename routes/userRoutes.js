@@ -10,9 +10,12 @@ router.route('/').get(userController.getAllUsers)
 
 router.route('/:id').get(userController.getUserById)
 
-router.route('/cart').put(userController.addToCart)
+router
+  .route('/cart')
+  .put(userController.addToCart)
+  .delete(userController.removeFromCart)
 
-router.route('/cart').delete(userController.removeFromCart)
+router.route('/carts').delete(userController.clearCart)
 
 router
   .route('/:id/rate')
