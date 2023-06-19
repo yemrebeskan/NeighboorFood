@@ -5,23 +5,13 @@ const orderSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
-  chef: {
+  menu: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Chef',
+    ref: 'Menu',
   },
-  items: [
-    {
-      name: {
-        type: String,
-      },
-      price: {
-        type: Number,
-      },
-    },
-  ],
   date: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
   state: {
     type: String,

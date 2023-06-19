@@ -21,10 +21,6 @@ const foodSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  chef: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Chef',
-  },
   image: {
     type: String,
     default: 'undefined',

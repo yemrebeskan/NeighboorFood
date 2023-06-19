@@ -29,7 +29,6 @@ const userSchema = new mongoose.Schema({
     default:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png',
   },
-
   district: {
     type: String,
     trim: true,

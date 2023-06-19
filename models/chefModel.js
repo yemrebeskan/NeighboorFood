@@ -10,13 +10,10 @@ const chefSchema = new mongoose.Schema({
     default:
       'https://www.contentviewspro.com/wp-content/uploads/2017/07/default_image.png',
   },
-  menu: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Food',
-    },
-  ],
-
+  menu: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Menu',
+  },
   rating: {
     type: Number,
     default: 0,
