@@ -5,27 +5,21 @@ const AppError = require('../utils/appError')
 const Order = require('../models/orderModel')
 
 exports.makeOrder = catchAsync(async (req, res, next) => {
-  const user = req.user.id
-  const chef = req.params.id
-  const items = req.body.items
-  const order = await Order.create({
-    user: user,
-    chef: chef,
-    items: items,
+  const userId = req.params.id
+  const { foodIds } = req.body
+  const user = await User.findById(userId)
+  const foods = await Food.find({ _id: { $in: foodIds } })
+  const newOrder = new Order({
+    user: userId,
+    menu: foods,
   })
-
-  // Add the newly created order to the user's order history
-  const updatedUser = await User.findByIdAndUpdate(
-    user,
-    { $push: { orderHistory: order._id } },
-    { new: true }
-  )
-
+  await newOrder.save()
+  user.orderHistory.push(newOrder)
+  await user.save()
   res.status(201).json({
     status: 'success',
     data: {
-      order,
-      user: updatedUser,
+      order: newOrder,
     },
   })
 })
@@ -45,6 +39,7 @@ exports.getAllOrdersForUser = catchAsync(async (req, res, next) => {
   })
 })
 
+//belki olmaz
 exports.cancelOrder = catchAsync(async (req, res, next) => {
   const user = req.user.id
   const order = await Order.findById(req.params.id)
@@ -60,5 +55,35 @@ exports.cancelOrder = catchAsync(async (req, res, next) => {
   res.status(204).json({
     status: 'success',
     data: null,
+  })
+})
+
+exports.acceptOrder = catchAsync(async (req, res, next) => {
+  const orderId = req.params.id
+  const order = await Order.findByIdAndUpdate(
+    orderId,
+    { state: 'accepted' },
+    { new: true }
+  )
+  res.status(200).json({
+    status: 'success',
+    data: {
+      order,
+    },
+  })
+})
+
+exports.rejectOrder = catchAsync(async (req, res, next) => {
+  const orderId = req.params.id
+  const order = await Order.findByIdAndUpdate(
+    orderId,
+    { state: 'rejected' },
+    { new: true }
+  )
+  res.status(200).json({
+    status: 'success',
+    data: {
+      order,
+    },
   })
 })

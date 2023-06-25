@@ -25,4 +25,8 @@ router
   .route('/:id/bechef')
   .put(/*authController.protect,*/ userController.beChef)
 
+router
+  .route('/:id/chefapply')
+  .put(/*authController.protect,*/ userController.chefApply)
+
 module.exports = router

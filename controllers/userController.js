@@ -30,10 +30,24 @@ exports.getUserById = catchAsync(async (req, res, next) => {
   })
 })
 
+exports.chefApply = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(
+    req.params.id,
+    { isApplied: true },
+    { new: true, runValidators: true }
+  )
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user,
+    },
+  })
+})
+
 exports.beChef = catchAsync(async (req, res, next) => {
   const user = await User.findByIdAndUpdate(
     req.params.id,
-    { isChef: true },
+    { isChef: true, isApplied: false },
     { new: true, runValidators: true }
   )
   console.log(user)

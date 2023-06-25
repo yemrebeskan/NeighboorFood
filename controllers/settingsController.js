@@ -1,6 +1,7 @@
 const multer = require('multer')
 const path = require('path')
 const User = require('../models/userModel')
+const bcryptjs = require('bcryptjs')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 
@@ -103,8 +104,8 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   if (!(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect password', 401))
   }
-  user.password = newPassword
-
+  const cryptPassword = await bcryptjs.hash(newPassword, 12)
+  user.password = cryptPassword
   await user.save()
   res.status(200).json({
     status: 'success',

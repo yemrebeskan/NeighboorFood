@@ -16,7 +16,11 @@ router.route('/district/:district').get(chefController.getChefByDistrict)
 router
   .route('/:id/menu')
   .get(chefController.getChefMenu)
-  .put(/*authController.protect, */chefController.updateChefMenu)
+  .put(/*authController.protect, */ chefController.addFoodToMenu)
+
+router
+  .route('/:id/:foodId')
+  .delete(/*authController.protect,*/ chefController.removeFoodFromMenu)
 
 router
   .route('/:id/thumbnail')

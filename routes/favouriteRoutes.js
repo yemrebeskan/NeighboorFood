@@ -8,7 +8,7 @@ router
   .get(/*authController.protect,*/ favouriteController.getFavouriteChefsById)
 
 router
-  .route('/:id/:chefId')
+  .route('/:userId/:chefId')
   .put(/*authController.protect,*/ favouriteController.addFavouriteChef)
   .delete(/*authController.protect,*/ favouriteController.deleteFavouriteChef)
 
