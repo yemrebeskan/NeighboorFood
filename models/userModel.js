@@ -118,14 +118,15 @@ userSchema.methods.removeFromCart = function (food) {
   if (cartFoodIndex >= 0) {
     newQuantity = this.cart.foods[cartFoodIndex].quantity - 1
     updatedCartFoods[cartFoodIndex].quantity = newQuantity
+
     if (newQuantity === 0) {
-      updatedCartFoods = this.cart.foods.filter((food) => {
-        return food.foodId.toString() !== food._id.toString()
+      updatedCartFoods = this.cart.foods.filter((foodInCart) => {
+        return foodInCart.foodId.toString() !== food._id.toString()
       })
     }
     const updatedTotalPrice = this.cart.totalPrice - food.price
     this.cart.foods = updatedCartFoods
-    this.totalPrice = updatedTotalPrice
+    this.cart.totalPrice = updatedTotalPrice
     return this.save()
   }
   return new Error('error')

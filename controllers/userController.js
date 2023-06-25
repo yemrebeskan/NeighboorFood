@@ -103,8 +103,10 @@ exports.addToCart = async (req, res) => {
 
 exports.removeFromCart = async (req, res) => {
   try {
-    const userId = req.user._id
-    const foodId = req.body.id
+    console.log(req.body)
+    const userId = req.body.user_id
+    const foodId = req.body.food_id
+
     const user = await User.findById(userId)
     const food = await Food.findById(foodId)
     const updatedUser = await user.removeFromCart(food)
