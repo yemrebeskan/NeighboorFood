@@ -85,7 +85,11 @@ exports.getChefMenu = catchAsync(async (req, res, next) => {
   const chef = await Chef.findOne({ userInfos: userId })
     .populate({
       path: 'menu',
-      model: 'Food',
+      model: 'Menu',
+      populate: {
+        path: 'foods', // 'foods' is an array of Food references in the Menu model
+        model: 'Food'  // 'Food' is the model name for our foods
+      }
     })
     .populate({
       path: 'userInfos',
