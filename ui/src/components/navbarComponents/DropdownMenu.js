@@ -8,12 +8,14 @@ const DropdownMenu = ({ setIsLoggedIn }) => {
   return (
     <ul className="absolute right-0 mt-11  bg-white shadow-lg rounded-md  text-green-800 w-48 scale-125 z-10 text-sm">
       <li className="mb-2 hover:bg-gray-100">
-        <button
-          onClick={() => console.log('Settings')}
-          className="w-full text-left p-4 "
-        >
-          Profile
-        </button>
+        <Link to="/profile">
+          <button
+            onClick={() => console.log('Settings')}
+            className="w-full text-left p-4 "
+          >
+            Profile
+          </button>
+        </Link>
       </li>
 
       <li className="mb-2 hover:bg-gray-100">
@@ -29,7 +31,7 @@ const DropdownMenu = ({ setIsLoggedIn }) => {
       <li className="mb-2 hover:bg-gray-100">
         <Link to="/orders">
           <button
-            onClick={() => console.log('Settings')}
+            onClick={() => console.log('Orders')}
             className="w-full text-left p-4"
           >
             Orders
@@ -37,17 +39,19 @@ const DropdownMenu = ({ setIsLoggedIn }) => {
         </Link>
       </li>
       <li className="mb-2 hover:bg-gray-100">
-        <button
-          onClick={() => console.log('Settings')}
-          className="w-full text-left p-4"
-        >
-          Settings
-        </button>
+        <Link to="/settings">
+          <button
+            onClick={() => console.log('Settings')}
+            className="w-full text-left p-4"
+          >
+            Settings
+          </button>
+        </Link>
       </li>
       <li className="mb-2 hover:bg-gray-100">
         <Link to="/bechef">
           <button
-            onClick={() => console.log('Settings')}
+            onClick={() => console.log('Be Chef')}
             className="w-full text-left p-4"
           >
             Be Chef
