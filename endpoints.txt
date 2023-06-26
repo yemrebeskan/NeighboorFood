@@ -1,0 +1,38 @@
+For Chefs:
+    http://127.0.0.1:3001/api/v1/chefs  get(getAllChefs)
+    http://127.0.0.1:3001/api/v1/chefs/:id get(getChefById)|| delete(deleteChef)
+    http://127.0.0.1:3001/api/v1/chefs/district/:district get(getChefByDistrict)
+    http://127.0.0.1:3001/api/v1/chefs/:id/menu get(getChefMenu) || put(updateChefMenu)
+    http://127.0.0.1:3001/api/v1/chefs/:id/thumbnail put(changeThumbnail) || delete(removeThumbnail)
+    http://127.0.0.1:3001/api/v1/chefs/:id/foodId delete(removeFoodFromMenu)
+    http://127.0.0.1:3001/api/v1/chefs/:id/menu put(addFoodToMenu)
+
+For Favourite:
+    http://127.0.0.1:3001/api/v1/favourites/:id get(getFavouriteChefsById)
+    http://127.0.0.1:3001/api/v1/favourites/:id/:chefId put(addFavouriteChef) || delete(deleteFavouriteChef)
+
+For Orders:
+    http://127.0.0.1:3001/api/v1/orders/createOrder/:id post(makeOrder)
+    http://127.0.0.1:3001/api/v1/orders/order/:id get(getAllOrdersForUser)
+    http://127.0.0.1:3001/api/v1/orders/order/:id/cancel delete(cancelOrder)
+
+For Reviews:
+    http://127.0.0.1:3001/api/v1/reviews/makeReview/:userId/:chefId post(makeReview)
+    http://127.0.0.1:3001/api/v1/reviews/user/:id get(getAllReviewsForUser)
+
+For Settings:
+    http://127.0.0.1:3001/api/v1/settings/:id put(updateUser) || delete(deleteUser)
+    http://127.0.0.1:3001/api/v1/settings/:id/password (updatePassword)
+    http://127.0.0.1:3001/api/v1/settings/:id/image put(changeImage) || delete(removeImage)
+
+For Users:
+    http://127.0.0.1:3001/api/v1/users/signup post(signup)
+    http://127.0.0.1:3001/api/v1/users/login post(login)
+    http://127.0.0.1:3001/api/v1/users/ get(getAllUsers)
+    http://127.0.0.1:3001/api/v1/users/:id get(getUserById)
+    http://127.0.0.1:3001/api/v1/users/cart put(addToCart) || delete(removeFromCart)
+    http://127.0.0.1:3001/api/v1/users/carts delete(clearCart)
+    http://127.0.0.1:3001/api/v1/users/:id/rate put(rateChefAndComment)
+    http://127.0.0.1:3001/api/v1/users/:id/bechef put(beChef)
+    http://127.0.0.1:3001/api/v1/users/:id/chefapply put(chefApply)
+    

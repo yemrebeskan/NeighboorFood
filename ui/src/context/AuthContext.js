@@ -21,7 +21,7 @@ export const AuthContextProvider = (props) => {
   const [isOnClickedSignButton, setIsOnClickedSignButton] = useState(false)
   const [isClickedLogInButton, setIsClickedLogInButton] = useState(false)
   const [isClickedSignUpButton, setIsClickedSignUpButton] = useState(false)
-  const [userRole, setUserRole] = useState(null);
+  const [userRole, setUserRole] = useState(null)
   //const [chefId, setChefId] = useState(null);
 
   useEffect(() => {
@@ -66,9 +66,9 @@ export const AuthContextProvider = (props) => {
 
   const setUserData = (role, id) => {
     //console.log('Setting userRole and chefId:', role, id);
-    setUserRole(role);
+    setUserRole(role)
     //setChefId(id);
-  };
+  }
 
   return (
     <AuthContext.Provider

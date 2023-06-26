@@ -5,7 +5,7 @@ const router = express.Router()
 const orderController = require('./../controllers/orderController')
 
 router
-  .route('/createOrder')
+  .route('/createOrder/:id')
   .post(/*authController.protect,*/ orderController.makeOrder)
 
 router

@@ -5,6 +5,7 @@ const Food = require('../models/foodModel')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 const User = require('../models/userModel')
+const Menu = require('../models/menuModel')
 
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -132,28 +133,41 @@ exports.updateChef = catchAsync(async (req, res, next) => {
   })
 })
 
-exports.updateChefMenu = catchAsync(async (req, res, next) => {
+exports.addFoodToMenu = catchAsync(async (req, res, next) => {
   const chefId = req.params.id
-  const { menu } = req.body
-
+  const { name, kcali, price, likes, disslikes, image } = req.body
+  const newFood = new Food({ name, kcali, price, likes, disslikes, image })
+  const savedFood = await newFood.save()
   const chef = await Chef.findOne({ userInfos: chefId })
-  if (!chef) {
-    return next(new AppError(`No chef found with that ${chefId}`, 404))
-  }
-
-  if (menu) {
-    chef.menu = menu
-  }
-
-  await chef.save()
-
+  const menu = await Menu.findOne({ chefInfos: chefId })
+  menu.foods.push(savedFood._id)
+  await menu.save()
   res.status(200).json({
     status: 'success',
     data: {
       chef,
+      menu,
     },
   })
 })
+
+exports.removeFoodFromMenu = catchAsync(async (req, res, next) => {
+  const chefId = req.params.id
+  const foodId = req.params.foodId
+  const chef = await Chef.findOne({ userInfos: chefId })
+  const menu = await Menu.findOne({ chefInfos: chefId })
+  menu.foods.pull(foodId)
+  await menu.save()
+  await Food.findByIdAndDelete(foodId)
+  res.status(200).json({
+    status: 'success',
+    data: {
+      chef,
+      menu,
+    },
+  })
+})
+
 // BURA ÇALIŞIYO AMA CANCEL CHEF OLAN BİRİ USERID'SİNİ GİRİNCE HATA VERİYO AMA TÜM USERLARDA ARAYINCA O ID İLE ÇIKIYOR
 exports.cancelChef = catchAsync(async (req, res, next) => {
   const userId = req.params.id

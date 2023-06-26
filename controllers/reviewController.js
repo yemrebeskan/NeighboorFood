@@ -31,55 +31,22 @@ exports.getAllReviewsForUser = catchAsync(async (req, res, next) => {
 })
 
 exports.makeReview = catchAsync(async (req, res, next) => {
-  const { name, rating, comment } = req.body
-  const user = req.user.id
-  const chef = req.params.id
-  const review = await Review.create({
-    name,
+  const userId = req.params.userId
+  const chefId = req.params.chefId
+  const { rating, comment } = req.body
+  const user = await User.findById(userId)
+  const chef = await Chef.findById({ userInfos: chefId })
+  const newReview = new Review({
+    user: userId,
+    chef: chefId,
     rating,
     comment,
-    user,
-    chef,
   })
+  await newReview.save()
   res.status(200).json({
     status: 'success',
     data: {
-      review,
+      newReview,
     },
-  })
-})
-
-exports.updateReview = catchAsync(async (req, res, next) => {
-  const reviewId = req.params.id
-  const reviewData = req.body
-
-  const review = await Review.findByIdAndUpdate(reviewId, reviewData, {
-    new: true,
-    runValidators: true,
-  })
-
-  if (!review) {
-    return next(new AppError(`No review found with that ${reviewId}`, 404))
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      review,
-    },
-  })
-})
-
-exports.deleteReview = catchAsync(async (req, res, next) => {
-  const reviewId = req.params.id
-  const review = await Review.findByIdAndDelete(reviewId)
-
-  if (!review) {
-    return next(new AppError(`No review found with that ${reviewId}`, 404))
-  }
-
-  res.status(204).json({
-    status: 'success',
-    data: null,
   })
 })

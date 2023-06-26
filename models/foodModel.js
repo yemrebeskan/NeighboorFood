@@ -6,6 +6,9 @@ const foodSchema = new mongoose.Schema({
     trim: true,
     default: 'undefined',
   },
+  kcal: {
+    type: Number,
+  },
   price: {
     type: Number,
     default: 0,
@@ -17,10 +20,6 @@ const foodSchema = new mongoose.Schema({
   dislikes: {
     type: Number,
     default: 0,
-  },
-  chef: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Chef',
   },
   image: {
     type: String,

@@ -1,5 +1,6 @@
 const User = require('../models/userModel')
 const Chef = require('../models/chefModel')
+const Food = require('../models/foodModel')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 
@@ -16,11 +17,31 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 })
 
 exports.getUserById = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user)
+  const id = req.params.id
+  const user = await User.findById(id)
   if (!user) {
-    const id = req.params.id
     return next(new AppError(`No user found with that ${id}`, 404))
   }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user,
+    },
+  })
+})
+
+exports.chefApply = catchAsync(async (req, res, next) => {
+  const id = req.params.id
+  const userr = await User.findById(id)
+  if (userr.isChef || userr.isApplied) {
+    return next( new AppError('You are already a chef or already apply', 400))
+  }
+  const user = await User.findByIdAndUpdate(
+    req.params.id,
+    { isApplied: true },
+    { new: true, runValidators: true }
+  )
   res.status(200).json({
     status: 'success',
     data: {
@@ -32,7 +53,7 @@ exports.getUserById = catchAsync(async (req, res, next) => {
 exports.beChef = catchAsync(async (req, res, next) => {
   const user = await User.findByIdAndUpdate(
     req.params.id,
-    { isChef: true },
+    { isChef: true, isApplied: false },
     { new: true, runValidators: true }
   )
   console.log(user)
@@ -78,3 +99,66 @@ exports.rateChefAndComment = catchAsync(async (req, res, next) => {
     },
   })
 })
+
+exports.addToCart = async (req, res) => {
+  try {
+    const userId = req.body.user_id
+    const foodId = req.body.food_id
+    const user = await User.findById(userId)
+    const food = await Food.findById(foodId)
+    const updatedUser = await user.addToCart(food)
+    res.status(202).json({
+      status: 'success',
+      data: {
+        user: updatedUser,
+      },
+    })
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err,
+    })
+  }
+}
+
+exports.removeFromCart = async (req, res) => {
+  try {
+    console.log(req.body)
+    const userId = req.body.user_id
+    const foodId = req.body.food_id
+
+    const user = await User.findById(userId)
+    const food = await Food.findById(foodId)
+    const updatedUser = await user.removeFromCart(food)
+    res.status(204).json({
+      status: 'success',
+      data: {
+        user: updatedUser,
+      },
+    })
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    })
+  }
+}
+
+exports.clearCart = async (req, res) => {
+  try {
+    const userId = req.user._id
+    const user = await User.findById(userId)
+    const updatedUser = await User.clearCart()
+    res.status(204).json({
+      status: 'success',
+      data: {
+        user: updatedUser,
+      },
+    })
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    })
+  }
+}

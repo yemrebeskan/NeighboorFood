@@ -5,7 +5,8 @@ const AppError = require('../utils/appError')
 
 //BURALAR TAMAM GİBİ AMA FRONT KONTROLÜ OLMADIĞI İÇİN BİLMİYORUM
 exports.getFavouriteChefsById = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user._id).populate('favouriteChefs')
+  const id = req.params.id
+  const user = await User.findById(id).populate('favouriteChefs')
   if (!user) {
     const id = req.params.id
     return next(new AppError(`No user found with that ${id}`, 404))
@@ -27,9 +28,10 @@ exports.getFavouriteChefsById = catchAsync(async (req, res, next) => {
 })
 
 exports.addFavouriteChef = catchAsync(async (req, res, next) => {
-  const { chefId } = req.params
-  const realChefId = Chef.findOne({ userInfos: chefId })
-  const user = await User.findById(req.user._id)
+  const userId = req.params.id
+  const user = await User.findById(userId)
+  const chefId = req.params.cid
+  const realChefId = await Chef.findOne({ userInfos: chefId })
   const favouriteChefs = user.favouriteChefs
 
   if (favouriteChefs.some((chef) => chef.id === realChefId)) {
@@ -42,17 +44,18 @@ exports.addFavouriteChef = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     length: favouriteChefs.length,
-    data : {
+    data: {
       user,
-      favouriteChefs
-    }
-})
+      favouriteChefs,
+    },
+  })
 })
 
 exports.deleteFavouriteChef = catchAsync(async (req, res, next) => {
-  const { chefId } = req.params
-  const realChefId = Chef.findOne({ userInfos: chefId })
-  const user = await User.findById(req.user._id)
+  const chefId = req.params.cid
+  const realChefId = await Chef.findOne({ userInfos: chefId })
+  const userId = req.params.id
+  const user = await User.findById(userId)
   const favouriteChefs = user.favouriteChefs
 
   if (!favouriteChefs.includes(realChefId)) {
