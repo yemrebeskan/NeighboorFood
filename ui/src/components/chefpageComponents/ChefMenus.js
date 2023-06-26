@@ -1,10 +1,27 @@
-import React, { useContext } from 'react'
-import { AiOutlinePlus, AiFillLike, AiFillDislike } from 'react-icons/ai'
+import React, { useContext, useState } from 'react'
+import {
+  AiOutlinePlus,
+  AiFillLike,
+  AiFillDislike,
+  AiOutlineClose,
+} from 'react-icons/ai'
 import { FaShoppingBasket } from 'react-icons/fa'
 import OrderedFoodContext from '../../context/OrderedFoodContext'
+import EditImage from './EditImage'
+import Modal from 'react-modal'
 
-const Menu = ({ menu }) => {
+const Menu = ({
+  menu,
+  isChef,
+  isEditing,
+  onMenuChange,
+  onPhotoChange,
+  onDelete,
+}) => {
   const foodCtx = useContext(OrderedFoodContext)
+
+  const [isDeleteModalOpen, setIsDeleteModelOpen] = useState(false)
+
   const addBasketHandler = (menu) => {
     if (foodCtx.orderedFoods.some((item) => item.id === menu.id)) {
       foodCtx.incrementCountOfFood(menu.id)
@@ -12,26 +29,124 @@ const Menu = ({ menu }) => {
       foodCtx.addItemToOrders(menu)
     }
   }
+
+  const openDeleteModel = () => {
+    //if (window.confirm('Do you really want to delete this menu?')) {
+    //  
+    //}
+    setIsDeleteModelOpen(true)
+  }
+  const handleDelete = () => {
+    //TODO: BACKEND
+    onDelete(menu.id)
+  }
+
   return (
-    <div className="grid grid-cols-8 w-full py-8 my-4 mb-8 bg-white rounded-lg">
-      <div className="col-span-2 flex justify-center items-center w-full h-full">
+    <div className="grid grid-cols-8 w-full py-8 my-4 mb-8 bg-white rounded-lg relative">
+      {isEditing && (
+        <button
+          onClick={openDeleteModel}
+          className="absolute right-0 top-0 m-2 text-white text-lg border-2 rounded-xl border-red-600 bg-red-600 p-2"
+        >
+          Delete
+        </button>
+      )}
+      {isEditing && isDeleteModalOpen && (
+        <div className="flex flex-col justify-center items-center">
+          <Modal
+            onRequestClose={() => {
+              setIsDeleteModelOpen(false)
+            }}
+            isOpen={isDeleteModalOpen}
+            style={{
+              content: {
+                width: '40%',
+                height: '20%',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+              },
+              overlay: {
+                zIndex: 9999,
+              },
+            }}
+          >
+            <div className='flex flex-col relative'>
+              <h2 className="text-2xl text-center ">
+                Do you really want to delete <strong>{menu.menuName}</strong>?
+              </h2>
+              <div className='basis-20'>
+              
+              </div>
+              <div className="flex flex-row-reverse gap-4 relative">
+              <button className='border-2 border-gray-400 bg-gray-400 text-white p-2 rounded-lg' onClick={()=> setIsDeleteModelOpen(false)}>Cancel</button>
+                <button className='border-2 border-red-600 bg-red-600 text-white p-2 rounded-lg ' onClick={handleDelete}>Delete</button>
+              
+              </div>
+            </div>
+          </Modal>
+        </div>
+      )}
+      <div className="col-span-2 flex justify-center items-center w-full h-full relative">
         {menu.isTodaysMenu ? (
           <div className="absolute -mt-44 text-3xl text-[#4f7472] font-bold font-dancing">
             Today's Menu
           </div>
         ) : null}
-        <img
-          className="w-[150px] h-[150px] rounded-full bg-cover"
-          src={menu.image}
-        />
+        <div className="flex flex-col items-center justify-center">
+          <img
+            className="w-[150px] h-[150px] rounded-full bg-cover"
+            src={menu.image}
+          />
+          {isEditing && (
+            <EditImage
+              className="absolute bottom-[-20px] left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2"
+              circle={true}
+              onPictureChange={() => console.log('Profile picture changed')}
+              onPictureRemove={() => console.log('Profile picture removed')}
+            />
+          )}
+        </div>
       </div>
 
       <div className="col-span-4">
-        <h2 className="font-bold text-2xl text-[#484743]">{menu.menuName}</h2>
-        <p className="font-thin text-md">{menu.kcal}</p>
-        <p className="font-extrabold text-3xl pt-8 text-[#484743]">
-          ${menu.price}
-        </p>
+        {isEditing ? (
+          <div className="flex flex-col">
+            <input
+              className="font-bold text-2xl text-[#484743]"
+              type="text"
+              value={menu.menuName}
+              onChange={(e) =>
+                onMenuChange(menu.id, 'menuName', e.target.value)
+              }
+            />
+            <input
+              className="font-thin text-md w-24"
+              type="text"
+              value={menu.kcal}
+              onChange={(e) => onMenuChange(menu.id, 'kcal', e.target.value)}
+            />
+            <span className="text-3xl">
+              $
+              <input
+                className="font-extrabold text-3xl mt-8 w-24 text-[#484743]"
+                type="number"
+                value={menu.price}
+                onChange={(e) => onMenuChange(menu.id, 'price', e.target.value)}
+              />
+            </span>
+          </div>
+        ) : (
+          <div>
+            <h2 className="font-bold text-2xl text-[#484743]">
+              {menu.menuName}
+            </h2>
+            <p className="font-thin text-md">{menu.kcal}</p>
+            <p className="font-extrabold text-3xl pt-8 text-[#484743]">
+              ${menu.price}
+            </p>
+          </div>
+        )}
       </div>
 
       <div className="col-span-2 grid grid-rows-6">
@@ -72,7 +187,7 @@ const Menu = ({ menu }) => {
 
           <div>
             <div className="absolute z-10 cursor-default w-4 h-4 flex justify-center items-center text-[#537a72] text-[12px] font-extrabold -mt-2 ml-4">
-              {menu.disslikes}
+              {menu.dislikes}
             </div>
             <AiFillDislike
               size={24}
@@ -88,7 +203,7 @@ const Menu = ({ menu }) => {
 
 const ChefMenus = ({ isChef }) => {
   // TODO: This should come from backend
-  const mockMenus = [
+  const [menus, setMenus] = useState([
     {
       id: 1,
       menuName: 'Shrimp with Meat',
@@ -96,7 +211,7 @@ const ChefMenus = ({ isChef }) => {
       price: 20,
       carts: 15,
       likes: 9,
-      disslikes: 3,
+      dislikes: 3,
       image: 'https://via.placeholder.com/150',
       isTodaysMenu: true,
     },
@@ -107,7 +222,7 @@ const ChefMenus = ({ isChef }) => {
       price: 12,
       carts: 22,
       likes: 15,
-      disslikes: 4,
+      dislikes: 4,
       image: 'https://via.placeholder.com/150',
       isTodaysMenu: false,
     },
@@ -118,22 +233,173 @@ const ChefMenus = ({ isChef }) => {
       price: 12,
       carts: 19,
       likes: 11,
-      disslikes: 1,
+      dislikes: 1,
       image: 'https://via.placeholder.com/150',
       isTodaysMenu: false,
     },
-  ]
+  ])
+
+  const [isEditing, setIsEditing] = useState(false)
+  const [isAdding, setIsAdding] = useState(false)
+  const [newMenu, setNewMenu] = useState({
+    menuName: '',
+    kcal: '',
+    price: 0,
+    image: '',
+  })
+
+  const handleMenuChange = (id, field, value) => {
+    setMenus(
+      menus.map((menu) => (menu.id === id ? { ...menu, [field]: value } : menu))
+    )
+  }
+
+  const handlePhotoChange = (id) => {
+    // Handle photo change here
+  }
+
+  const handleDeleteMenu = (id) => {
+    setMenus(menus.filter((menu) => menu.id !== id))
+  }
+
+  const handleAddMenu = () => {
+    setIsAdding(true)
+  }
+
+  const handleSaveNewMenu = () => {
+    // Save the new menu here
+    setMenus([...menus, { id: Date.now(), ...newMenu }])
+    setIsAdding(false)
+  }
+
+  const handleCancelAddMenu = () => {
+    if (window.confirm('Do you want to cancel?')) {
+      setIsAdding(false)
+    }
+  }
 
   return (
     <div className="w-full">
       {isChef && (
-        <button className="mt-2 bg-green-700 text-white px-4 py-2 rounded-md">
-          Edit Menus
-        </button>
+        <div>
+          <button
+            className="mt-2 bg-green-700 text-white px-4 py-2 rounded-md"
+            onClick={() => setIsEditing(!isEditing)}
+          >
+            {isEditing ? 'Save' : 'Edit'}
+          </button>
+          <button
+            className="mt-2 bg-green-700 text-white px-4 py-2 rounded-md"
+            onClick={handleAddMenu}
+          >
+            Add Menu
+          </button>
+        </div>
       )}
-      {mockMenus.map((menu) => (
-        <Menu menu={menu} />
+      {menus.map((menu) => (
+        <Menu
+          key={menu.id}
+          menu={menu}
+          isEditing={isEditing}
+          onMenuChange={handleMenuChange}
+          onPhotoChange={handlePhotoChange}
+          isChef={isChef}
+          onDelete={handleDeleteMenu}
+        />
       ))}
+      {isAdding && (
+        <div className="fixed z-10 inset-0 overflow-y-auto">
+          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div
+              className="fixed inset-0 transition-opacity"
+              aria-hidden="true"
+            >
+              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <span
+              className="hidden sm:inline-block sm:align-middle sm:h-screen"
+              aria-hidden="true"
+            >
+              &#8203;
+            </span>
+            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div className="sm:flex sm:items-start">
+                  <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                    <h3
+                      className="text-lg leading-6 font-medium text-gray-900"
+                      id="modal-title"
+                    >
+                      Add Menu
+                    </h3>
+                    <div className="mt-4">
+                      <input
+                        type="text"
+                        value={newMenu.menuName}
+                        onChange={(e) =>
+                          setNewMenu({ ...newMenu, menuName: e.target.value })
+                        }
+                        placeholder="Menu Name"
+                      />
+                      <input
+                        type="text"
+                        value={newMenu.kcal}
+                        onChange={(e) =>
+                          setNewMenu({ ...newMenu, kcal: e.target.value })
+                        }
+                        placeholder="Kcal"
+                      />
+                      <input
+                        type="number"
+                        value={newMenu.price}
+                        onChange={(e) =>
+                          setNewMenu({ ...newMenu, price: e.target.value })
+                        }
+                        placeholder="Price"
+                      />
+                      <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                        <EditImage
+                          className="absolute bottom-[-20px] left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2"
+                          circle={true}
+                          onPictureChange={() =>
+                            console.log('Profile picture changed')
+                          }
+                          onPictureRemove={() =>
+                            console.log('Profile picture removed')
+                          }
+                        />
+                      </div>
+                      <button
+                        onClick={() => {
+                          /* Handle photo upload here */
+                        }}
+                      >
+                        Upload Photo
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button
+                  type="button"
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  onClick={handleSaveNewMenu}
+                >
+                  Add
+                </button>
+                <button
+                  type="button"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+                  onClick={handleCancelAddMenu}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

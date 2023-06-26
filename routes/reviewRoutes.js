@@ -8,7 +8,7 @@ router
   .post(/*authController.protect,*/ reviewController.makeReview)
 
 router
-  .route('/:id')
+  .route('/review/:id')
   .get(reviewController.getAllReviewsById)
   .put(/*authController.protect,*/ reviewController.updateReview)
   .delete(/*authController.protect,*/ reviewController.deleteReview)

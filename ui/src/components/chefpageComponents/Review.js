@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BsStarFill, BsStar } from 'react-icons/bs'
 
-const Review = ({ review }) => {
-  const { reviewer, date, rating, comment, menuItem } = review
+const Review = ({ review, isChef, changeReviewReply }) => {
+  const { reviewer, date, rating, comment, menuItem, reply } = review
 
+  const [replyText, setReplyText] = useState(reply || '')
+  const [isReplying, setIsReplying] = useState(false)
+
+  const handleReply = () => {
+    // Save the reply to the server here
+    changeReviewReply(review, replyText)
+    setIsReplying(false)
+  }
+  
   const starElements = []
   for (let i = 1; i <= 5; i++) {
     if (i <= rating) {
@@ -14,6 +23,8 @@ const Review = ({ review }) => {
   }
 
   const hiddenName = `${reviewer.firstName[0]}*** ${reviewer.lastName[0]}***`
+
+
 
   return (
     <div className="mx-8 bg-white p-4 px-8 mb-4 rounded-lg">
@@ -37,7 +48,34 @@ const Review = ({ review }) => {
         </div>
       </div>
       <p className="mt-4 px-8">{comment}</p>
-      <p className="text-right mt- font-semibold">{menuItem}</p>
+      {reply && <p className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-4 px-8">{reply}</p>}
+      {isChef && (
+        <div className="mt-4">
+          {isReplying && (
+            <div>
+              <textarea
+                value={replyText}
+                onChange={(e) => setReplyText(e.target.value)}
+                className="w-full h-20 p-2 rounded border border-gray-300 focus:border-green-500"
+              />
+              <button
+                onClick={handleReply}
+                className="mt-2 bg-green-800 text-white px-4 py-2 rounded-md"
+              >
+                Submit
+              </button>
+            </div>
+          )}
+          { !isReplying && ((typeof review.reply === 'undefined') || (review.reply.length === 0 ) ) && (
+            <button
+              onClick={() => setIsReplying(true)}
+              className="mt-2 bg-green-800 text-white px-4 py-2 rounded-md"
+            >
+              Reply
+            </button>
+          )}
+        </div>
+      )}
     </div>
   )
 }
