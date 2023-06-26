@@ -1,6 +1,17 @@
+import React, { useState, useEffect, useContext } from 'react'
+import AuthContext from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 import './BeChefPage.css'
 import chefImg from '../components/homepageComponents/chef_img.jpeg'
+
 const BeShefPage = () => {
+  const navigate = useNavigate()
+  const authCtx = useContext(AuthContext)
+  useEffect(() => {
+    if (!authCtx.isLoggedIn) {
+      navigate('/')
+    }
+  }, [authCtx.isLoggedIn, navigate])
   return (
     <div className="">
       <form className="flex justify-center bg-teal-600 grid">

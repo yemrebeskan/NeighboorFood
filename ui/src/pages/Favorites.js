@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import AuthContext from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 import ChefCard from '../components/navbarComponents/ChefCard'
 
 //authcontext ile düzenlenecek
@@ -28,6 +30,8 @@ const initialChefsData = [
 
 const Favorites = () => {
   const [chefsData, setChefsData] = useState(initialChefsData)
+  const navigate = useNavigate()
+  const authCtx = useContext(AuthContext)
 
   const handleChefDelete = (chefId) => {
     setChefsData((prevChefsData) =>
@@ -35,8 +39,14 @@ const Favorites = () => {
     )
   }
 
+  useEffect(() => {
+    if (!authCtx.isLoggedIn) {
+      navigate('/')
+    }
+  }, [authCtx.isLoggedIn, navigate])
+
   return (
-    <div className='grid'>
+    <div className="grid">
       {chefsData.map((chef) => (
         <ChefCard
           name={chef.name}

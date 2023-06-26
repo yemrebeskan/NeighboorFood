@@ -1,8 +1,13 @@
-import React, { useContext, useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import AuthContext from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 import OrderedFoodContext from '../context/OrderedFoodContext'
 import './Orders.css'
 
 const Orders = () => {
+  const navigate = useNavigate()
+  const authCtx = useContext(AuthContext)
+
   const [selectedOrder, setSelectedOrder] = useState(null)
   const ordersCtx = useContext(OrderedFoodContext)
   const orders = ordersCtx.giveOrderHandler()
@@ -10,6 +15,11 @@ const Orders = () => {
   const closeSelectedOrder = () => {
     setSelectedOrder(null)
   }
+  useEffect(() => {
+    if (!authCtx.isLoggedIn) {
+      navigate('/')
+    }
+  }, [authCtx.isLoggedIn, navigate])
 
   return (
     <div className="mb-64">
