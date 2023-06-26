@@ -32,6 +32,11 @@ exports.getUserById = catchAsync(async (req, res, next) => {
 })
 
 exports.chefApply = catchAsync(async (req, res, next) => {
+  const id = req.params.id
+  const userr = await User.findById(id)
+  if (userr.isChef || userr.isApplied) {
+    return next( new AppError('You are already a chef or already apply', 400))
+  }
   const user = await User.findByIdAndUpdate(
     req.params.id,
     { isApplied: true },

@@ -23,7 +23,7 @@ router
 
 router
   .route('/:id/bechef')
-  .put(/*authController.protect,*/ userController.beChef)
+  .post(/*authController.protect,*/ userController.beChef)
 
 router
   .route('/:id/chefapply')
