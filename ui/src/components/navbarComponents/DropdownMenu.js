@@ -1,16 +1,17 @@
-import React, { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import AuthContext from '../../context/AuthContext';
+import React, { useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import AuthContext from '../../context/AuthContext'
 
 const DropdownMenu = () => {
-  const authCtx = useContext(AuthContext);
-  const navigation = useNavigate();
+  const authCtx = useContext(AuthContext)
+  const navigation = useNavigate()
 
   return (
+    //   {authCtx.isAdmin  && ()} bu eklencek chefcontrol için
     <ul className="absolute right-0 mt-11  bg-white shadow-lg rounded-md  text-green-800 w-48 scale-125 z-10 text-sm">
       <li className="mb-2 hover:bg-gray-100">
         <div
-          onClick={() => navigation("/profile")}
+          onClick={() => navigation('/profile')}
           className="w-full text-left p-4 "
         >
           Profile
@@ -19,7 +20,7 @@ const DropdownMenu = () => {
 
       <li className="mb-2 hover:bg-gray-100">
         <div
-          onClick={() => navigation("/favorites")}
+          onClick={() => navigation('/favorites')}
           className="w-full text-left p-4"
         >
           Favorites
@@ -27,7 +28,7 @@ const DropdownMenu = () => {
       </li>
       <li className="mb-2 hover:bg-gray-100">
         <div
-          onClick={() => navigation("/orders")}
+          onClick={() => navigation('/orders')}
           className="w-full text-left p-4"
         >
           Orders
@@ -35,7 +36,7 @@ const DropdownMenu = () => {
       </li>
       <li className="mb-2 hover:bg-gray-100">
         <div
-          onClick={() => navigation("/settings")}
+          onClick={() => navigation('/settings')}
           className="w-full text-left p-4"
         >
           Settings
@@ -43,12 +44,22 @@ const DropdownMenu = () => {
       </li>
       <li className="mb-2 hover:bg-gray-100">
         <div
-          onClick={() => navigation("/bechef")}
+          onClick={() => navigation('/bechef')}
           className="w-full text-left p-4"
         >
           Be Chef
         </div>
       </li>
+
+      <li className="mb-2 hover:bg-gray-100">
+        <div
+          onClick={() => navigation('/admin/chefcontrol')}
+          className="w-full text-left p-4"
+        >
+          Chef Control
+        </div>
+      </li>
+
       <li className="mb-2 hover:bg-gray-100">
         <div
           onClick={authCtx.onLogout}
@@ -61,4 +72,4 @@ const DropdownMenu = () => {
   )
 }
 
-export default DropdownMenu;
+export default DropdownMenu

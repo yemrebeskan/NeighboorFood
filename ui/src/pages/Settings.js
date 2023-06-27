@@ -33,13 +33,14 @@ const Settings = () => {
   const handlePasswordChange = async () => {
     if (newPassword === confirmPassword) {
       try {
-        const response = await axios.put(
-          `http://127.0.0.1:3001/api/v1/settings/${uid}/password`,
-          {
+        const response = await axios
+          .put(`http://127.0.0.1:3001/api/v1/settings/${uid}/password`, {
             password: currentPassword,
             newPassword: newPassword,
-          }
-        )
+          })
+          .then(() => {
+            navigate('/')
+          })
       } catch (error) {
         console.log(error) // Hata durumunda
       }

@@ -15,6 +15,7 @@ import BeChefPage from './pages/BeChefPage'
 import AboutUs from './pages/AboutUs'
 import Profile from './pages/Profile'
 import Settings from './pages/Settings'
+import ControlChef from './pages/adminpage/ControlChef'
 
 const App = () => {
   const authCtx = useContext(AuthContext)
@@ -48,6 +49,7 @@ const App = () => {
             <Route path="/aboutus" element={<AboutUs />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/settings" element={<Settings />}></Route>
+            <Route path="/admin/chefcontrol" element={<ControlChef />}></Route>
           </Routes>
         </BrowserRouter>
         <div className={authCtx.isOnClickedSignButton ? 'blur-sm ' : ''}>
