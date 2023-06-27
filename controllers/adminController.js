@@ -4,6 +4,7 @@ const Food = require('../models/foodModel')
 const Admin = require('../models/adminModel')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
+const Application = require('../models/applicationModel')
 
 exports.createAdmin = catchAsync(async (req, res, next) => {
   const { name, surname, email, password } = req.body
@@ -30,5 +31,43 @@ exports.getAllApplications = catchAsync(async (req, res, next) => {
     data: {
       users,
     },
+  })
+})
+
+exports.acceptApplication = catchAsync(async (req, res, next) => {
+  const applicationId = req.params.id
+  const application = await Application.findById(applicationId)
+  const user = await User.findByIdAndUpdate(
+    application.userInfos,
+    { isChef: true, isApplied: false },
+    { new: true, runValidators: true }
+  )
+  const body = { ...req.body }
+  const { aboutNewChef, country, streetAdress, city } = body
+  const newChef = new Chef({
+    userInfos: user._id,
+    informationAboutChef: aboutNewChef,
+    country: country,
+    streetAddress: streetAdress,
+    city: city,
+  })
+  await newChef.save()
+
+  await Application.findByIdAndRemove(applicationId)
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      newChef,
+    },
+  })
+})
+
+exports.refuseApplication = catchAsync(async (req, res, next) => {
+  const applicationId = req.params.id
+  await Application.findByIdAndRemove(applicationId)
+
+  res.status(200).json({
+    status: 'success',
   })
 })

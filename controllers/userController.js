@@ -3,6 +3,7 @@ const Chef = require('../models/chefModel')
 const Food = require('../models/foodModel')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
+const Application = require('../models/applicationModel')
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find()
@@ -37,11 +38,23 @@ exports.chefApply = catchAsync(async (req, res, next) => {
   if (userr.isChef || userr.isApplied) {
     return next(new AppError('You are already a chef or already apply', 400))
   }
+  const body = { ...req.body }
+  const { aboutNewChef, country, streetAdress, city } = body
+
   const user = await User.findByIdAndUpdate(
     req.params.id,
     { isApplied: true },
     { new: true, runValidators: true }
   )
+  const application = new Application({
+    userInfos: user._id,
+    informationAboutChef: aboutNewChef,
+    country: country,
+    streetAddress: streetAdress,
+    city: city,
+  })
+
+  await application.save()
   res.status(200).json({
     status: 'success',
     data: {
@@ -50,6 +63,7 @@ exports.chefApply = catchAsync(async (req, res, next) => {
   })
 })
 
+// SİLİNECEK FONKSİYON
 exports.beChef = catchAsync(async (req, res, next) => {
   const user = await User.findByIdAndUpdate(
     req.params.id,
