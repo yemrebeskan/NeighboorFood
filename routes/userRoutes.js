@@ -22,10 +22,6 @@ router
   .put(/*authController.protect,*/ userController.rateChefAndComment)
 
 router
-  .route('/:id/bechef')
-  .post(/*authController.protect,*/ userController.beChef)
-
-router
   .route('/:id/chefapply')
   .put(/*authController.protect,*/ userController.chefApply)
 
