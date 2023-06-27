@@ -45,15 +45,20 @@ function SectionIndicator({ isChef, chefInfo }) {
           />
         )
       case 'Reviews':
+        console.log(chefReviews)
         return (
           <ChefReviews
             isChef={isChef}
-            reviews={chefReviews.map((review) => {
-              return {
-                ...review,
-                reviewer: review.user,
-              }
-            })}
+            reviews={
+              chefReviews
+                ? chefReviews.map((review) => {
+                    return {
+                      ...review,
+                      reviewer: review.user,
+                    }
+                  })
+                : undefined
+            }
           />
         )
       default:
