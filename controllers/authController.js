@@ -11,15 +11,13 @@ const signToken = (id) => {
 }
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const body = Object.keys(req.body)[0]
-  const fixedResponse = body.replace(/'/g, '"')
-  const parsedResponse = JSON.parse(fixedResponse)
+  const body = { ...req.body }
   try {
     const newUser = await User.create({
-      name: parsedResponse.enteredName,
-      surname: parsedResponse.enteredSurname,
-      email: parsedResponse.enteredEmail,
-      password: parsedResponse.enteredPassword,
+      name: body.enteredName,
+      surname: body.enteredSurname,
+      email: body.enteredEmail,
+      password: body.enteredPassword,
     })
     const token = signToken(newUser._id)
 
@@ -36,10 +34,9 @@ exports.signup = catchAsync(async (req, res, next) => {
 })
 
 exports.login = catchAsync(async (req, res, next) => {
-  const body = Object.keys(req.body)[0]
-  const fixedResponse = body.replace(/'/g, '"')
-  const parsedResponse = JSON.parse(fixedResponse)
-  const { email, password } = parsedResponse
+  const body = { ...req.body }
+
+  const { email, password } = body
   if (!email || !password) {
     return next(new AppError('Please provide email and password!', 400))
   }

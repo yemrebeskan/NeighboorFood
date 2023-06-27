@@ -49,7 +49,7 @@ const SignInPage = () => {
     try {
       const res = await axios.post(
         'http://127.0.0.1:3001/api/v1/users/login',
-        JSON.stringify(signInInfo)
+        signInInfo
       )
       if (res.data.status === 'success') {
         localStorage.setItem('uid', res.data.uid)
@@ -132,7 +132,7 @@ const SignInPage = () => {
         >
           SIGN IN
         </button>
-        <span className="create-account" onClick={createAnAccountHandler} >
+        <span className="create-account" onClick={createAnAccountHandler}>
           or <a href="#">Create an account</a>
         </span>
         <button className="google-button mt-16 ml-4">

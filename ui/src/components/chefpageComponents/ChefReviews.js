@@ -45,7 +45,7 @@ const ChefReviews = ({ isChef, reviews }) => {
       // There is no endpoint for making reviews rn.
       // const res = await axios.put(
       //   'http://127.0.0.1:3001/api/v1/users/login',
-      //   JSON.stringify(updatedReview)
+      //   updatedReview
       // )
       setAllReviews([
         ...allReviews.slice(0, index),

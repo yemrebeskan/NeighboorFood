@@ -18,6 +18,7 @@ For Orders:
 
 For Reviews:
     http://127.0.0.1:3001/api/v1/reviews/makeReview/:userId/:chefId post(makeReview)
+    http://127.0.0.1:3001/api/v1/reviews/:id get(getAllReviewsById)
     http://127.0.0.1:3001/api/v1/reviews/user/:id get(getAllReviewsForUser)
 
 For Settings:

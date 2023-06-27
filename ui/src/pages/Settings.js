@@ -36,11 +36,10 @@ const Settings = () => {
         const response = await axios.put(
           `http://127.0.0.1:3001/api/v1/settings/${uid}/password`,
           {
-            currentPassword,
-            newPassword,
+            password: currentPassword,
+            newPassword: newPassword,
           }
         )
-        console.log(response.data) // Başarılı yanıt
       } catch (error) {
         console.log(error) // Hata durumunda
       }

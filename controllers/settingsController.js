@@ -95,16 +95,14 @@ exports.removeImage = catchAsync(async (req, res, next) => {
 })
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  const body = Object.keys(req.body)[0]
-  const fixedResponse = body.replace(/'/g, '"')
-  const parsedResponse = JSON.parse(fixedResponse)
+  const body = { ...req.body }
   const user = await User.findById(req.params.id).select('+password')
   if (!user) {
     const id = req.params.id
     return next(new AppError(`No user found with that ${id}`, 404))
   }
 
-  const { password, newPassword } = parsedResponse
+  const { password, newPassword } = body
 
   user.password = newPassword // Şifre yenilenirken kriptolamaya gerek yok.
   await user.save()

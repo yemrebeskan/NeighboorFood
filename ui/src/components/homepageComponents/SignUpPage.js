@@ -171,8 +171,7 @@ const SignUpPage = () => {
     event.preventDefault()
     const res = await axios.post(
       'http://127.0.0.1:3001/api/v1/users/signup',
-
-      JSON.stringify(signUpInfo)
+      signUpInfo
     )
     if (res.data.status === 'success') {
       authCtx.onSignUp()
