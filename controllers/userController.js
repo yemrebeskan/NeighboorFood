@@ -63,32 +63,6 @@ exports.chefApply = catchAsync(async (req, res, next) => {
   })
 })
 
-// SİLİNECEK FONKSİYON
-exports.beChef = catchAsync(async (req, res, next) => {
-  const user = await User.findByIdAndUpdate(
-    req.params.id,
-    { isChef: true, isApplied: false },
-    { new: true, runValidators: true }
-  )
-  const body = { ...req.body }
-  const { aboutNewChef, country, streetAdress, city } = body
-  const newChef = new Chef({
-    userInfos: user._id,
-    informationAboutChef: aboutNewChef,
-    country: country,
-    streetAddress: streetAdress,
-    city: city,
-  })
-
-  await newChef.save()
-  res.status(200).json({
-    status: 'success',
-    data: {
-      newChef,
-    },
-  })
-})
-
 exports.rateChefAndComment = catchAsync(async (req, res, next) => {
   const chefId = req.params.chefId
   const user = req.user._id

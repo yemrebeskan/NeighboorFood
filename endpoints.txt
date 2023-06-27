@@ -34,6 +34,11 @@ For Users:
     http://127.0.0.1:3001/api/v1/users/cart put(addToCart) || delete(removeFromCart)
     http://127.0.0.1:3001/api/v1/users/carts delete(clearCart)
     http://127.0.0.1:3001/api/v1/users/:id/rate put(rateChefAndComment)
-    http://127.0.0.1:3001/api/v1/users/:id/bechef put(beChef)
     http://127.0.0.1:3001/api/v1/users/:id/chefapply put(chefApply)
+
+For Admins:
+    http://127.0.0.1:3001/api/v1/admin/ post(createAdmin)
+    http://127.0.0.1:3001/api/v1/admin/applications get(getAllApplications)
+    http://127.0.0.1:3001/api/v1/users/application/:id delete(refuseApplication) post(acceptApplication)
+
     
