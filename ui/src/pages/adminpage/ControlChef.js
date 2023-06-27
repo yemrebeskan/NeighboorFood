@@ -41,10 +41,10 @@ const ControlChef = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold flex justify-center mt-4">
+      <h1 className="text-3xl font-bold flex justify-center mt-4 ">
         Aday Kontrol
       </h1>
-      <div className="justify-center m-16">
+      <div className="justify-center m-16" style={{ minHeight: '336px' }}>
         {nominees.map((data, index) => (
           <div
             key={index}
@@ -54,6 +54,7 @@ const ControlChef = () => {
           </div>
         ))}
       </div>
+      <div className="flex justify-center"></div>
     </div>
   )
 }
