@@ -1,6 +1,7 @@
 const { promisify } = require('util')
 const jwt = require('jsonwebtoken')
 const User = require('./../models/userModel')
+const Admin = require('./../models/adminModel')
 const catchAsync = require('./../utils/catchAsync')
 const AppError = require('./../utils/appError')
 
@@ -41,18 +42,37 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('Please provide email and password!', 400))
   }
   const user = await User.findOne({ email }).select('+password')
-  const correct = await user.correctPassword(password, user.password)
-  if (!user || !correct) {
-    return next(new AppError('Incorrect email or password', 401))
+  const admin = await Admin.findOne({ email }).select('+password')
+  if (user) {
+    const correct = await user.correctPassword(password, user.password)
+    if (!user || !correct) {
+      return next(new AppError('Incorrect email or password', 401))
+    }
+    const token = signToken(user._id)
+    return res.status(200).json({
+      status: 'success',
+      token,
+      uid: user._id,
+      ischef: user.isChef,
+      isApplied: user.isApplied,
+      isAdmin: user.isAdmin,
+    })
   }
-  const token = signToken(user._id)
-  return res.status(200).json({
-    status: 'success',
-    token,
-    uid: user._id,
-    ischef: user.isChef,
-    //chefId: user.chefId,
-  })
+  if (admin) {
+    const correct = await admin.correctPassword(password, admin.password)
+    if (!admin || !correct) {
+      return next(new AppError('Incorrect email or password', 401))
+    }
+    const token = signToken(admin._id)
+    return res.status(200).json({
+      status: 'success',
+      token,
+      uid: admin._id,
+      ischef: admin.isAdmin,
+      isApplied: admin.isAdmin,
+      isAdmin: admin.isAdmin,
+    })
+  }
 })
 
 exports.protect = catchAsync(async (req, res, next) => {
