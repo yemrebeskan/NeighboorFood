@@ -35,7 +35,7 @@ exports.chefApply = catchAsync(async (req, res, next) => {
   const id = req.params.id
   const userr = await User.findById(id)
   if (userr.isChef || userr.isApplied) {
-    return next( new AppError('You are already a chef or already apply', 400))
+    return next(new AppError('You are already a chef or already apply', 400))
   }
   const user = await User.findByIdAndUpdate(
     req.params.id,
@@ -56,10 +56,16 @@ exports.beChef = catchAsync(async (req, res, next) => {
     { isChef: true, isApplied: false },
     { new: true, runValidators: true }
   )
-  console.log(user)
+  const body = { ...req.body }
+  const { aboutNewChef, country, streetAdress, city } = body
   const newChef = new Chef({
     userInfos: user._id,
+    informationAboutChef: aboutNewChef,
+    country: country,
+    streetAddress: streetAdress,
+    city: city,
   })
+
   await newChef.save()
   res.status(200).json({
     status: 'success',

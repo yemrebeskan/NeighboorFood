@@ -33,6 +33,21 @@ const chefSchema = new mongoose.Schema({
   reviews: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
   },
+  informationAboutChef: {
+    type: String,
+    default: '',
+  },
+  country: {
+    type: String,
+  },
+  streetAddress: {
+    type: String,
+    default: '',
+  },
+  city: {
+    type: String,
+    default: '',
+  },
 })
 
 const Chef = mongoose.model('Chef', chefSchema)
