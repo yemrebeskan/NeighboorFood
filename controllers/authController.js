@@ -56,21 +56,7 @@ exports.login = catchAsync(async (req, res, next) => {
       ischef: user.isChef,
       isApplied: user.isApplied,
       isAdmin: user.isAdmin,
-    })
-  }
-  if (admin) {
-    const correct = await admin.correctPassword(password, admin.password)
-    if (!admin || !correct) {
-      return next(new AppError('Incorrect email or password', 401))
-    }
-    const token = signToken(admin._id)
-    return res.status(200).json({
-      status: 'success',
-      token,
-      uid: admin._id,
-      ischef: admin.isAdmin,
-      isApplied: admin.isAdmin,
-      isAdmin: admin.isAdmin,
+      //chefId: user.chefId,
     })
   }
 })
