@@ -30,15 +30,36 @@ const upload = multer({
 
 exports.getAllChefs = catchAsync(async (req, res, next) => {
   const city = req.body.city
-  const chefs = await Chef.find({ city: city }).populate({
-    path: 'userInfos',
+  const chefs = await Chef.find({ city: city })
+    .populate({
+      path: 'userInfos',
+    })
+    .populate({
+      path: 'menu',
+      populate: {
+        path: 'foods',
+        model: 'Food',
+        select: 'name price -_id',
+      },
+    })
+
+  const chefData = chefs.map((chef) => {
+    return {
+      chefName: chef.userInfos.name,
+      chefSurname: chef.userInfos.surname,
+      chefFoods: chef.menu.foods.map((food) => {
+        return {
+          foodName: food.name,
+          foodPrice: food.price,
+        }
+      }),
+    }
   })
+
   res.status(200).json({
     status: 'success',
     results: chefs.length,
-    data: {
-      chefs,
-    },
+    data: chefData,
   })
 })
 
