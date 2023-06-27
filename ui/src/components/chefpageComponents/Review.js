@@ -12,7 +12,7 @@ const Review = ({ review, isChef, changeReviewReply }) => {
     changeReviewReply(review, replyText)
     setIsReplying(false)
   }
-  
+
   const starElements = []
   for (let i = 1; i <= 5; i++) {
     if (i <= rating) {
@@ -22,15 +22,13 @@ const Review = ({ review, isChef, changeReviewReply }) => {
     }
   }
 
-  const hiddenName = `${reviewer.firstName[0]}*** ${reviewer.lastName[0]}***`
-
-
+  const hiddenName = `${reviewer.name[0]}*** ${reviewer.surname[0]}***`
 
   return (
     <div className="mx-8 bg-white p-4 px-8 mb-4 rounded-lg">
       <div className="flex">
         <img
-          src={reviewer.profileImage}
+          src={reviewer.image}
           alt={hiddenName}
           className="w-16 h-16 object-cover rounded-full mr-4"
         />
@@ -48,7 +46,11 @@ const Review = ({ review, isChef, changeReviewReply }) => {
         </div>
       </div>
       <p className="mt-4 px-8">{comment}</p>
-      {reply && <p className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-4 px-8">{reply}</p>}
+      {reply && (
+        <p className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-4 px-8">
+          {reply}
+        </p>
+      )}
       {isChef && (
         <div className="mt-4">
           {isReplying && (
@@ -66,14 +68,16 @@ const Review = ({ review, isChef, changeReviewReply }) => {
               </button>
             </div>
           )}
-          { !isReplying && ((typeof review.reply === 'undefined') || (review.reply.length === 0 ) ) && (
-            <button
-              onClick={() => setIsReplying(true)}
-              className="mt-2 bg-green-800 text-white px-4 py-2 rounded-md"
-            >
-              Reply
-            </button>
-          )}
+          {!isReplying &&
+            (typeof review.reply === 'undefined' ||
+              review.reply.length === 0) && (
+              <button
+                onClick={() => setIsReplying(true)}
+                className="mt-2 bg-green-800 text-white px-4 py-2 rounded-md"
+              >
+                Reply
+              </button>
+            )}
         </div>
       )}
     </div>

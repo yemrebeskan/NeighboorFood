@@ -1,56 +1,69 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import Review from './Review'
+import axios from 'axios'
 
 // This data should come from backend:
 const dummyReviews = [
   {
     id: 1,
     reviewer: {
-      firstName: 'Alex',
-      lastName: 'Durray',
-      profileImage: 'https://via.placeholder.com/150',
+      name: 'Alex',
+      surname: 'Durray',
+      image: 'https://via.placeholder.com/150',
     },
     date: 'April 18, 2023',
     rating: 4,
     comment: 'The food was delicious and the service was excellent!',
     menuItem: 'Grilled Salmon',
-    reply: 'Thank you for your kind words, Alex! Looking forward to serving you again.'
+    reply:
+      'Thank you for your kind words, Alex! Looking forward to serving you again.',
   },
   {
     id: 2,
     reviewer: {
-      firstName: 'Emma',
-      lastName: 'Smith',
-      profileImage: 'https://via.placeholder.com/150',
+      name: 'Emma',
+      surname: 'Smith',
+      image: 'https://via.placeholder.com/150',
     },
     date: 'April 10, 2023',
     rating: 5,
     comment: 'Amazing experience! The chef is very talented.',
     menuItem: 'Lamb Chops',
-    reply: ''
+    reply: '',
   },
 ]
 
-const ChefReviews = ({ isChef }) => {
-  const [allReviews, setAllReviews] = useState(dummyReviews);
+const ChefReviews = ({ isChef, reviews }) => {
+  const [allReviews, setAllReviews] = useState(reviews ? reviews : dummyReviews)
 
-  const changeReviewReply = async (review, updatedReply) => {
-    const index = allReviews.findIndex(r => r.id === review.id);
+  const changeReviewReply = async (review, incomingReply) => {
+    const index = allReviews.findIndex((r) => r.id === review.id)
     if (index !== -1) {
-      let updatedReply = allReviews.at(index);
-      updatedReply.reply = updatedReply;
-      const res = await axios.put(
-        'http://127.0.0.1:3001/api/v1/users/login',
-        JSON.stringify(updatedReply)
-      )
-      setAllReviews([...allReviews.slice(0, index), updatedReply, ...allReviews.slice(index + 1)])
+      console.log(review)
+      let updatedReview = allReviews.at(index)
+      updatedReview.reply = incomingReply
+      // There is no endpoint for making reviews rn.
+      // const res = await axios.put(
+      //   'http://127.0.0.1:3001/api/v1/users/login',
+      //   JSON.stringify(updatedReview)
+      // )
+      setAllReviews([
+        ...allReviews.slice(0, index),
+        updatedReview,
+        ...allReviews.slice(index + 1),
+      ])
     }
   }
 
   return (
     <div className="flex flex-col grow">
       {allReviews.map((review) => (
-        <Review changeReviewReply={changeReviewReply} key={review.id} review={review} isChef={isChef} />
+        <Review
+          changeReviewReply={changeReviewReply}
+          key={review.id}
+          review={review}
+          isChef={isChef}
+        />
       ))}
     </div>
   )

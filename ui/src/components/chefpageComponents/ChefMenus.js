@@ -10,6 +10,44 @@ import OrderedFoodContext from '../../context/OrderedFoodContext'
 import EditImage from './EditImage'
 import Modal from 'react-modal'
 
+const dummyMenu = [
+  {
+    id: 1,
+    name: 'Shrimp with Meat',
+    kcal: 230,
+    price: 20,
+    carts: 15,
+    likes: 9,
+    dislikes: 3,
+    image: 'https://via.placeholder.com/150',
+    isToday: true,
+  },
+  {
+    id: 2,
+    name: 'Spaghetti with Minced Meat',
+    kcal: 320,
+    price: 12,
+    carts: 22,
+    likes: 15,
+    dislikes: 4,
+    image: 'https://via.placeholder.com/150',
+    isToday: false,
+  },
+  {
+    id: 3,
+    name: 'Creamy Penne with Mushrooms',
+    kcal: 300,
+    price: 12,
+    carts: 19,
+    likes: 11,
+    dislikes: 1,
+    image: 'https://via.placeholder.com/150',
+    isToday: false,
+  },
+]
+
+
+
 const Menu = ({
   menu,
   isChef,
@@ -32,7 +70,7 @@ const Menu = ({
 
   const openDeleteModel = () => {
     //if (window.confirm('Do you really want to delete this menu?')) {
-    //  
+    //
     //}
     setIsDeleteModelOpen(true)
   }
@@ -71,24 +109,31 @@ const Menu = ({
               },
             }}
           >
-            <div className='flex flex-col relative'>
+            <div className="flex flex-col relative">
               <h2 className="text-2xl text-center ">
-                Do you really want to delete <strong>{menu.menuName}</strong>?
+                Do you really want to delete <strong>{menu.name}</strong>?
               </h2>
-              <div className='basis-20'>
-              
-              </div>
+              <div className="basis-20"></div>
               <div className="flex flex-row-reverse gap-4 relative">
-              <button className='border-2 border-gray-400 bg-gray-400 text-white p-2 rounded-lg' onClick={()=> setIsDeleteModelOpen(false)}>Cancel</button>
-                <button className='border-2 border-red-600 bg-red-600 text-white p-2 rounded-lg ' onClick={handleDelete}>Delete</button>
-              
+                <button
+                  className="border-2 border-gray-400 bg-gray-400 text-white p-2 rounded-lg"
+                  onClick={() => setIsDeleteModelOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="border-2 border-red-600 bg-red-600 text-white p-2 rounded-lg "
+                  onClick={handleDelete}
+                >
+                  Delete
+                </button>
               </div>
             </div>
           </Modal>
         </div>
       )}
       <div className="col-span-2 flex justify-center items-center w-full h-full relative">
-        {menu.isTodaysMenu ? (
+        {menu.isToday ? (
           <div className="absolute -mt-44 text-3xl text-[#4f7472] font-bold font-dancing">
             Today's Menu
           </div>
@@ -115,9 +160,9 @@ const Menu = ({
             <input
               className="font-bold text-2xl text-[#484743]"
               type="text"
-              value={menu.menuName}
+              value={menu.name}
               onChange={(e) =>
-                onMenuChange(menu.id, 'menuName', e.target.value)
+                onMenuChange(menu.id, 'name', e.target.value)
               }
             />
             <input
@@ -139,9 +184,9 @@ const Menu = ({
         ) : (
           <div>
             <h2 className="font-bold text-2xl text-[#484743]">
-              {menu.menuName}
+              {menu.name}
             </h2>
-            <p className="font-thin text-md">{menu.kcal}</p>
+            <p className="font-thin text-md">{menu.kcal} kcal</p>
             <p className="font-extrabold text-3xl pt-8 text-[#484743]">
               ${menu.price}
             </p>
@@ -201,48 +246,13 @@ const Menu = ({
   )
 }
 
-const ChefMenus = ({ isChef }) => {
+const ChefMenus = ({ isChef, chefMenu}) => {
   // TODO: This should come from backend
-  const [menus, setMenus] = useState([
-    {
-      id: 1,
-      menuName: 'Shrimp with Meat',
-      kcal: '230kcal',
-      price: 20,
-      carts: 15,
-      likes: 9,
-      dislikes: 3,
-      image: 'https://via.placeholder.com/150',
-      isTodaysMenu: true,
-    },
-    {
-      id: 2,
-      menuName: 'Spaghetti with Minced Meat',
-      kcal: '320kcal',
-      price: 12,
-      carts: 22,
-      likes: 15,
-      dislikes: 4,
-      image: 'https://via.placeholder.com/150',
-      isTodaysMenu: false,
-    },
-    {
-      id: 3,
-      menuName: 'Creamy Penne with Mushrooms',
-      kcal: '300kcal',
-      price: 12,
-      carts: 19,
-      likes: 11,
-      dislikes: 1,
-      image: 'https://via.placeholder.com/150',
-      isTodaysMenu: false,
-    },
-  ])
-
+  const [menus, setMenus] = useState(chefMenu? chefMenu: dummyMenu)
   const [isEditing, setIsEditing] = useState(false)
   const [isAdding, setIsAdding] = useState(false)
   const [newMenu, setNewMenu] = useState({
-    menuName: '',
+    name: '',
     kcal: '',
     price: 0,
     image: '',
@@ -335,9 +345,9 @@ const ChefMenus = ({ isChef }) => {
                     <div className="mt-4">
                       <input
                         type="text"
-                        value={newMenu.menuName}
+                        value={newMenu.name}
                         onChange={(e) =>
-                          setNewMenu({ ...newMenu, menuName: e.target.value })
+                          setNewMenu({ ...newMenu, name: e.target.value })
                         }
                         placeholder="Menu Name"
                       />

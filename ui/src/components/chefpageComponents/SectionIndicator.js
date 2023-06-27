@@ -4,13 +4,26 @@ import ChefMenus from './ChefMenus'
 import ChefAbout from './ChefAbout'
 import ChefReviews from './ChefReviews'
 
-function SectionIndicator({ isChef }) {
+function makeMenuObjectWithDbData(chefMenu) {
+  const menu = chefMenu.foods.map((food) => {
+    return {
+      ...food,
+      _id: food.id,
+    }
+  })
+  return menu
+}
+
+function SectionIndicator({ isChef, chefInfo }) {
   //This should come from backend
-  const aboutText =
-    'Hello, my name is Ally and I am a home chef in my 60s.\nCooking has been my passion for as long as I can remember and I have spent countless hours experimenting with different ingredients and techniques to create delicious and wholesome meals.\nOver the years, I have honed my skills and developed a keen sense of taste and presentation, which I bring to every dish I create.'
-
+  const aboutText = chefInfo.about
+  const phone = chefInfo.phone ? chefInfo.phone : 'XXX-XXX-XX-XX'
+  const email = chefInfo.email
+  const chefMenu = chefInfo.menu
+    ? makeMenuObjectWithDbData(chefInfo.menu)
+    : undefined
+  const chefReviews = chefInfo.reviews ? chefInfo.reviews : undefined
   const [selectedSection, setSelectedSection] = useState('Menus')
-
   const sections = ['Menus', 'About', 'Reviews']
 
   const handleClick = (section) => {
@@ -20,19 +33,29 @@ function SectionIndicator({ isChef }) {
   const renderSelectedSection = () => {
     switch (selectedSection) {
       case 'Menus':
-        return <ChefMenus isChef={isChef} />
+        return <ChefMenus isChef={isChef} chefMenu={chefMenu} />
       case 'About':
         //TODO: this should come from backend
         return (
           <ChefAbout
             isChef={isChef}
             about={aboutText}
-            phone="123-456-7890"
-            email="chef@example.com"
+            phone={phone}
+            email={email}
           />
         )
-        case 'Reviews':
-          return <ChefReviews isChef={isChef} />;
+      case 'Reviews':
+        return (
+          <ChefReviews
+            isChef={isChef}
+            reviews={chefReviews.map((review) => {
+              return {
+                ...review,
+                reviewer: review.user,
+              }
+            })}
+          />
+        )
       default:
         return null
     }

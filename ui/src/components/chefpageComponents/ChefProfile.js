@@ -6,7 +6,7 @@ import EditImage from './EditImage'
 // TODO: chef should come from backend
 const ChefProfile = ({
   isChef,
-  chef = {
+  chefInfo = {
     id: 1,
     name: 'Ally Doe',
     backgroundImage:
@@ -19,6 +19,7 @@ const ChefProfile = ({
     distance: '3.2 km',
   },
 }) => {
+  const chef = chefInfo
   const [isFavorited, setIsFavorited] = useState(false)
   const [favoritesCount, setFavoritesCount] = useState(0)
 
@@ -43,7 +44,7 @@ const ChefProfile = ({
             onPictureRemove={() => console.log('Background picture removed')}
           />
         )}
-        
+
         <img
           src={chef.profileImage}
           alt={chef.name}
