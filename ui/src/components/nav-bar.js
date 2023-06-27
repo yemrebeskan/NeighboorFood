@@ -1,15 +1,34 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import logo from './homepageComponents/logo.png';
 import DropdownMenu from './navbarComponents/DropdownMenu';
 import AuthContext from '../context/AuthContext';
 import FoodBasket from './navbarComponents/FoodBasket';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import axios from 'axios'
+
 
 const NavBar = ({}) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showBasket, setShowBasket] = useState(false);
-  const authCtx = useContext(AuthContext);
+  const authCtx = useContext(AuthContext)
+  const uid = localStorage.getItem('uid')
+  const [user, setUser] = useState(null)
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:3001/api/v1/users/${uid}`
+        )
+        setUser(response.data.data.user)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchUser()
+  }, [uid])
+
+  
   const navifation = useNavigate();
 
   const toggleBasket = () => {
@@ -51,16 +70,16 @@ const NavBar = ({}) => {
               </button>
             )}
 
-            {authCtx.isLoggedIn && authCtx.userRole === 'Chef' && (
+            {authCtx.isLoggedIn && user?.isChef && (
               <NavLink
-                to={`/chef/:1`}
+                to={`/chef/${uid}`}
                 className="text-green-700 items-end mb-10 mt-10 mr-16 ml-4 hover:bg-green-700 p-2 hover:text-stone-200 rounded"
               >
                 My Chef Page
               </NavLink>
             )}
 
-            {authCtx.isLoggedIn && authCtx.userRole !== 'Chef' && (
+            {authCtx.isLoggedIn && !user?.isChef && (
               <Link to="/bechef">
                 <button className="text-green-700 items-end mb-10 mt-10 mr-16 ml-4 hover:bg-green-700 p-2 hover:text-stone-200 rounded">
                   Be a Chef
