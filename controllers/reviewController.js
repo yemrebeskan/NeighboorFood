@@ -18,16 +18,24 @@ exports.getAllReviewsById = catchAsync(async (req, res, next) => {
   })
 })
 
-exports.getAllReviewsForUser = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id).populate('reviews')
-  const review = user.reviews
-  res.status(200).json({
-    status: 'success',
-    results: review.length,
-    data: {
-      review,
-    },
-  })
+exports.getAllReviewsForUser = catchAsync(async (req, res, next) => { // getAllReviewsForChef maybe
+  try {
+    const user = await Chef.findById(req.params.id).populate({
+      path: 'reviews',
+      model: 'Review',
+    })
+    const review = user.reviews
+    res.status(200).json({
+      status: 'success',
+      results: review.length,
+      data: {
+        reviews: review,
+      },
+    })
+  } catch (e) {
+    console.log(e);
+    return next(new AppError(`Error ${e.toString()}`, 500));
+  }
 })
 
 exports.makeReview = catchAsync(async (req, res, next) => {
