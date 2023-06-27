@@ -1,52 +1,57 @@
-import React, { useContext, useState } from 'react';
-import StarRating from './StarRating';
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
-import EditImage from './EditImage';
-import FavoriteChefsContext from '../../context/FavoriteChefsContex';
-import { useParams } from 'react-router-dom';
+import React, { useContext, useState } from 'react'
+import StarRating from './StarRating'
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
+import EditImage from './EditImage'
+import FavoriteChefsContext from '../../context/FavoriteChefsContex'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
 
 // TODO: chef should come from backend
-const ChefProfile = ({
-  isChef,
-  chefInfo = {
-    id: 1,
-    name: 'Ally Doe',
-    backgroundImage:
-      'https://thumbs.dreamstime.com/b/fresh-food-ingredients-vegetarian-kitchen-wooden-background-top-view-raw-vegetable-143531625.jpg',
-    profileImage:
-      'https://www.gravatar.com/avatar/993455f0ba0ccbcfcf99819b4292c744',
-    address: '123 Street, City, State, Country',
-    rating: 4.5,
-    totalVotes: 100,
-    distance: '3.2 km',
-  },
-}) => {
-  const chef = chefInfo;
-  
-  const favCtx = useContext(FavoriteChefsContext);
-  const { id } = useParams();
+const ChefProfile = ({ isChef, chefInfo }) => {
+  const chef = chefInfo
 
-  const [isFavorited, setIsFavorited] = useState(favCtx.favoriteChefs.find((chef) => chef.id == id) != null);
-  const [favoritesCount, setFavoritesCount] = useState(0);
+  const favCtx = useContext(FavoriteChefsContext)
+  const { id } = useParams()
 
+  const [isFavorited, setIsFavorited] = useState(
+    favCtx.favoriteChefs.find((chef) => chef.id == id) != null
+  )
+  const [favoritesCount, setFavoritesCount] = useState(0)
 
-  const toggleFavorite = () => {
-    setIsFavorited((prevIsFavorited) => !prevIsFavorited);
+  const toggleFavorite = async () => {
+    setIsFavorited((prevIsFavorited) => !prevIsFavorited)
     setFavoritesCount((prevCount) =>
       isFavorited ? prevCount - 1 : prevCount + 1
-    );
+    )
 
     if (isFavorited) {
-      const child = favCtx.favoriteChefs.find((chef) => chef.id == id);
-      favCtx.removeChefFromFavorites(child.id);
-    }
-    else {
-      favCtx.addChefToFavorites({
-        id: id,
-        name: chefInfo.name,
-        image: chefInfo.image,
-        rating: chefInfo.rating
-      })
+      const child = favCtx.favoriteChefs.find((chef) => chef.id == id)
+      const uid = localStorage.getItem('uid')
+      const res = await axios.delete(
+        `http://127.0.0.1:3001/api/v1/favourites/${uid}/${chefInfo._id}`
+      )
+      if (res.data.status === 'success') {
+        favCtx.removeChefFromFavorites(child.id)
+      } else {
+        // ERROR HANDLING WITH MODAL
+      }
+    } else {
+      // for now localStorage
+      const uid = localStorage.getItem('uid')
+      console.log(chefInfo)
+      const res = await axios.put(
+        `http://127.0.0.1:3001/api/v1/favourites/${uid}/${chefInfo._id}`
+      )
+      if (res.data.status === 'success') {
+        favCtx.addChefToFavorites({
+          id: id,
+          name: chefInfo.name,
+          image: chefInfo.image,
+          rating: chefInfo.rating,
+        })
+      } else {
+        // ERROR HANDLING WITH MODAL
+      }
     }
   }
 

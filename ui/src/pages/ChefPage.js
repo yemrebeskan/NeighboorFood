@@ -73,7 +73,6 @@ function ChefPage() {
   useEffect(() => {
     getChef()
       .then((resp) => {
-        console.log(resp)
         if (typeof resp !== 'string')
           setChefData(makeChefObjectWithDbData(resp))
       })

@@ -4,16 +4,16 @@ import { useNavigate } from 'react-router-dom'
 import ChefCard from '../components/navbarComponents/ChefCard'
 import FavoriteChefsContext from '../context/FavoriteChefsContex'
 
-
 const Favorites = () => {
-  const favCtx = useContext(FavoriteChefsContext);
+  const favCtx = useContext(FavoriteChefsContext)
 
-  const navigate = useNavigate();
-  const authCtx = useContext(AuthContext);
+  const navigate = useNavigate()
+  const authCtx = useContext(AuthContext)
 
   const handleChefDelete = (chefId) => {
-    const child = favCtx.favoriteChefs.find((chef) => chef.id == chefId);
-    favCtx.removeChefFromFavorites(child.id);
+    const child = favCtx.favoriteChefs.find((chef) => chef.id == chefId)
+    favCtx.removeChefFromFavorites(child.id)
+    // CALL API
   }
 
   useEffect(() => {
