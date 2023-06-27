@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
-import StarRating from './StarRating'
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
-import EditImage from './EditImage'
+import React, { useContext, useState } from 'react';
+import StarRating from './StarRating';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import EditImage from './EditImage';
+import FavoriteChefsContext from '../../context/FavoriteChefsContex';
+import { useParams } from 'react-router-dom';
 
 // TODO: chef should come from backend
 const ChefProfile = ({
@@ -19,15 +21,33 @@ const ChefProfile = ({
     distance: '3.2 km',
   },
 }) => {
-  const chef = chefInfo
-  const [isFavorited, setIsFavorited] = useState(false)
-  const [favoritesCount, setFavoritesCount] = useState(0)
+  const chef = chefInfo;
+  
+  const favCtx = useContext(FavoriteChefsContext);
+  const { id } = useParams();
+
+  const [isFavorited, setIsFavorited] = useState(favCtx.favoriteChefs.find((chef) => chef.id == id) != null);
+  const [favoritesCount, setFavoritesCount] = useState(0);
+
 
   const toggleFavorite = () => {
-    setIsFavorited((prevIsFavorited) => !prevIsFavorited)
+    setIsFavorited((prevIsFavorited) => !prevIsFavorited);
     setFavoritesCount((prevCount) =>
       isFavorited ? prevCount - 1 : prevCount + 1
-    )
+    );
+
+    if (isFavorited) {
+      const child = favCtx.favoriteChefs.find((chef) => chef.id == id);
+      favCtx.removeChefFromFavorites(child.id);
+    }
+    else {
+      favCtx.addChefToFavorites({
+        id: id,
+        name: chefInfo.name,
+        image: chefInfo.image,
+        rating: chefInfo.rating
+      })
+    }
   }
 
   return (

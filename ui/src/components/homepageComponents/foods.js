@@ -12,9 +12,9 @@ const Foods = () => {
     <div className="flex space-x-20 md:order-2">
       {imageList.map((item, index) =>
         index === Math.round(imageList.length / 2) - 1 ? (
-          <img src={item} className="w-40 h-40 mt-4 mb-32"></img>
+          <img key={index} src={item} className="w-40 h-40 mt-4 mb-32"></img>
         ) : (
-          <img src={item} className="w-40 h-40 mt-16 mb-12"></img>
+          <img key={index} src={item} className="w-40 h-40 mt-16 mb-12"></img>
         )
       )}
     </div>

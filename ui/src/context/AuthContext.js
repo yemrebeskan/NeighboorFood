@@ -6,7 +6,11 @@ const AuthContext = React.createContext({
   isClickedLogInButton: false,
   isClickedSignUpButton: false,
   userRole: null,
-  //chefId: null,
+  
+  isChef: false,
+  chefId: null,
+  userId: null,
+
   onLogout: () => {},
   onLogin: () => {},
   handleLogin: () => {},

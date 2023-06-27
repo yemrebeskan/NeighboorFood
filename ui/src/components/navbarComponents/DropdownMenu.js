@@ -1,73 +1,64 @@
-import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
-import AuthContext from '../../context/AuthContext'
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthContext from '../../context/AuthContext';
 
-const DropdownMenu = ({ setIsLoggedIn }) => {
-  const authCtx = useContext(AuthContext)
+const DropdownMenu = () => {
+  const authCtx = useContext(AuthContext);
+  const navigation = useNavigate();
 
   return (
     <ul className="absolute right-0 mt-11  bg-white shadow-lg rounded-md  text-green-800 w-48 scale-125 z-10 text-sm">
       <li className="mb-2 hover:bg-gray-100">
-        <Link to="/profile">
-          <button
-            onClick={() => console.log('Settings')}
-            className="w-full text-left p-4 "
-          >
-            Profile
-          </button>
-        </Link>
+        <div
+          onClick={() => navigation("/profile")}
+          className="w-full text-left p-4 "
+        >
+          Profile
+        </div>
       </li>
 
       <li className="mb-2 hover:bg-gray-100">
-        <Link to="/favorites">
-          <button
-            onClick={() => console.log('Favorites')}
-            className="w-full text-left p-4"
-          >
-            Favorites
-          </button>
-        </Link>
+        <div
+          onClick={() => navigation("/favorites")}
+          className="w-full text-left p-4"
+        >
+          Favorites
+        </div>
       </li>
       <li className="mb-2 hover:bg-gray-100">
-        <Link to="/orders">
-          <button
-            onClick={() => console.log('Orders')}
-            className="w-full text-left p-4"
-          >
-            Orders
-          </button>
-        </Link>
+        <div
+          onClick={() => navigation("/orders")}
+          className="w-full text-left p-4"
+        >
+          Orders
+        </div>
       </li>
       <li className="mb-2 hover:bg-gray-100">
-        <Link to="/settings">
-          <button
-            onClick={() => console.log('Settings')}
-            className="w-full text-left p-4"
-          >
-            Settings
-          </button>
-        </Link>
+        <div
+          onClick={() => navigation("/settings")}
+          className="w-full text-left p-4"
+        >
+          Settings
+        </div>
       </li>
       <li className="mb-2 hover:bg-gray-100">
-        <Link to="/bechef">
-          <button
-            onClick={() => console.log('Be Chef')}
-            className="w-full text-left p-4"
-          >
-            Be Chef
-          </button>
-        </Link>
+        <div
+          onClick={() => navigation("/bechef")}
+          className="w-full text-left p-4"
+        >
+          Be Chef
+        </div>
       </li>
       <li className="mb-2 hover:bg-gray-100">
-        <button
+        <div
           onClick={authCtx.onLogout}
           className="w-full text-left text-sm p-4"
         >
           Logout
-        </button>
+        </div>
       </li>
     </ul>
   )
 }
 
-export default DropdownMenu
+export default DropdownMenu;
