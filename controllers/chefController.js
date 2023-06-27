@@ -29,14 +29,15 @@ const upload = multer({
 })
 
 exports.getAllChefs = catchAsync(async (req, res, next) => {
-  const chef = await Chef.find().populate({
+  const city = req.body.city
+  const chefs = await Chef.find({ city: city }).populate({
     path: 'userInfos',
   })
   res.status(200).json({
     status: 'success',
-    results: chef.length,
+    results: chefs.length,
     data: {
-      chef,
+      chefs,
     },
   })
 })
@@ -46,7 +47,6 @@ exports.getChefById = catchAsync(async (req, res, next) => {
   const chef = await Chef.find({ userInfos: userId }).populate({
     path: 'userInfos',
   })
-  console.log(chef)
   if (!chef || chef.length === 0) {
     const id = req.params.id
     return next(new AppError(`No chef found with that ${id}`, 404))
@@ -88,8 +88,8 @@ exports.getChefMenu = catchAsync(async (req, res, next) => {
       model: 'Menu',
       populate: {
         path: 'foods', // 'foods' is an array of Food references in the Menu model
-        model: 'Food'  // 'Food' is the model name for our foods
-      }
+        model: 'Food', // 'Food' is the model name for our foods
+      },
     })
     .populate({
       path: 'userInfos',

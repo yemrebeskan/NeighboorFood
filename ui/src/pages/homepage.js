@@ -1,32 +1,111 @@
-import Foods from '../components/homepageComponents/foods';
-import SearchBar from '../components/homepageComponents/SearchBar';
-import img from './photo4.png';
-import CardItem from '../components/homepageComponents/CardItem';
-import AuthContext from '../context/AuthContext';
-import React, { useContext, useState } from 'react';
-import LocationSearchResults from '../components/homepageComponents/LocationSearchResults.js';
-
+import Foods from '../components/homepageComponents/foods'
+import SearchBar from '../components/homepageComponents/SearchBar'
+import img from './photo4.png'
+import CardItem from '../components/homepageComponents/CardItem'
+import AuthContext from '../context/AuthContext'
+import React, { useContext, useState } from 'react'
+import LocationSearchResults from '../components/homepageComponents/LocationSearchResults.js'
+import axios from 'axios'
 
 const HomePage = () => {
-  const authCtx = useContext(AuthContext);
-  const [searchResults, setSearchResults] = useState({ menus: [], chefs: [] });
+  const authCtx = useContext(AuthContext)
+  const [searchResults, setSearchResults] = useState({ menus: [], chefs: [] })
 
-  const handleSearch = (location) => {
+  const handleSearch = async (location) => {
     // Here you should fetch the menus and chefs based on the location
     // TODO: this is some dummy data
-    const menus = [
-      { id: 1, menuName: 'Menu 1', description: 'Description 1', price: 20, kcal:230 ,image: 'https://via.placeholder.com/150' },
-      { id: 2, menuName: 'Menu 2', description: 'Description 2', price: 20, kcal:230 ,image: 'https://via.placeholder.com/150' },
-      { id: 1, menuName: 'Menu 1', description: 'Description 1', price: 20, kcal:230 ,image: 'https://via.placeholder.com/150' },
-      { id: 2, menuName: 'Menu 2', description: 'Description 2', price: 20, kcal:230 ,image: 'https://via.placeholder.com/150' },
-      { id: 1, menuName: 'Menu 1', description: 'Description 1', price: 20, kcal:230 ,image: 'https://via.placeholder.com/150' },
-      { id: 2, menuName: 'Menu 2', description: 'Description 2', price: 20, kcal:230 ,image: 'https://via.placeholder.com/150' },
-      { id: 1, menuName: 'Menu 1', description: 'Description 1', price: 20, kcal:230 ,image: 'https://via.placeholder.com/150' },
-      { id: 2, menuName: 'Menu 2', description: 'Description 2', price: 20, kcal:230 ,image: 'https://via.placeholder.com/150' },
-      { id: 1, menuName: 'Menu 1', description: 'Description 1', price: 20, kcal:230 ,image: 'https://via.placeholder.com/150' },
-      { id: 2, menuName: 'Menu 2', description: 'Description 2', price: 20, kcal:230 ,image: 'https://via.placeholder.com/150' },
-    ];
-    const chefs = [
+    // BACKENDDEN İLGİLİ ŞEHİRDEKİ MENÜLERİ ÇEKECEK TODO
+    const dummyMenus = [
+      {
+        id: 1,
+        menuName: 'Menu 1',
+        description: 'Description 1',
+        price: 20,
+        kcal: 230,
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: 2,
+        menuName: 'Menu 2',
+        description: 'Description 2',
+        price: 20,
+        kcal: 230,
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: 1,
+        menuName: 'Menu 1',
+        description: 'Description 1',
+        price: 20,
+        kcal: 230,
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: 2,
+        menuName: 'Menu 2',
+        description: 'Description 2',
+        price: 20,
+        kcal: 230,
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: 1,
+        menuName: 'Menu 1',
+        description: 'Description 1',
+        price: 20,
+        kcal: 230,
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: 2,
+        menuName: 'Menu 2',
+        description: 'Description 2',
+        price: 20,
+        kcal: 230,
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: 1,
+        menuName: 'Menu 1',
+        description: 'Description 1',
+        price: 20,
+        kcal: 230,
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: 2,
+        menuName: 'Menu 2',
+        description: 'Description 2',
+        price: 20,
+        kcal: 230,
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: 1,
+        menuName: 'Menu 1',
+        description: 'Description 1',
+        price: 20,
+        kcal: 230,
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: 2,
+        menuName: 'Menu 2',
+        description: 'Description 2',
+        price: 20,
+        kcal: 230,
+        image: 'https://via.placeholder.com/150',
+      },
+    ]
+    // BACKENDDEN İLGİLİ ŞEHİRDEKİ CHEFLERİ ÇEKECEK TODO
+    const chefsRes = await axios.get('http://127.0.0.1:3001/api/v1/chefs', {
+      city: location,
+    })
+    if (chefsRes.data.status !== 'success') {
+      //ERROR HANDLING
+    }
+
+    const dummyChefs = [
       { id: 1, name: 'Chef 1', image: 'https://via.placeholder.com/150' },
       { id: 2, name: 'Chef 2', image: 'https://via.placeholder.com/150' },
       { id: 13, name: 'Chef 1', image: 'https://via.placeholder.com/150' },
@@ -43,9 +122,10 @@ const HomePage = () => {
       { id: 2, name: 'Chef 2', image: 'https://via.placeholder.com/150' },
       { id: 1, name: 'Chef 1', image: 'https://via.placeholder.com/150' },
       { id: 2, name: 'Chef 2', image: 'https://via.placeholder.com/150' },
-    ];
-    setSearchResults({ menus, chefs });
-  };
+    ]
+    const chefs = chefsRes.data.data.chefs
+    setSearchResults({ dummyMenus, chefs })
+  }
 
   return (
     <div className={authCtx.isOnClickedSignButton ? 'blur' : ''}>
@@ -54,9 +134,12 @@ const HomePage = () => {
           <SearchBar onSearch={handleSearch} />
         </div>
         <img src={img} className="mx-auto md:-mt-32 md:ml-64 rounded-lg"></img>
-        </div>
+      </div>
       <div>
-        <LocationSearchResults menus={searchResults.menus} chefs={searchResults.chefs} />
+        <LocationSearchResults
+          menus={searchResults.menus}
+          chefs={searchResults.chefs}
+        />
       </div>
 
       <div className="bg-teal-500 flex justify-center">
@@ -79,4 +162,4 @@ const HomePage = () => {
   )
 }
 
-export default HomePage;
+export default HomePage
