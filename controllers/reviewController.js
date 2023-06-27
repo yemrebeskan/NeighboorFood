@@ -23,6 +23,10 @@ exports.getAllReviewsForUser = catchAsync(async (req, res, next) => { // getAllR
     const user = await Chef.findById(req.params.id).populate({
       path: 'reviews',
       model: 'Review',
+      populate: { // We must do this to get reviewers name and surnames
+        path: "user",
+        model: "User"
+      },
     })
     const review = user.reviews
     res.status(200).json({
