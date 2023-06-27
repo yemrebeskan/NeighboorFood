@@ -3,6 +3,7 @@ import AuthContext from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import './BeChefPage.css'
 import chefImg from '../components/homepageComponents/chef_img.jpeg'
+import axios from 'axios'
 
 const BeShefPage = () => {
   const navigate = useNavigate()
@@ -37,8 +38,11 @@ const BeShefPage = () => {
         streetAddress: streetAddress,
         city: city,
       }
-      // CONNECTION WITH BACKEND TODO
-      navigate('/')
+      const res = await axios.put(
+        'http://127.0.0.1:3001/api/v1/users/:id/chefapply',
+        chefInfos
+      )
+      if (res.data.status === 'success') navigate('/')
     } else {
       // Error Modal Handling Eksik yer kalmıcak
     }
