@@ -41,7 +41,6 @@ export const FavoriteChefsContextProvider = (props) => {
     axios
       .get(`http://127.0.0.1:3001/api/v1/favourites/${uid}`)
       .then((result) => {
-        console.log(result)
         setFavoriteChefs(result.data.data.favouriteChefs)
       })
   }, [])

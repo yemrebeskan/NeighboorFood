@@ -25,34 +25,35 @@ const BeShefPage = () => {
     setCity(event.target.value)
   }
 
+  const countryHandler = (event) => {
+    console.log(event.target.value)
+    setCountry(event.target.value)
+  }
+
   const beChef = async () => {
-    if (
-      aboutNewChef.length > 1 &&
-      country.length > 3 &&
-      streetAddress > 4 &&
-      city.length > 3
-    ) {
-      const chefInfos = {
-        aboutNewChef: aboutNewChef,
-        country: country,
-        streetAddress: streetAddress,
-        city: city,
-      }
-      const res = await axios.put(
-        'http://127.0.0.1:3001/api/v1/users/:id/chefapply',
-        chefInfos
-      )
-      if (res.data.status === 'success') navigate('/')
-    } else {
-      // Error Modal Handling Eksik yer kalmıcak
+    event.preventDefault()
+
+    console.log('a')
+    const chefInfos = {
+      aboutNewChef: aboutNewChef,
+      country: country,
+      streetAddress: streetAddress,
+      city: city,
     }
+    const uid = localStorage.getItem('uid')
+    const res = await axios.put(
+      `http://127.0.0.1:3001/api/v1/users/${uid}/chefapply`,
+      chefInfos
+    )
+    console.log(res)
+    if (res.data.status === 'success') navigate('/')
   }
 
   useEffect(() => {
-    if (!authCtx.isLoggedIn) {
+    if (!localStorage.getItem('uid')) {
       navigate('/')
     }
-  }, [authCtx.isLoggedIn, navigate])
+  }, [authCtx.isLoggedIn])
 
   return (
     <div className="">
@@ -103,14 +104,15 @@ const BeShefPage = () => {
                 </label>
                 <div className="mt-2">
                   <select
+                    onChange={countryHandler}
                     id="country"
                     name="country"
                     autoComplete="country-name"
                     className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-slate-100 shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 [&_*]:text-black"
                   >
-                    <option onClick={() => setCountry('Turkey')}>Turkey</option>
-                    <option onClick={() => setCountry('Canada')}>Canada</option>
-                    <option onClick={() => setCountry('Mexico')}>Mexico</option>
+                    <option value={'Turkey'}>Turkey</option>
+                    <option value={'Canada'}>Canada</option>
+                    <option value={'Mexico'}>Mexico</option>
                   </select>
                 </div>
               </div>
@@ -165,8 +167,8 @@ const BeShefPage = () => {
           </button>
           <button
             type="submit"
-            className="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-slate-100 shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
             onClick={beChef}
+            className="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-slate-100 shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
           >
             Save
           </button>
