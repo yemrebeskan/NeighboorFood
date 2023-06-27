@@ -1,14 +1,14 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState } from 'react';
 import {
   AiOutlinePlus,
   AiFillLike,
   AiFillDislike,
   AiOutlineClose,
-} from 'react-icons/ai'
-import { FaShoppingBasket } from 'react-icons/fa'
-import OrderedFoodContext from '../../context/OrderedFoodContext'
-import EditImage from './EditImage'
-// import Modal from 'react-modal'
+} from 'react-icons/ai';
+import { FaShoppingBasket } from 'react-icons/fa';
+import OrderedFoodContext from '../../context/OrderedFoodContext';
+import EditImage from './EditImage';
+import Modal from 'react-modal';
 
 const dummyMenu = [
   {
@@ -91,7 +91,7 @@ const Menu = ({
       )}
       {isEditing && isDeleteModalOpen && (
         <div className="flex flex-col justify-center items-center">
-          {/* <Modal
+          <Modal
             onRequestClose={() => {
               setIsDeleteModelOpen(false)
             }}
@@ -129,7 +129,7 @@ const Menu = ({
                 </button>
               </div>
             </div>
-          </Modal> */}
+          </Modal>
         </div>
       )}
       <div className="col-span-2 flex justify-center items-center w-full h-full relative">
