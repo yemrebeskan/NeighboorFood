@@ -6,7 +6,13 @@ const AppError = require('../utils/appError')
 //BURALAR TAMAM GİBİ AMA FRONT KONTROLÜ OLMADIĞI İÇİN BİLMİYORUM
 exports.getFavouriteChefsById = catchAsync(async (req, res, next) => {
   const id = req.params.id
-  const user = await User.findById(id).populate('favouriteChefs')
+  const user = await User.findById(id).populate({
+    path: 'favouriteChefs',
+    populate: {
+      path: 'userInfos',
+      select: 'name surname', // Sadece isim ve soyisim alanlarını seçin
+    },
+  })
   console.log(user)
   if (!user) {
     const id = req.params.id
@@ -14,7 +20,8 @@ exports.getFavouriteChefsById = catchAsync(async (req, res, next) => {
   }
   const favouriteChefs = user.favouriteChefs.map((chef) => ({
     id: chef.userInfos._id,
-    name: `${chef.userInfos.name} ${chef.userInfos.surname}`,
+    name: `${chef.userInfos.name}`,
+    surname: `${chef.userInfos.surname}`,
     image: chef.userInfos.image,
     rating: chef.rating,
     about: chef.about,
@@ -22,7 +29,6 @@ exports.getFavouriteChefsById = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: {
-      user,
       favouriteChefs,
     },
   })
