@@ -23,7 +23,10 @@ exports.createAdmin = catchAsync(async (req, res, next) => {
 })
 
 exports.getAllApplications = catchAsync(async (req, res, next) => {
-  const users = await User.find({ isApplied: true })
+  const users = await Application.find().populate({
+    path: 'userInfos',
+    model: 'User',
+  })
 
   res.status(200).json({
     status: 'success',
