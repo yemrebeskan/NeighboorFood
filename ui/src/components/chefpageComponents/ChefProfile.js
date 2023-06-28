@@ -12,6 +12,7 @@ const ChefProfile = ({ isChef, chefInfo }) => {
 
   const favCtx = useContext(FavoriteChefsContext)
   const { id } = useParams()
+  const uid = localStorage.getItem('uid')
 
   const [isFavorited, setIsFavorited] = useState(
     favCtx.favoriteChefs.find((chef) => chef.id == id) != null
@@ -61,7 +62,7 @@ const ChefProfile = ({ isChef, chefInfo }) => {
         className="bg-cover bg-center h-72 relative"
         style={{ backgroundImage: `url(${chef.backgroundImage})` }}
       >
-        {isChef && (
+        {isChef && uid == id && (
           <EditImage
             className="absolute bottom-2 right-2"
             circle={false}
@@ -75,7 +76,7 @@ const ChefProfile = ({ isChef, chefInfo }) => {
           alt={chef.name}
           className="w-48 h-48 object-cover rounded-full border-4 border-white absolute bottom-[-90px] left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         />
-        {isChef && (
+        {isChef && uid == id && (
           <EditImage
             className="absolute bottom-[-20px] left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2"
             circle={true}

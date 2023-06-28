@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { BsStarFill, BsStar } from 'react-icons/bs'
+import { useParams } from 'react-router-dom'
 
 const Review = ({ review, isChef, changeReviewReply }) => {
   const { reviewer, date, rating, comment, menuItem, reply } = review
 
   const [replyText, setReplyText] = useState(reply || '')
   const [isReplying, setIsReplying] = useState(false)
+  const { id } = useParams()
+  const uid = localStorage.getItem('uid')
 
   const handleReply = () => {
     // Save the reply to the server here
@@ -51,7 +54,7 @@ const Review = ({ review, isChef, changeReviewReply }) => {
           {reply}
         </p>
       )}
-      {isChef && (
+      {isChef && uid == id &&(
         <div className="mt-4">
           {isReplying && (
             <div>

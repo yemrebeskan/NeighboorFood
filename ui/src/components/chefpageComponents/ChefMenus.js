@@ -4,11 +4,12 @@ import {
   AiFillLike,
   AiFillDislike,
   AiOutlineClose,
-} from 'react-icons/ai'
-import { FaShoppingBasket } from 'react-icons/fa'
-import OrderedFoodContext from '../../context/OrderedFoodContext'
-import EditImage from './EditImage'
-import Modal from 'react-modal'
+} from 'react-icons/ai';
+import { FaShoppingBasket } from 'react-icons/fa';
+import OrderedFoodContext from '../../context/OrderedFoodContext';
+import EditImage from './EditImage';
+import Modal from 'react-modal';
+import { useParams } from 'react-router-dom'
 
 const dummyMenu = [
   {
@@ -253,6 +254,8 @@ const ChefMenus = ({ isChef, chefMenu }) => {
     price: 0,
     image: '',
   })
+  const { id } = useParams()
+  const uid = localStorage.getItem('uid')
 
   const handleMenuChange = (id, field, value) => {
     setMenus(
@@ -286,7 +289,7 @@ const ChefMenus = ({ isChef, chefMenu }) => {
 
   return (
     <div className="w-full">
-      {isChef && (
+      {isChef && uid == id && (
         <div>
           <button
             className="mt-2 bg-green-700 text-white px-4 py-2 rounded-md"

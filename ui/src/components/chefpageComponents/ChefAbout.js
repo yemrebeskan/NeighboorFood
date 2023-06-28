@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { FaPen } from 'react-icons/fa'
+import { useParams } from 'react-router-dom'
 
 const ChefAbout = ({ isChef, about, phone, email }) => {
   const [isEditing, setIsEditing] = useState(false)
   const [aboutText, setAboutText] = useState(about)
   const [phoneText, setPhoneText] = useState(phone)
   const [emailText, setEmailText] = useState(email)
+  const { id } = useParams()
+  const uid = localStorage.getItem('uid')
 
   const handleSave = () => {
     // Save changes to the server here
@@ -43,7 +46,7 @@ const ChefAbout = ({ isChef, about, phone, email }) => {
           <p>{emailText}</p>
         </div>
       )}
-      {isChef && (
+      {isChef && uid == id && (
         <div className='flex flex-row-reverse'>
           <button
             onClick={() => setIsEditing(!isEditing)}
