@@ -1,37 +1,6 @@
-import axios from 'axios';
-import React, { useState, useEffect } from 'react';
-
-
-const tempOrders = [
-  {
-    _id: 1,
-    name: "Shrimp with Meat",
-    price: 20,
-    chef: "Alice",
-    img: "https://picsum.photos/200",
-    kcal: 230,
-    count: 1,
-  },
-  {
-    _id: 2,
-    name: "Spaghetti with Minced Meat",
-    price: 12,
-    chef: "Alice",
-    img: "https://picsum.photos/200",
-    kcal: 230,
-    count: 3,
-  },
-  {
-    _id: 3,
-    name: "A101 Mantısı <3",
-    price: 12,
-    chef: "Alice",
-    img: "https://picsum.photos/200",
-    kcal: 230,
-    count: 5,
-  }
-];
-
+import axios from 'axios'
+import React, { useState, useEffect, useContext } from 'react'
+import AuthContext from './AuthContext'
 
 const OrderedFoodContext = React.createContext({
   orderedFoods: [],
@@ -44,9 +13,9 @@ const OrderedFoodContext = React.createContext({
 })
 
 export const OrderedFoodContextProvider = (props) => {
-  const [orderedFoods, setOrderedFoods] = useState(tempOrders);
-  const [totalPrice, setTotalPrice] = useState([]);
-
+  const authCtx = useContext(AuthContext)
+  const [orderedFoods, setOrderedFoods] = useState([])
+  const [totalPrice, setTotalPrice] = useState([])
   const addItemToOrders = (newItem) => {
     newItem.count = 1
     setOrderedFoods((prevState) => {
@@ -75,7 +44,7 @@ export const OrderedFoodContextProvider = (props) => {
       setOrderedFoods(basketFoods)
       setTotalPrice(calculateTotalPrice(basketFoods))
     })
-  }, [orderedFoods])
+  }, [orderedFoods, authCtx.isLoggedIn])
   //setTotalPrice(calculateTotalPrice())
 
   const incrementCountOfFood = (itemId) => {
@@ -122,7 +91,6 @@ export const OrderedFoodContextProvider = (props) => {
   //useEffect() => adding ordered items from database
   //setOrderedFoods()
 
-
   return (
     <OrderedFoodContext.Provider
       value={{
@@ -142,4 +110,4 @@ export const OrderedFoodContextProvider = (props) => {
   )
 }
 
-export default OrderedFoodContext;
+export default OrderedFoodContext
