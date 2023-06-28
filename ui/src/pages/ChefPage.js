@@ -77,7 +77,7 @@ function ChefPage() {
           setChefData(makeChefObjectWithDbData(resp))
       })
       .finally(() => setIsLoading(false))
-  }, [])
+  }, [id])
 
   return (
     <div className={authCtx.isOnClickedSignButton ? 'blur-sm' : ''}>
