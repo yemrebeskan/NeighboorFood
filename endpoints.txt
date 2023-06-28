@@ -32,6 +32,7 @@ For Users:
     http://127.0.0.1:3001/api/v1/users/ get(getAllUsers)
     http://127.0.0.1:3001/api/v1/users/:id get(getUserById)
     http://127.0.0.1:3001/api/v1/users/cart put(addToCart) || delete(removeFromCart)
+    http://127.0.0.1:3001/api/v1/users/:id/cart get(getCart)
     http://127.0.0.1:3001/api/v1/users/carts delete(clearCart)
     http://127.0.0.1:3001/api/v1/users/:id/rate put(rateChefAndComment)
     http://127.0.0.1:3001/api/v1/users/:id/chefapply put(chefApply)

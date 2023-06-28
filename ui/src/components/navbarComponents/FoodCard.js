@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { useCallback, useContext, useState } from 'react'
 import {
   AiOutlinePlus,
@@ -10,12 +11,26 @@ import OrderedFoodContext from '../../context/OrderedFoodContext'
 const FoodCard = ({ food }) => {
   const foodCtx = useContext(OrderedFoodContext)
 
-  const incrementCount = (id) => {
-    foodCtx.incrementCountOfFood(id)
+  const incrementCount = async (id) => {
+    const uid = localStorage.getItem('uid')
+    const res = await axios.put('http://127.0.0.1:3001/api/v1/users/cart', {
+      userId: uid,
+      foodId: id,
+    })
+    if (res.data.status === 'success') {
+      foodCtx.incrementCountOfFood(id)
+    }
   }
 
-  const decreaseCount = (id) => {
-    foodCtx.decreaseCountOfFood(id)
+  const decreaseCount = async (id) => {
+    const uid = localStorage.getItem('uid')
+    const res = await axios.delete(
+      `http://127.0.0.1:3001/api/v1/users/${uid}/cart/${id}`
+    )
+    console.log(res)
+    if (res.data === '') {
+      foodCtx.decreaseCountOfFood(id)
+    }
   }
   return (
     <div className="flex w-84 h-32 border-2 border-[#537a72]">

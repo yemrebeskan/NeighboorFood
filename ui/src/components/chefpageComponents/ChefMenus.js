@@ -10,6 +10,7 @@ import OrderedFoodContext from '../../context/OrderedFoodContext'
 import EditImage from './EditImage'
 import Modal from 'react-modal'
 import { useParams } from 'react-router-dom'
+import axios from 'axios'
 
 const dummyMenu = []
 
@@ -25,12 +26,20 @@ const Menu = ({
 
   const [isDeleteModalOpen, setIsDeleteModelOpen] = useState(false)
 
-  const addBasketHandler = (menu) => {
-    console.log(menu)
-    if (foodCtx.orderedFoods.some((item) => item._id === menu._id)) {
-      foodCtx.incrementCountOfFood(menu._id)
+  const addBasketHandler = async (menu) => {
+    const uid = localStorage.getItem('uid')
+    const res = await axios.put('http://127.0.0.1:3001/api/v1/users/cart', {
+      userId: uid,
+      foodId: menu._id,
+    })
+    if (res.data.status === 'success') {
+      if (foodCtx.orderedFoods.some((item) => item._id === menu._id)) {
+        foodCtx.incrementCountOfFood(menu._id)
+      } else {
+        foodCtx.addItemToOrders(menu)
+      }
     } else {
-      foodCtx.addItemToOrders(menu)
+      // ERROR MODAL MENU CAN NOT BE ADDED
     }
   }
 

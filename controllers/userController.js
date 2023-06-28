@@ -99,8 +99,10 @@ exports.rateChefAndComment = catchAsync(async (req, res, next) => {
 
 exports.addToCart = async (req, res) => {
   try {
-    const userId = req.body.user_id
-    const foodId = req.body.food_id
+    console.log(req.body)
+    const userId = req.body.userId
+    const foodId = req.body.foodId
+
     const user = await User.findById(userId)
     const food = await Food.findById(foodId)
     const updatedUser = await user.addToCart(food)
@@ -120,13 +122,28 @@ exports.addToCart = async (req, res) => {
 
 exports.removeFromCart = async (req, res) => {
   try {
-    console.log(req.body)
-    const userId = req.body.user_id
-    const foodId = req.body.food_id
+    const userId = req.params.userId
+    const foodId = req.params.foodId
 
     const user = await User.findById(userId)
     const food = await Food.findById(foodId)
-    const updatedUser = await user.removeFromCart(food)
+    await user.removeFromCart(food)
+    res.status(204).json({
+      status: 'success',
+    })
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    })
+  }
+}
+
+exports.clearCart = async (req, res) => {
+  try {
+    const userId = req.user._id
+    const user = await User.findById(userId)
+    const updatedUser = await user.clearCart()
     res.status(204).json({
       status: 'success',
       data: {
@@ -141,16 +158,13 @@ exports.removeFromCart = async (req, res) => {
   }
 }
 
-exports.clearCart = async (req, res) => {
+exports.getCart = async (req, res) => {
   try {
-    const userId = req.user._id
-    const user = await User.findById(userId)
-    const updatedUser = await User.clearCart()
-    res.status(204).json({
+    const uid = req.params.id
+    const user = await User.findById(uid)
+    res.status(200).json({
       status: 'success',
-      data: {
-        user: updatedUser,
-      },
+      cart: user.cart,
     })
   } catch (err) {
     res.status(404).json({

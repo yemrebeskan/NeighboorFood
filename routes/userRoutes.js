@@ -10,10 +10,11 @@ router.route('/').get(userController.getAllUsers)
 
 router.route('/:id').get(userController.getUserById)
 
-router
-  .route('/cart')
-  .put(userController.addToCart)
-  .delete(userController.removeFromCart)
+router.route('/cart').put(userController.addToCart)
+
+router.route('/:userId/cart/:foodId').delete(userController.removeFromCart)
+
+router.route('/:id/cart').get(userController.getCart)
 
 router.route('/carts').delete(userController.clearCart)
 
