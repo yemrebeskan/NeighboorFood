@@ -33,7 +33,7 @@ export const OrderedFoodContextProvider = (props) => {
 
   const incrementCountOfFood = (itemId) => {
     const updatedFoods = orderedFoods.map((food) => {
-      if (food.id === itemId) {
+      if (food._id === itemId) {
         food.count += 1
         return food
       }
@@ -45,7 +45,7 @@ export const OrderedFoodContextProvider = (props) => {
   const decreaseCountOfFood = (itemId) => {
     const updatedFoods = orderedFoods
       .map((food) => {
-        if (food.id === itemId) {
+        if (food._id === itemId) {
           if (food.count > 0) {
             food.count -= 1
           }
@@ -60,14 +60,14 @@ export const OrderedFoodContextProvider = (props) => {
 
   const removeItemFromOrders = (removedItemId) => {
     setOrderedFoods((prevState) =>
-      prevState.filter((item) => item.id != removedItemId)
+      prevState.filter((item) => item._id != removedItemId)
     )
   }
   const giveOrderHandler = () => {
     //burayı düzenle
-    const ordered_Foods = [orderedFoods];
-   
-    return ordered_Foods;
+    const ordered_Foods = [orderedFoods]
+
+    return ordered_Foods
   }
   const deleteOrders = () => {
     setOrderedFoods([])
@@ -76,7 +76,6 @@ export const OrderedFoodContextProvider = (props) => {
   //useEffect() => adding ordered items from database
   //setOrderedFoods()
 
-  
   return (
     <OrderedFoodContext.Provider
       value={{

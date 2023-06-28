@@ -8,7 +8,7 @@ function makeMenuObjectWithDbData(chefMenu) {
   const menu = chefMenu.foods.map((food) => {
     return {
       ...food,
-      _id: food.id,
+      _id: food._id,
     }
   })
   return menu

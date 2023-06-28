@@ -125,7 +125,6 @@ exports.getChefMenu = catchAsync(async (req, res, next) => {
     .populate({
       path: 'userInfos',
     })
-
   if (!chef) {
     const id = req.params.id
     return next(new AppError(`No chef found with that ${id}`, 404))

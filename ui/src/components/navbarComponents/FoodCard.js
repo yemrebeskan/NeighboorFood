@@ -23,18 +23,18 @@ const FoodCard = ({ food }) => {
         className="w-[50px] h-[50px] rounded-full bg-cover mt-6 ml-2"
         src={food.image}
       ></img>
-      <div className="mt-6 ml-4 justify-self-center ">{food.menuName}</div>
+      <div className="mt-6 ml-4 justify-self-center ">{food.name}</div>
       <div className="mt-12 ml-8 justify-self-end">{food.price}$</div>
       <div className="row-span-5 w-full h-full flex justify-center items-center">
         <AiOutlineMinus
           className="bg-[#87bfb3] w-6 h-6 rounded-full cursor-pointer mr-4 mb-2 hover:mb-0  relative z-10"
           size={12}
           color="white"
-          onClick={() => decreaseCount(food.id)}
+          onClick={() => decreaseCount(food._id)}
         />
         <div className="absolute w-4 h-4 rounded-full z-0 mr-12 bg-[#537a72]"></div>
         <AiOutlinePlus
-          onClick={() => incrementCount(food.id)}
+          onClick={() => incrementCount(food._id)}
           className="bg-[#87bfb3] w-6 h-6 rounded-full cursor-pointer mr-2 mb-2 hover:mb-0  relative z-10"
           size={12}
           color="white"

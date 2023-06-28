@@ -1,14 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState } from 'react'
 import {
   AiOutlinePlus,
   AiFillLike,
   AiFillDislike,
   AiOutlineClose,
-} from 'react-icons/ai';
-import { FaShoppingBasket } from 'react-icons/fa';
-import OrderedFoodContext from '../../context/OrderedFoodContext';
-import EditImage from './EditImage';
-import Modal from 'react-modal';
+} from 'react-icons/ai'
+import { FaShoppingBasket } from 'react-icons/fa'
+import OrderedFoodContext from '../../context/OrderedFoodContext'
+import EditImage from './EditImage'
+import Modal from 'react-modal'
 
 const dummyMenu = [
   {
@@ -46,8 +46,6 @@ const dummyMenu = [
   },
 ]
 
-
-
 const Menu = ({
   menu,
   isChef,
@@ -61,8 +59,9 @@ const Menu = ({
   const [isDeleteModalOpen, setIsDeleteModelOpen] = useState(false)
 
   const addBasketHandler = (menu) => {
-    if (foodCtx.orderedFoods.some((item) => item.id === menu.id)) {
-      foodCtx.incrementCountOfFood(menu.id)
+    console.log(menu)
+    if (foodCtx.orderedFoods.some((item) => item._id === menu._id)) {
+      foodCtx.incrementCountOfFood(menu._id)
     } else {
       foodCtx.addItemToOrders(menu)
     }
@@ -76,7 +75,7 @@ const Menu = ({
   }
   const handleDelete = () => {
     //TODO: BACKEND
-    onDelete(menu.id)
+    onDelete(menu._id)
   }
 
   return (
@@ -161,9 +160,7 @@ const Menu = ({
               className="font-bold text-2xl text-[#484743]"
               type="text"
               value={menu.name}
-              onChange={(e) =>
-                onMenuChange(menu.id, 'name', e.target.value)
-              }
+              onChange={(e) => onMenuChange(menu.id, 'name', e.target.value)}
             />
             <input
               className="font-thin text-md w-24"
@@ -183,9 +180,7 @@ const Menu = ({
           </div>
         ) : (
           <div>
-            <h2 className="font-bold text-2xl text-[#484743]">
-              {menu.name}
-            </h2>
+            <h2 className="font-bold text-2xl text-[#484743]">{menu.name}</h2>
             <p className="font-thin text-md">{menu.kcal} kcal</p>
             <p className="font-extrabold text-3xl pt-8 text-[#484743]">
               ${menu.price}
@@ -246,9 +241,10 @@ const Menu = ({
   )
 }
 
-const ChefMenus = ({ isChef, chefMenu}) => {
+const ChefMenus = ({ isChef, chefMenu }) => {
   // TODO: This should come from backend
-  const [menus, setMenus] = useState(chefMenu? chefMenu: dummyMenu)
+
+  const [menus, setMenus] = useState(chefMenu ? chefMenu : dummyMenu)
   const [isEditing, setIsEditing] = useState(false)
   const [isAdding, setIsAdding] = useState(false)
   const [newMenu, setNewMenu] = useState({
