@@ -16,6 +16,7 @@ import AboutUs from './pages/AboutUs'
 import Profile from './pages/Profile'
 import Settings from './pages/Settings'
 import ControlChef from './pages/adminpage/ControlChef'
+import PastOrders from './pages/PastOrders'
 
 const App = () => {
   const authCtx = useContext(AuthContext)
@@ -45,6 +46,7 @@ const App = () => {
             <Route path="/chef/:id" element={<ChefPage />} />
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/orders" element={<Orders />} />
+            <Route path="/pastorders" element={<PastOrders />} />
             <Route path="/bechef" element={<BeChefPage />}></Route>
             <Route path="/aboutus" element={<AboutUs />}></Route>
             <Route path="/profile" element={<Profile />}></Route>

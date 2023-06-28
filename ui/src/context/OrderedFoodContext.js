@@ -1,5 +1,37 @@
-import axios from 'axios'
-import React, { useState, useEffect } from 'react'
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+
+
+const tempOrders = [
+  {
+    _id: 1,
+    name: "Shrimp with Meat",
+    price: 20,
+    chef: "Alice",
+    img: "https://picsum.photos/200",
+    kcal: 230,
+    count: 1,
+  },
+  {
+    _id: 2,
+    name: "Spaghetti with Minced Meat",
+    price: 12,
+    chef: "Alice",
+    img: "https://picsum.photos/200",
+    kcal: 230,
+    count: 3,
+  },
+  {
+    _id: 3,
+    name: "A101 Mantısı <3",
+    price: 12,
+    chef: "Alice",
+    img: "https://picsum.photos/200",
+    kcal: 230,
+    count: 5,
+  }
+];
+
 
 const OrderedFoodContext = React.createContext({
   orderedFoods: [],
@@ -12,14 +44,16 @@ const OrderedFoodContext = React.createContext({
 })
 
 export const OrderedFoodContextProvider = (props) => {
-  const [orderedFoods, setOrderedFoods] = useState([])
-  const [totalPrice, setTotalPrice] = useState([])
+  const [orderedFoods, setOrderedFoods] = useState(tempOrders);
+  const [totalPrice, setTotalPrice] = useState([]);
+
   const addItemToOrders = (newItem) => {
     newItem.count = 1
     setOrderedFoods((prevState) => {
       return [...prevState, newItem]
     })
   }
+
   const calculateTotalPrice = () => {
     let total = 0
     orderedFoods.forEach((food) => {
@@ -27,6 +61,7 @@ export const OrderedFoodContextProvider = (props) => {
     })
     return total
   }
+
   useEffect(() => {
     const uid = localStorage.getItem('uid')
     axios.get(`http://127.0.0.1:3001/api/v1/users/${uid}/cart`).then((res) => {
@@ -78,7 +113,6 @@ export const OrderedFoodContextProvider = (props) => {
   const giveOrderHandler = () => {
     //burayı düzenle
     const ordered_Foods = [orderedFoods]
-
     return ordered_Foods
   }
   const deleteOrders = () => {
@@ -87,6 +121,7 @@ export const OrderedFoodContextProvider = (props) => {
   useEffect(() => {})
   //useEffect() => adding ordered items from database
   //setOrderedFoods()
+
 
   return (
     <OrderedFoodContext.Provider
@@ -107,4 +142,4 @@ export const OrderedFoodContextProvider = (props) => {
   )
 }
 
-export default OrderedFoodContext
+export default OrderedFoodContext;

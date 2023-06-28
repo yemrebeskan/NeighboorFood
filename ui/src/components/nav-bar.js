@@ -133,14 +133,13 @@ const NavBar = () => {
           </div>
         </div>
       </nav>
-      <Link to="/">
+      
         <img
           onClick={() => navigation('/')}
           src={logo}
           className="w-40 -mt-16 ml-10 mb-10 mr-40 cursor-pointer"
           alt="Logo"
         />
-      </Link>
     </div>
   );
 };

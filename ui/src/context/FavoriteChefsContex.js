@@ -52,9 +52,7 @@ export const FavoriteChefsContextProvider = (props) => {
   const deleteChefs = () => {
     setFavoriteChefs([])
   }
-  useEffect(() => {})
-  //useEffect() => adding ordered items from database
-  //setOrderedFoods()
+  useEffect(() => {});
 
   return (
     <FavoriteChefsContext.Provider
