@@ -30,47 +30,57 @@ exports.signup = catchAsync(async (req, res, next) => {
       },
     })
   } catch (err) {
-    console.log(err)
+    res.status(400).json({
+      status: 'fail',
+      message: err,
+    })
   }
 })
 
 exports.login = catchAsync(async (req, res, next) => {
-  const body = { ...req.body }
+  try {
+    const body = { ...req.body }
 
-  const { email, password } = body
-  if (!email || !password) {
-    return next(new AppError('Please provide email and password!', 400))
-  }
-  const user = await User.findOne({ email }).select('+password')
-  const admin = await Admin.findOne({ email }).select('+password')
-  if (user) {
-    const correct = await user.correctPassword(password, user.password)
-    if (!user || !correct) {
-      return next(new AppError('Incorrect email or password', 401))
+    const { email, password } = body
+    if (!email || !password) {
+      return next(new AppError('Please provide email and password!', 400))
     }
-    const token = signToken(user._id)
-    return res.status(200).json({
-      status: 'success',
-      token,
-      uid: user._id,
-      ischef: user.isChef,
-      isApplied: user.isApplied,
-      isAdmin: user.isAdmin,
-      //chefId: user.chefId,
-    })
-  }
-  if (admin) {
-    const correct = await admin.correctPassword(password, admin.password)
-    if (!admin || !correct) {
-      return next(new AppError('Incorrect email or password', 401))
+    const user = await User.findOne({ email }).select('+password')
+    const admin = await Admin.findOne({ email }).select('+password')
+    if (user) {
+      const correct = await user.correctPassword(password, user.password)
+      if (!user || !correct) {
+        return next(new AppError('Incorrect email or password', 401))
+      }
+      const token = signToken(user._id)
+      return res.status(200).json({
+        status: 'success',
+        token,
+        uid: user._id,
+        ischef: user.isChef,
+        isApplied: user.isApplied,
+        isAdmin: user.isAdmin,
+        //chefId: user.chefId,
+      })
     }
-    const token = signToken(admin._id)
-    console.log(admin)
-    return res.status(200).json({
-      status: 'success',
-      token,
-      uid: admin._id,
-      isAdmin: admin.isAdmin,
+    if (admin) {
+      const correct = await admin.correctPassword(password, admin.password)
+      if (!admin || !correct) {
+        return next(new AppError('Incorrect email or password', 401))
+      }
+      const token = signToken(admin._id)
+      console.log(admin)
+      return res.status(200).json({
+        status: 'success',
+        token,
+        uid: admin._id,
+        isAdmin: admin.isAdmin,
+      })
+    }
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err,
     })
   }
 })
