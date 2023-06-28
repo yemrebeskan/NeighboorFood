@@ -1,6 +1,6 @@
 // LocationSearchResults.js
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const MenuCard = ({ menu }) => {
   // This component will display individual menu
@@ -30,17 +30,20 @@ const MenuCard = ({ menu }) => {
 }
 
 const ChefProfile = ({ chef }) => {
+  const navigate = useNavigate()
   // This component will display individual chef profile
   // You can customize this as per your needs
   return (
     <div className="flex flex-col items-center shrink-0">
-      <Link to={`/chef/${chef.id}`}>
-        <img
-          className="w-32 h-32 object-cover rounded-full border-4 border-white"
-          src={chef.image}
-          alt={chef.name}
-        />
-      </Link>
+      <img
+        className="w-32 h-32 object-cover rounded-full border-4 border-white"
+        src={chef.image}
+        alt={chef.name}
+        onClick={() => {
+          navigate(`/chef/${chef.id}`)
+        }}
+      />
+
       <h2>{chef.name}</h2>
     </div>
   )
