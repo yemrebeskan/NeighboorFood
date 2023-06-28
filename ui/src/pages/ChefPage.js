@@ -4,23 +4,10 @@ import SectionIndicator from '../components/chefpageComponents/SectionIndicator'
 import AuthContext from '../context/AuthContext'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
+import ErrorPage from './ErrorPage'
 
 const dummyChef = {
-  // This chef is for 1 id.
-  id: 1,
-  name: 'Marry Jane',
-  backgroundImage:
-    'https://thumbs.dreamstime.com/b/fresh-food-ingredients-vegetarian-kitchen-wooden-background-top-view-raw-vegetable-143531625.jpg',
-  profileImage:
-    'https://www.gravatar.com/avatar/993455f0ba0ccbcfcf99819b4292c744',
-  address: '123 Street, City, State, Country',
-  rating: 4.5,
-  totalVotes: 100,
-  distance: '3.2 km',
-  about:
-    'Hello, my name is Marry and I am a home chef in my 60s.\nCooking has been my passion for as long as I can remember and I have spent countless hours experimenting with different ingredients and techniques to create delicious and wholesome meals.\nOver the years, I have honed my skills and developed a keen sense of taste and presentation, which I bring to every dish I create.',
-  phone: '123-456-7890',
-  email: 'chef@example.com',
+  name: 'NoChefFound',
 }
 
 function makeChefObjectWithDbData(chef) {
@@ -41,11 +28,14 @@ function ChefPage() {
   const isChef = true
 
   const [chefData, setChefData] = useState(dummyChef)
+  const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const authCtx = useContext(AuthContext)
   const { id } = useParams()
+
   async function getChef() {
     setIsLoading(true)
+
     const res = await axios.get(`http://127.0.0.1:3001/api/v1/chefs/${id}`)
     if (res.status === 404 || res.status === 500) {
       return 'ERROR'
@@ -78,6 +68,10 @@ function ChefPage() {
       })
       .finally(() => setIsLoading(false))
   }, [id])
+
+  if (!isLoading && chefData.name == 'NoChefFound') {
+    return <ErrorPage message={'There is no chef found with that id.'} />
+  }
 
   return (
     <div className={authCtx.isOnClickedSignButton ? 'blur-sm' : ''}>
