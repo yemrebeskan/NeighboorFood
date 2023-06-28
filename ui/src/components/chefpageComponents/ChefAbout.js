@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FaPen } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
+import axios from 'axios'
 
 const ChefAbout = ({ isChef, about, phone, email }) => {
   const [isEditing, setIsEditing] = useState(false)
@@ -11,10 +12,29 @@ const ChefAbout = ({ isChef, about, phone, email }) => {
   const uid = localStorage.getItem('uid')
 
   const handleSave = () => {
-    // Save changes to the server here
+    axios
+      .put(`http://127.0.0.1:3001/api/v1/chefs/${id}/about`, {
+        about: aboutText,
+        phone: phoneText,
+        email: emailText,
+      })
+      .then((response) => {
+        console.log('Data saved successfully!')
+        setIsEditing(false)
+      })
+      .catch((error) => {
+        console.error('Error saving data:', error)
+      })
+
     setIsEditing(false)
   }
 
+  const handleEditClick = () => {
+    if (isEditing) {
+      handleSave()
+    }
+    setIsEditing(!isEditing)
+  }
   return (
     <div>
       {isEditing ? (
@@ -47,9 +67,9 @@ const ChefAbout = ({ isChef, about, phone, email }) => {
         </div>
       )}
       {isChef && uid == id && (
-        <div className='flex flex-row-reverse'>
+        <div className="flex flex-row-reverse">
           <button
-            onClick={() => setIsEditing(!isEditing)}
+            onClick={handleEditClick}
             className=" mt-2 mb-2 bg-green-800 text-white px-4 py-2 rounded-md"
           >
             {isEditing ? 'Save' : <FaPen className="fas fa-pen"></FaPen>}
