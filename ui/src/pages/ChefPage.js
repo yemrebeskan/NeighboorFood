@@ -6,9 +6,6 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import ErrorPage from './ErrorPage'
 
-const dummyChef = {
-  name: 'NoChefFound',
-}
 
 function makeChefObjectWithDbData(chef) {
   const { userInfos, ...rest } = chef
@@ -27,7 +24,7 @@ function makeChefObjectWithDbData(chef) {
 function ChefPage() {
   const isChef = true
 
-  const [chefData, setChefData] = useState(dummyChef)
+  const [chefData, setChefData] = useState(undefined)
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const authCtx = useContext(AuthContext)
@@ -69,7 +66,7 @@ function ChefPage() {
       .finally(() => setIsLoading(false))
   }, [id])
 
-  if (!isLoading && chefData.name == 'NoChefFound') {
+  if (!isLoading && typeof chefData === "undefined") {
     return <ErrorPage message={'There is no chef found with that id.'} />
   }
 
