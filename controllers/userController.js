@@ -161,7 +161,11 @@ exports.clearCart = async (req, res) => {
 exports.getCart = async (req, res) => {
   try {
     const uid = req.params.id
-    const user = await User.findById(uid)
+    const user = await User.findById(uid).populate({
+      path: 'cart.foods.foodId',
+      model: 'Food',
+    })
+    console.log(user)
     res.status(200).json({
       status: 'success',
       cart: user.cart,

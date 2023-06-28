@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 
 const OrderedFoodContext = React.createContext({
@@ -27,7 +28,18 @@ export const OrderedFoodContextProvider = (props) => {
     return total
   }
   useEffect(() => {
-    setTotalPrice(calculateTotalPrice())
+    const uid = localStorage.getItem('uid')
+    axios.get(`http://127.0.0.1:3001/api/v1/users/${uid}/cart`).then((res) => {
+      const basketFoods = res.data.cart.foods.map((food) => {
+        food.count = food.quantity
+        food.name = food.foodId.name
+        food.image = food.foodId.image
+        food.price = food.foodId.price
+        return food
+      })
+      setOrderedFoods(basketFoods)
+      setTotalPrice(calculateTotalPrice(basketFoods))
+    })
   }, [orderedFoods])
   //setTotalPrice(calculateTotalPrice())
 
