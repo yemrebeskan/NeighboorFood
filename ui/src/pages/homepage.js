@@ -100,7 +100,7 @@ const HomePage = () => {
     ]
     // BACKENDDEN İLGİLİ ŞEHİRDEKİ CHEFLERİ ÇEKECEK TODO
     const chefsRes = await axios.get(
-      `http://127.0.0.1:3001/api/v1/chefs/${location}`
+      `http://127.0.0.1:3001/api/v1/chefs/location/${location}`
     )
     if (chefsRes.data.status !== 'success') {
       //ERROR HANDLING

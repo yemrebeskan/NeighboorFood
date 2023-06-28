@@ -58,7 +58,6 @@ exports.getAllChefs = catchAsync(async (req, res, next) => {
         : [],
     }
   })
-
   res.status(200).json({
     status: 'success',
     results: chefs.length,
@@ -67,14 +66,17 @@ exports.getAllChefs = catchAsync(async (req, res, next) => {
 })
 
 exports.getChefById = catchAsync(async (req, res, next) => {
+  console.log('a')
   const userId = req.params.id
   const chef = await Chef.find({ userInfos: userId }).populate({
     path: 'userInfos',
   })
+  console.log(chef)
   if (!chef || chef.length === 0) {
     const id = req.params.id
     return next(new AppError(`No chef found with that ${id}`, 404))
   }
+
   res.status(200).json({
     status: 'success',
     results: chef.length,

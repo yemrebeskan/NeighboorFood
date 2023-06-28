@@ -4,7 +4,7 @@ const authController = require('./../controllers/authController')
 
 const router = express.Router()
 
-router.route('/:location').get(chefController.getAllChefs)
+router.route('/location/:location').get(chefController.getAllChefs)
 
 router
   .route('/:id')
