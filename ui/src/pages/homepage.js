@@ -12,94 +12,10 @@ const HomePage = () => {
   const [searchResults, setSearchResults] = useState({ menus: [], chefs: [] })
   const [isSearched, setIsSearched] = useState(false)
 
+
   const handleSearch = async (location) => {
-    // Here you should fetch the menus and chefs based on the location
-    // TODO: this is some dummy data
-    // BACKENDDEN İLGİLİ ŞEHİRDEKİ MENÜLERİ ÇEKECEK TODO
-    const dummyMenus = [
-      {
-        id: 1,
-        menuName: 'Menu 1',
-        description: 'Description 1',
-        price: 20,
-        kcal: 230,
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: 2,
-        menuName: 'Menu 2',
-        description: 'Description 2',
-        price: 20,
-        kcal: 230,
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: 1,
-        menuName: 'Menu 1',
-        description: 'Description 1',
-        price: 20,
-        kcal: 230,
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: 2,
-        menuName: 'Menu 2',
-        description: 'Description 2',
-        price: 20,
-        kcal: 230,
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: 1,
-        menuName: 'Menu 1',
-        description: 'Description 1',
-        price: 20,
-        kcal: 230,
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: 2,
-        menuName: 'Menu 2',
-        description: 'Description 2',
-        price: 20,
-        kcal: 230,
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: 1,
-        menuName: 'Menu 1',
-        description: 'Description 1',
-        price: 20,
-        kcal: 230,
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: 2,
-        menuName: 'Menu 2',
-        description: 'Description 2',
-        price: 20,
-        kcal: 230,
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: 1,
-        menuName: 'Menu 1',
-        description: 'Description 1',
-        price: 20,
-        kcal: 230,
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: 2,
-        menuName: 'Menu 2',
-        description: 'Description 2',
-        price: 20,
-        kcal: 230,
-        image: 'https://via.placeholder.com/150',
-      },
-    ]
+
     console.log(location)
-    // BACKENDDEN İLGİLİ ŞEHİRDEKİ CHEFLERİ ÇEKECEK TODO
     const chefsRes = await axios.get(
       `http://127.0.0.1:3001/api/v1/chefs/location/${location}`
     )
@@ -107,25 +23,6 @@ const HomePage = () => {
     if (chefsRes.data.status !== 'success') {
       //ERROR HANDLING
     }
-
-    const dummyChefs = [
-      { id: 1, name: 'Chef 1', image: 'https://via.placeholder.com/150' },
-      { id: 2, name: 'Chef 2', image: 'https://via.placeholder.com/150' },
-      { id: 13, name: 'Chef 1', image: 'https://via.placeholder.com/150' },
-      { id: 22, name: 'Chef 2', image: 'https://via.placeholder.com/150' },
-      { id: 17, name: 'Chef 1', image: 'https://via.placeholder.com/150' },
-      { id: 23, name: 'Chef 2', image: 'https://via.placeholder.com/150' },
-      { id: 16, name: 'Chef 1', image: 'https://via.placeholder.com/150' },
-      { id: 2, name: 'Chef 2', image: 'https://via.placeholder.com/150' },
-      { id: 1, name: 'Chef 1', image: 'https://via.placeholder.com/150' },
-      { id: 2, name: 'Chef 2', image: 'https://via.placeholder.com/150' },
-      { id: 1, name: 'Chef 1', image: 'https://via.placeholder.com/150' },
-      { id: 2, name: 'Chef 2', image: 'https://via.placeholder.com/150' },
-      { id: 1, name: 'Chef 1', image: 'https://via.placeholder.com/150' },
-      { id: 2, name: 'Chef 2', image: 'https://via.placeholder.com/150' },
-      { id: 1, name: 'Chef 1', image: 'https://via.placeholder.com/150' },
-      { id: 2, name: 'Chef 2', image: 'https://via.placeholder.com/150' },
-    ]
     const chefs = chefsRes.data.data
     const menus = []
     chefs.map((chef) => {
@@ -149,7 +46,7 @@ const HomePage = () => {
         <div className="mx-auto md:ml-32 md:-mt-20">
           <SearchBar onSearch={handleSearch} />
         </div>
-        <img src={img} className="mx-auto md:-mt-32 md:ml-64 rounded-lg"></img>
+        <img src={img} className="mx-auto md:-mt-56 md:ml-6 rounded-lg"></img>
       </div>
       {isSearched && (
         <div>

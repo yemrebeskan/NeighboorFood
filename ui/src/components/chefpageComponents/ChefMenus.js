@@ -11,41 +11,7 @@ import EditImage from './EditImage'
 import Modal from 'react-modal'
 import { useParams } from 'react-router-dom'
 
-const dummyMenu = [
-  {
-    id: 1,
-    name: 'Shrimp with Meat',
-    kcal: 230,
-    price: 20,
-    carts: 15,
-    likes: 9,
-    dislikes: 3,
-    image: 'https://via.placeholder.com/150',
-    isToday: true,
-  },
-  {
-    id: 2,
-    name: 'Spaghetti with Minced Meat',
-    kcal: 320,
-    price: 12,
-    carts: 22,
-    likes: 15,
-    dislikes: 4,
-    image: 'https://via.placeholder.com/150',
-    isToday: false,
-  },
-  {
-    id: 3,
-    name: 'Creamy Penne with Mushrooms',
-    kcal: 300,
-    price: 12,
-    carts: 19,
-    likes: 11,
-    dislikes: 1,
-    image: 'https://via.placeholder.com/150',
-    isToday: false,
-  },
-]
+const dummyMenu = []
 
 const Menu = ({
   menu,
@@ -306,134 +272,139 @@ const ChefMenus = ({ isChef, chefMenu }) => {
           </button>
         </div>
       )}
-      {menus.map((menu) => (
-        <Menu
-          key={menu.id}
-          menu={menu}
-          isEditing={isEditing}
-          onMenuChange={handleMenuChange}
-          onPhotoChange={handlePhotoChange}
-          isChef={isChef}
-          onDelete={handleDeleteMenu}
-        />
-      ))}
-   {isAdding && (
-  <div className="fixed z-10 inset-0 overflow-y-auto">
-    <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <div
-        className="fixed inset-0 transition-opacity"
-        aria-hidden="true"
-      >
-        <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-      </div>
-      <span
-        className="hidden sm:inline-block sm:align-middle sm:h-screen"
-        aria-hidden="true"
-      >
-        &#8203;
-      </span>
-      <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-        <div className="bg-white px-6 pt-5 pb-4 sm:p-6 sm:pb-4">
-          <div className="sm:flex sm:items-start">
-            <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-              <h3
-                className="text-2xl leading-6 font-medium text-gray-900"
-                id="modal-title"
-              >
-                Add Menu
-              </h3>
-              <div className="mt-4 space-y-6">
-                <div className="rounded-md shadow-sm">
-                  <input
-                    type="text"
-                    value={newMenu.name}
-                    onChange={(e) =>
-                      setNewMenu({ ...newMenu, name: e.target.value })
-                    }
-                    placeholder="Menu Name"
-                    className="focus:ring-green-500 focus:border-green-500 block w-full pr-12 sm:text-lg border-gray-300 rounded-md p-3"
-                  />
-                </div>
-                <div className="rounded-md shadow-sm">
-                  <input
-                    type="text"
-                    value={newMenu.kcal}
-                    onChange={(e) =>
-                      setNewMenu({ ...newMenu, kcal: e.target.value })
-                    }
-                    placeholder="Kcal"
-                    className="focus:ring-green-500 focus:border-green-500 block w-full pr-12 sm:text-lg border-gray-300 rounded-md p-3"
-                  />
-                </div>
-                <div className="p-3 rounded-md shadow-sm">
-                  <label className="block text-l font-medium text-gray-700 mb-1">Price:</label>
+      {menus.length === 0 ? (
+        <div className="mt-5 px-4 text-xl py-2">No menu was found.</div>
+      ) : (
+        menus.map((menu) => (
+          <Menu
+            key={menu.id}
+            menu={menu}
+            isEditing={isEditing}
+            onMenuChange={handleMenuChange}
+            onPhotoChange={handlePhotoChange}
+            isChef={isChef}
+            onDelete={handleDeleteMenu}
+          />
+        ))
+      )}
+      {isAdding && (
+        <div className="fixed z-10 inset-0 overflow-y-auto">
+          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div
+              className="fixed inset-0 transition-opacity"
+              aria-hidden="true"
+            >
+              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <span
+              className="hidden sm:inline-block sm:align-middle sm:h-screen"
+              aria-hidden="true"
+            >
+              &#8203;
+            </span>
+            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+              <div className="bg-white px-6 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div className="sm:flex sm:items-start">
+                  <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                    <h3
+                      className="text-2xl leading-6 font-medium text-gray-900"
+                      id="modal-title"
+                    >
+                      Add Menu
+                    </h3>
+                    <div className="mt-4 space-y-6">
+                      <div className="rounded-md shadow-sm">
+                        <input
+                          type="text"
+                          value={newMenu.name}
+                          onChange={(e) =>
+                            setNewMenu({ ...newMenu, name: e.target.value })
+                          }
+                          placeholder="Menu Name"
+                          className="focus:ring-green-500 focus:border-green-500 block w-full pr-12 sm:text-lg border-gray-300 rounded-md p-3"
+                        />
+                      </div>
+                      <div className="rounded-md shadow-sm">
+                        <input
+                          type="text"
+                          value={newMenu.kcal}
+                          onChange={(e) =>
+                            setNewMenu({ ...newMenu, kcal: e.target.value })
+                          }
+                          placeholder="Kcal"
+                          className="focus:ring-green-500 focus:border-green-500 block w-full pr-12 sm:text-lg border-gray-300 rounded-md p-3"
+                        />
+                      </div>
+                      <div className="p-3 rounded-md shadow-sm">
+                        <label className="block text-l font-medium text-gray-700 mb-1">
+                          Price:
+                        </label>
 
-                  <input
-                    type="number"
-                    value={newMenu.price}
-                    onChange={(e) =>
-                      setNewMenu({ ...newMenu, price: e.target.value })
-                    }
-                    placeholder="Price"
-                    className="focus:ring-green-500 focus:border-green-500 block w-full pr-4 sm:text-lg border-gray-300 rounded-md p-2"
-                  />
+                        <input
+                          type="number"
+                          value={newMenu.price}
+                          onChange={(e) =>
+                            setNewMenu({ ...newMenu, price: e.target.value })
+                          }
+                          placeholder="Price"
+                          className="focus:ring-green-500 focus:border-green-500 block w-full pr-4 sm:text-lg border-gray-300 rounded-md p-2"
+                        />
+                      </div>
+                      <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                        {selectedImage && (
+                          <img
+                            src={URL.createObjectURL(selectedImage)}
+                            className="object-cover rounded-full h-28 w-28"
+                            alt="Selected Menu"
+                          />
+                        )}
+                        <label
+                          htmlFor="menuImage"
+                          className="flex cursor-pointer text-green-500"
+                        >
+                          {selectedImage
+                            ? 'Change Menu Image'
+                            : 'Add Menu Image'}
+                        </label>
+                        <input
+                          type="file"
+                          id="menuImage"
+                          accept="image/*"
+                          onChange={(event) => {
+                            const file = event.target.files[0]
+                            if (file && file.type.substr(0, 5) === 'image') {
+                              setSelectedImage(file)
+                            } else {
+                              setSelectedImage(null)
+                            }
+                          }}
+                          className="mt-4"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                  {selectedImage && (
-                    <img
-                      src={URL.createObjectURL(selectedImage)}
-                      className="object-cover rounded-full h-28 w-28"
-                      alt="Selected Menu"
-                    />
-                  )}
-                  <label
-                    htmlFor="menuImage"
-                    className="flex cursor-pointer text-green-500"
-                  >
-                    {selectedImage
-                      ? 'Change Menu Image'
-                      : 'Add Menu Image'}
-                  </label>
-                  <input
-                    type="file"
-                    id="menuImage"
-                    accept="image/*"
-                    onChange={(event) => {
-                      const file = event.target.files[0]
-                      if (file && file.type.substr(0, 5) === 'image') {
-                        setSelectedImage(file)
-                      } else {
-                        setSelectedImage(null)
-                      }
-                    }}
-                    className="mt-4"
-                  />
-                </div>
+              </div>
+              <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button
+                  type="button"
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  onClick={handleSaveNewMenu}
+                >
+                  Add
+                </button>
+                <button
+                  type="button"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+                  onClick={handleCancelAddMenu}
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           </div>
         </div>
-        <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-          <button
-            type="button"
-            className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
-            onClick={handleSaveNewMenu}
-          >
-            Add
-          </button>
-          <button
-            type="button"
-            className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
-            onClick={handleCancelAddMenu}
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
-
+      )}
     </div>
   )
 }
