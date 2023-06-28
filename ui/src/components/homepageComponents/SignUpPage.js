@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import './signup.css'
 import AuthContext from '../../context/AuthContext'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const SignUpPage = () => {
   const [enteredEmail, setEnteredEmail] = useState('')
@@ -15,6 +16,7 @@ const SignUpPage = () => {
   const [enteredSurname, setEnteredSurname] = useState('')
 
   const authCtx = useContext(AuthContext)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const identifier = setTimeout(() => {
@@ -174,12 +176,13 @@ const SignUpPage = () => {
       signUpInfo
     )
     if (res.data.status === 'success') {
-      authCtx.onSignUp()
-      localStorage.setItem('uid', res.data.uid)
+      localStorage.setItem('uid', res.data.data.user._id.toString())
       localStorage.setItem(
         'userInfo',
         JSON.stringify({ email: signUpInfo.email })
       )
+      authCtx.onSignUp()
+      navigate('/')
     }
     // handle signup logic
   }

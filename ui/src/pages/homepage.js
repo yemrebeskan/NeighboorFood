@@ -10,12 +10,13 @@ import axios from 'axios'
 const HomePage = () => {
   const authCtx = useContext(AuthContext)
   const [searchResults, setSearchResults] = useState({ menus: [], chefs: [] })
+  const [isSearched, setIsSearched] = useState(false)
 
   const handleSearch = async (location) => {
     // Here you should fetch the menus and chefs based on the location
     // TODO: this is some dummy data
     // BACKENDDEN İLGİLİ ŞEHİRDEKİ MENÜLERİ ÇEKECEK TODO
-    const dummyMenus = [
+    const menus = [
       {
         id: 1,
         menuName: 'Menu 1',
@@ -98,9 +99,9 @@ const HomePage = () => {
       },
     ]
     // BACKENDDEN İLGİLİ ŞEHİRDEKİ CHEFLERİ ÇEKECEK TODO
-    const chefsRes = await axios.get('http://127.0.0.1:3001/api/v1/chefs', {
-      city: location,
-    })
+    const chefsRes = await axios.get(
+      `http://127.0.0.1:3001/api/v1/chefs/${location}`
+    )
     if (chefsRes.data.status !== 'success') {
       //ERROR HANDLING
     }
@@ -123,8 +124,13 @@ const HomePage = () => {
       { id: 1, name: 'Chef 1', image: 'https://via.placeholder.com/150' },
       { id: 2, name: 'Chef 2', image: 'https://via.placeholder.com/150' },
     ]
-    const chefs = chefsRes.data.data.chefs
-    setSearchResults({ dummyMenus, chefs })
+    const chefs = chefsRes.data.data
+    chefs.map((chef) => {
+      chef.image = 'https://via.placeholder.com/150'
+      return chef
+    })
+    setIsSearched(true)
+    setSearchResults({ menus, chefs })
   }
 
   return (
@@ -135,12 +141,14 @@ const HomePage = () => {
         </div>
         <img src={img} className="mx-auto md:-mt-32 md:ml-64 rounded-lg"></img>
       </div>
-      <div>
-        <LocationSearchResults
-          menus={searchResults.menus}
-          chefs={searchResults.chefs}
-        />
-      </div>
+      {isSearched && (
+        <div>
+          <LocationSearchResults
+            menus={searchResults.menus}
+            chefs={searchResults.chefs}
+          />
+        </div>
+      )}
 
       <div className="bg-teal-500 flex justify-center">
         <div className="mx-auto">

@@ -29,7 +29,7 @@ const upload = multer({
 })
 
 exports.getAllChefs = catchAsync(async (req, res, next) => {
-  const city = req.body.city
+  const city = req.params.location
   const chefs = await Chef.find({ city: city })
     .populate({
       path: 'userInfos',
@@ -45,14 +45,17 @@ exports.getAllChefs = catchAsync(async (req, res, next) => {
 
   const chefData = chefs.map((chef) => {
     return {
-      chefName: chef.userInfos.name,
-      chefSurname: chef.userInfos.surname,
-      chefFoods: chef.menu.foods.map((food) => {
-        return {
-          foodName: food.name,
-          foodPrice: food.price,
-        }
-      }),
+      id: chef.userInfos.id,
+      name: chef.userInfos.name,
+      surname: chef.userInfos.surname,
+      chefFoods: chef.menu
+        ? chef.menu.foods.map((food) => {
+            return {
+              foodName: food.name,
+              foodPrice: food.price,
+            }
+          })
+        : [],
     }
   })
 
