@@ -50,6 +50,7 @@ function ChefPage() {
     if (res.status === 404 || res.status === 500) {
       return 'ERROR'
     }
+    console.log(res)
     const chefData = res.data.data.chef.at(0)
 
     const menuRes = await axios.get(

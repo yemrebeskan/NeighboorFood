@@ -1,5 +1,6 @@
 // LocationSearchResults.js
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const MenuCard = ({ menu }) => {
   // This component will display individual menu
@@ -16,7 +17,7 @@ const MenuCard = ({ menu }) => {
         </div>
       </div>
       <div className="col-span-4">
-        <div className='ml-6'>
+        <div className="ml-6">
           <h2 className="font-bold text-2xl text-[#484743]">{menu.menuName}</h2>
           <p className="font-thin text-md">{menu.kcal}</p>
           <p className="font-extrabold text-3xl pt-8 text-[#484743]">
@@ -33,7 +34,13 @@ const ChefProfile = ({ chef }) => {
   // You can customize this as per your needs
   return (
     <div className="flex flex-col items-center shrink-0">
-      <img className="w-32 h-32 object-cover rounded-full border-4 border-white" src={chef.image} alt={chef.name} />
+      <Link to={`/chef/${chef.id}`}>
+        <img
+          className="w-32 h-32 object-cover rounded-full border-4 border-white"
+          src={chef.image}
+          alt={chef.name}
+        />
+      </Link>
       <h2>{chef.name}</h2>
     </div>
   )
