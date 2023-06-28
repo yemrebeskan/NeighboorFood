@@ -1,4 +1,3 @@
-// components/SectionIndicator.js
 import React, { useState } from 'react'
 import ChefMenus from './ChefMenus'
 import ChefAbout from './ChefAbout'
@@ -68,15 +67,15 @@ function SectionIndicator({ isChef, chefInfo }) {
 
   return (
     <div>
-      <div className="flex justify-center space-x-48 border-b border-gray-300 mb-4">
+      <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-12 border-b border-gray-300 mb-4">
         {sections.map((section) => (
           <button
             key={section}
             onClick={() => handleClick(section)}
             className={`${
               section === selectedSection
-                ? 'bg-green-700  text-black px-12 py-4 rounded-md'
-                : 'bg-transparent px-12 py-4'
+                ? 'bg-green-700  text-black px-4 sm:px-12 py-4 rounded-md'
+                : 'bg-transparent px-4 sm:px-12 py-4'
             }  font-semibold hover:bg-green-700 hover:rounded-md hover:opacity-32 text-lg bg-opacity-30`}
           >
             {section}
