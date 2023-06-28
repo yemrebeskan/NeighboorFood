@@ -167,6 +167,23 @@ exports.updateChef = catchAsync(async (req, res, next) => {
   })
 })
 
+exports.updateAbout = catchAsync(async (req, res, next) => {
+  const chefId = req.params.id
+  const { about } = req.body
+  const chef = await Chef.findOne({ userInfos: chefId })
+  if (!chef) {
+    return next(new AppError(`No chef found with that ${chefId}`, 404))
+  }
+  chef.about = about
+  await chef.save()
+  res.status(200).json({
+    status: 'success',
+    data: {
+      chef,
+    },
+  })
+})
+
 exports.addFoodToMenu = catchAsync(async (req, res, next) => {
   const chefId = req.params.id
   const { name, kcali, price, likes, disslikes, image } = req.body

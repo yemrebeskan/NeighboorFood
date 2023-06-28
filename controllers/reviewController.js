@@ -4,28 +4,16 @@ const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 const Review = require('../models/reviewModel')
 
-exports.getAllReviewsById = catchAsync(async (req, res, next) => {
-  const review = await Review.find({
-    user: mongoose.Types.ObjectId(req.params.id),
-  }).populate('user')
-
-  res.status(200).json({
-    status: 'success',
-    results: review.length,
-    data: {
-      review,
-    },
-  })
-})
-
-exports.getAllReviewsForUser = catchAsync(async (req, res, next) => { // getAllReviewsForChef maybe
+exports.getAllReviewsForChef = catchAsync(async (req, res, next) => {
+  // getAllReviewsForChef maybe
   try {
     const user = await Chef.findById(req.params.id).populate({
       path: 'reviews',
       model: 'Review',
-      populate: { // We must do this to get reviewers name and surnames
-        path: "user",
-        model: "User"
+      populate: {
+        // We must do this to get reviewers name and surnames
+        path: 'user',
+        model: 'User',
       },
     })
     const review = user.reviews
@@ -37,8 +25,8 @@ exports.getAllReviewsForUser = catchAsync(async (req, res, next) => { // getAllR
       },
     })
   } catch (e) {
-    console.log(e);
-    return next(new AppError(`Error ${e.toString()}`, 500));
+    console.log(e)
+    return next(new AppError(`Error ${e.toString()}`, 500))
   }
 })
 

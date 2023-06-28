@@ -27,4 +27,8 @@ router
   .put(/*authController.protect,*/ chefController.changeThumbnail)
   .delete(/*authController.protect,*/ chefController.removeThumbnail)
 
+router
+  .route('/:id/about')
+  .put(/*authController.protect,*/ chefController.updateAbout)
+
 module.exports = router

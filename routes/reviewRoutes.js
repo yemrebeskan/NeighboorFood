@@ -7,12 +7,9 @@ router
   .route('/makeReview/:userId/:chefId')
   .post(/*authController.protect,*/ reviewController.makeReview)
 
-router
-  .route('/review/:id')
-  .get(reviewController.getAllReviewsById)
 
 router
   .route('/user/:id')
-  .get(/*authController.protect,*/ reviewController.getAllReviewsForUser)
+  .get(/*authController.protect,*/ reviewController.getAllReviewsForChef)
 
 module.exports = router
