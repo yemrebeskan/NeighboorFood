@@ -2,13 +2,14 @@ import React, { useState, useEffect, useContext } from 'react'
 import AuthContext from '../context/AuthContext'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-
+import ErrorModal from '../errorModal/errorModal';
 const Settings = () => {
   const navigate = useNavigate()
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [deleteAccount, setDeleteAccount] = useState(false)
+  const [error, setError] = useState(null);
 
   const uid = localStorage.getItem('uid')
 
@@ -25,6 +26,7 @@ const Settings = () => {
         setUser(response.data.data.user)
       } catch (error) {
         console.log(error)
+        setError('Error fetching user data'); 
       }
     }
     fetchUser()
@@ -45,7 +47,7 @@ const Settings = () => {
         console.log(error) // Hata durumunda
       }
     } else {
-      alert('Yeni şifre ve yeni şifre tekrarı eşleşmiyor.')
+      setError('New password and new password confirmation do not match');
     }
   }
   const handleDeleteAccount = async () => {
@@ -59,9 +61,17 @@ const Settings = () => {
           }) // Hesap silindikten sonra yönlendirme
       } catch (error) {
         console.log(error) // Hata durumunda
+        setError('Error deleting account');
       }
     }
+    else{
+      setError('Please confirm account deletion');
+    }
   }
+  const closeModal = () => {
+    setError(null); 
+  };
+
   useEffect(() => {
     if (!authCtx.isLoggedIn) {
       navigate('/')
@@ -138,12 +148,16 @@ const Settings = () => {
         </label>
         <button
           className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded w-full"
-          disabled={!deleteAccount}
           onClick={handleDeleteAccount}
         >
           Hesabı Sil
         </button>
       </div>
+      <ErrorModal
+        isOpen={error !== null}
+        errorMessage={error}
+        onClose={closeModal}
+      /> 
     </div>
   )
 }

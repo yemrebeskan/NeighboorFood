@@ -141,9 +141,9 @@ const SignInPage = () => {
         <span className="create-account" onClick={createAnAccountHandler}>
           or <a href="#">Create an account</a>
         </span>
-        <button className="google-button mt-16 ml-4">
+        <span className="google-button mt-16 ml-4">
           <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/706px-Google_%22G%22_Logo.svg.png" />
-        </button>
+        </span>
       </form>
       <ErrorModal
         isOpen={error !== null}
