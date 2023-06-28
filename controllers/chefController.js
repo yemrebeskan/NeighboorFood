@@ -39,7 +39,7 @@ exports.getAllChefs = catchAsync(async (req, res, next) => {
       populate: {
         path: 'foods',
         model: 'Food',
-        select: 'name price -_id',
+        select: 'name price kcal likes dislikes carts -_id',
       },
     })
 
@@ -51,8 +51,13 @@ exports.getAllChefs = catchAsync(async (req, res, next) => {
       chefFoods: chef.menu
         ? chef.menu.foods.map((food) => {
             return {
-              foodName: food.name,
-              foodPrice: food.price,
+              chefId: chef.userInfos.id,
+              menuName: food.name,
+              price: food.price,
+              kcal: food.kcal,
+              carts: food.carts,
+              likes: food.likes,
+              dislikes: food.dislikes,
             }
           })
         : [],

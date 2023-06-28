@@ -16,7 +16,7 @@ const HomePage = () => {
     // Here you should fetch the menus and chefs based on the location
     // TODO: this is some dummy data
     // BACKENDDEN İLGİLİ ŞEHİRDEKİ MENÜLERİ ÇEKECEK TODO
-    const menus = [
+    const dummyMenus = [
       {
         id: 1,
         menuName: 'Menu 1',
@@ -98,10 +98,12 @@ const HomePage = () => {
         image: 'https://via.placeholder.com/150',
       },
     ]
+    console.log(location)
     // BACKENDDEN İLGİLİ ŞEHİRDEKİ CHEFLERİ ÇEKECEK TODO
     const chefsRes = await axios.get(
       `http://127.0.0.1:3001/api/v1/chefs/location/${location}`
     )
+    console.log(chefsRes)
     if (chefsRes.data.status !== 'success') {
       //ERROR HANDLING
     }
@@ -125,6 +127,14 @@ const HomePage = () => {
       { id: 2, name: 'Chef 2', image: 'https://via.placeholder.com/150' },
     ]
     const chefs = chefsRes.data.data
+    const menus = []
+    chefs.map((chef) => {
+      chef.chefFoods.map((chefFood) => {
+        chefFood.image = 'https://via.placeholder.com/150'
+        menus.push(chefFood)
+        return chefFood
+      })
+    })
     chefs.map((chef) => {
       chef.image = 'https://via.placeholder.com/150'
       return chef

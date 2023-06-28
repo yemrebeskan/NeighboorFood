@@ -9,11 +9,13 @@ const MenuCard = ({ menu }) => {
     <div className="grid grid-cols-8 w-full py-8 my-4 mb-8 bg-white rounded-lg relative shrink-0">
       <div className="m-2 col-span-2 flex justify-center items-center w-full h-full relative">
         <div className="flex flex-col items-center justify-center">
-          <img
-            className="w-[150px] h-[150px] rounded-full bg-cover"
-            src={menu.image}
-            alt={menu.name}
-          />
+          <Link to={`/chef/${menu.chefId}`}>
+            <img
+              className="w-[150px] h-[150px] rounded-full bg-cover"
+              src={menu.image}
+              alt={menu.name}
+            />
+          </Link>
         </div>
       </div>
       <div className="col-span-4">

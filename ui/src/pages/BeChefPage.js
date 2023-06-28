@@ -33,12 +33,11 @@ const BeShefPage = () => {
   const beChef = async () => {
     event.preventDefault()
 
-    console.log('a')
     const chefInfos = {
       aboutNewChef: aboutNewChef,
       country: country,
       streetAddress: streetAddress,
-      city: city,
+      city: city.toLowerCase(),
     }
     const uid = localStorage.getItem('uid')
     const res = await axios.put(
