@@ -35,15 +35,7 @@ const FavoriteChefsContext = React.createContext({
 
 export const FavoriteChefsContextProvider = (props) => {
   const [favoriteChefs, setFavoriteChefs] = useState(initialChefsData)
-  useEffect(() => {
-    // For now, I use localStorage
-    const uid = localStorage.getItem('uid')
-    axios
-      .get(`http://127.0.0.1:3001/api/v1/favourites/${uid}`)
-      .then((result) => {
-        setFavoriteChefs(result.data.data.favouriteChefs)
-      })
-  }, [])
+
   const addChefToFavorites = (newItem) => {
     newItem.count = 1
     setFavoriteChefs((prevState) => {
