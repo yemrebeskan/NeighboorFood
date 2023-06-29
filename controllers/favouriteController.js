@@ -20,6 +20,7 @@ exports.getFavouriteChefsById = catchAsync(async (req, res, next) => {
   }
   const favouriteChefs = user.favouriteChefs.map((chef) => ({
     id: chef.userInfos._id,
+    chefId: chef._id,
     name: `${chef.userInfos.name}`,
     surname: `${chef.userInfos.surname}`,
     image: chef.userInfos.image,
@@ -70,30 +71,36 @@ exports.deleteFavouriteChef = catchAsync(async (req, res, next) => {
   const realChef = await Chef.findById(chefId)
   const realChefId = realChef._id
   const userId = req.params.userId
+
   const user = await User.findById(userId)
   let updatedFavouriteChefs = [...user.favouriteChefs]
-
   if (updatedFavouriteChefs) {
-    if (!favouriteChefs.includes(realChefId)) {
+    if (
+      updatedFavouriteChefs.some((chefId) => {
+        console.log(chefId, realChefId)
+        return chefId === realChefId
+      })
+    ) {
       return next(
         new AppError('You have not added this chef to your favourites', 400)
       )
     }
   }
-
-  updatedFavouriteChefs = updatedFavouriteChefs.map(
-    (chef) => chef._id !== chefId
+  console.log('a')
+  updatedFavouriteChefs = updatedFavouriteChefs.filter(
+    (favChefId) => favChefId.toString() !== chefId
   )
+
   user.favouriteChefs = updatedFavouriteChefs
   realChef.favouriteCount -= 1
   await realChef.save()
   await user.save()
   res.status(200).json({
     status: 'success',
-    length: favouriteChefs.length,
+    length: updatedFavouriteChefs.length,
     data: {
       user,
-      favouriteChefs,
+      updatedFavouriteChefs,
     },
   })
 })

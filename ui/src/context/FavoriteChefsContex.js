@@ -45,14 +45,14 @@ export const FavoriteChefsContextProvider = (props) => {
 
   const removeChefFromFavorites = (removedItemId) => {
     setFavoriteChefs((prevState) =>
-      prevState.filter((item) => item.id != removedItemId)
+      prevState.filter((item) => item._id != removedItemId)
     )
   }
 
   const deleteChefs = () => {
     setFavoriteChefs([])
   }
-  useEffect(() => {});
+  useEffect(() => {})
 
   return (
     <FavoriteChefsContext.Provider

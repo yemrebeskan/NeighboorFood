@@ -39,13 +39,14 @@ const ChefProfile = ({ isChef, chefInfo }) => {
     } else {
       // for now localStorage
       const uid = localStorage.getItem('uid')
-      console.log(chefInfo)
       const res = await axios.put(
         `http://127.0.0.1:3001/api/v1/favourites/${uid}/${chefInfo._id}`
       )
+      console.log(chefInfo)
       if (res.data.status === 'success') {
         favCtx.addChefToFavorites({
           id: id,
+          chefId: chefInfo._id,
           name: chefInfo.name,
           image: chefInfo.image,
           rating: chefInfo.rating,

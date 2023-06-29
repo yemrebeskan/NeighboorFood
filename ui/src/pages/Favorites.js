@@ -21,11 +21,18 @@ const Favorites = () => {
       .then((result) => {
         setFavoriteChefs(result.data.data.favouriteChefs)
       })
-  }, [])
+  }, [favCtx.favoriteChefs])
 
-  const handleChefDelete = (chefId) => {
-    const child = favoriteChefs.find((chef) => chef.id == chefId)
-    favCtx.removeChefFromFavorites(child.id)
+  const handleChefDelete = async (chefId) => {
+    const child = favoriteChefs.find((chef) => chef.chefId == chefId)
+
+    const uid = localStorage.getItem('uid')
+    const res = await axios.delete(
+      `http://127.0.0.1:3001/api/v1/favourites/${uid}/${chefId}`
+    )
+    if (res.data.status === 'success') {
+      favCtx.removeChefFromFavorites(child._id)
+    }
     // CALL API
   }
 
@@ -43,7 +50,7 @@ const Favorites = () => {
           image={chef.image}
           rating={chef.rating}
           key={index}
-          id={chef.id}
+          id={chef.chefId}
           onDelete={handleChefDelete}
         />
       ))}
