@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import './SearchBar.css'
+import React, { useState } from 'react';
+import './SearchBar.css';
 const cities = [
   'adana',
   'adiyaman',
@@ -110,20 +110,20 @@ const SearchBar = (props) => {
 
   return (
     <form
-    className="border-solid border-2 border-slate-400 rounded-lg flex form"
+    className="border-solid border-2 border-slate-400 rounded-lg flex items-center max-w-[607px] mx-auto w-full py-2"
       onSubmit={handleSubmit}
     >
       <input
         placeholder="Search your best chefs..."
-        className="w-96 h-12 mr-4 mt-5 ml-2 rounded-lg border-slate-400 border-2 input_bar p-2"
+        className="w-full sm:h-12 h-8 mr-4 ml-2 rounded-lg border-slate-400 border-2 p-2 sm:text-[16px] text-[10px]"
         value={location}
         onChange={handleLocationChange}
-      ></input>
+      />
       <button
-        className="border-solid border-2 border-slate-400 mt-4 mb-4 bg-teal-500 mr-4 rounded-lg p-4 w-40 text-slate-50 hover:bg-teal-700"
+        className="border-solid border-2 border-slate-400 bg-teal-500 mr-2 rounded-lg sm:p-4 p-2 sm:text-[16px] text-[12px] w-40 text-slate-50 hover:bg-teal-700"
         type="submit"
       >
-        <p className="ml-2 mr-2"> Search </p>
+        Search
       </button>
       {suggestions.length > 0 && (
         <ul className="suggestions">

@@ -40,7 +40,7 @@ const NavBar = () => {
   };
 
   return (
-    <div className="relative z-50 bg-stone-200 mb-28 md:py-12 py-8">
+    <div className="relative z-50 bg-stone-200 mb-16 md:py-12 py-8">
       <nav className="flex justify-between container max-w-[90rem] mx-auto sm:px-8 px-2">
         <div>
           <img

@@ -1,52 +1,52 @@
-import Foods from '../components/homepageComponents/foods'
-import SearchBar from '../components/homepageComponents/SearchBar'
-import img from './photo4.png'
-import CardItem from '../components/homepageComponents/CardItem'
-import AuthContext from '../context/AuthContext'
-import React, { useContext, useState } from 'react'
-import LocationSearchResults from '../components/homepageComponents/LocationSearchResults.js'
-import axios from 'axios'
+import Foods from '../components/homepageComponents/foods';
+import SearchBar from '../components/homepageComponents/SearchBar';
+import img from './photo4.png';
+import CardItem from '../components/homepageComponents/CardItem';
+import AuthContext from '../context/AuthContext';
+import React, { useContext, useState } from 'react';
+import LocationSearchResults from '../components/homepageComponents/LocationSearchResults.js';
+import axios from 'axios';
 
 const HomePage = () => {
-  const authCtx = useContext(AuthContext)
-  const [searchResults, setSearchResults] = useState({ menus: [], chefs: [] })
-  const [isSearched, setIsSearched] = useState(false)
+  const authCtx = useContext(AuthContext);
+  const [searchResults, setSearchResults] = useState({ menus: [], chefs: [] });
+  const [isSearched, setIsSearched] = useState(false);
 
 
   const handleSearch = async (location) => {
 
-    console.log(location)
+    console.log(location);
     const chefsRes = await axios.get(
       `http://127.0.0.1:3001/api/v1/chefs/location/${location}`
-    )
-    console.log(chefsRes)
+    );
+    console.log(chefsRes);
     if (chefsRes.data.status !== 'success') {
       //ERROR HANDLING
     }
-    const chefs = chefsRes.data.data
-    const menus = []
+    const chefs = chefsRes.data.data;
+    const menus = [];
     chefs.map((chef) => {
       chef.chefFoods.map((chefFood) => {
-        chefFood.image = 'https://via.placeholder.com/150'
-        menus.push(chefFood)
-        return chefFood
+        chefFood.image = 'https://via.placeholder.com/150';
+        menus.push(chefFood);
+        return chefFood;
       })
     })
     chefs.map((chef) => {
-      chef.image = 'https://via.placeholder.com/150'
-      return chef
+      chef.image = 'https://via.placeholder.com/150';
+      return chef;
     })
-    setIsSearched(true)
-    setSearchResults({ menus, chefs })
+    setIsSearched(true);
+    setSearchResults({ menus, chefs });
   }
 
   return (
     <div className={authCtx.isOnClickedSignButton ? 'blur' : ''}>
-      <div className="py-10 md:py-36 flex flex-col md:flex-row">
-        <div className="mx-auto md:ml-32 md:-mt-20">
+      <div className="container max-w-[90rem] mx-auto py-6 px-4 flex xl:justify-between justify-center items-center flex-col xl:flex-row">
+        <div className="mx-auto w-full">
           <SearchBar onSearch={handleSearch} />
         </div>
-        <img src={img} className="mx-auto md:-mt-56 md:ml-6 rounded-lg"></img>
+        <img src={img} className="mx-auto rounded-lg xl:my-0 my-6" />
       </div>
       {isSearched && (
         <div>
@@ -57,20 +57,24 @@ const HomePage = () => {
         </div>
       )}
 
-      <div className="bg-teal-500 flex justify-center">
-        <div className="mx-auto">
+      <div className="bg-teal-500 flex justify-center w-full">
+        <div className="mx-auto w-full">
           <Foods />
         </div>
-        <div className="hidden md:block bg-orange-100 rounded-full px-36 py-36 absolute mt-48"></div>
+        <div className="block bg-orange-100 rounded-full absolute xl:mt-48 lg:mt-44 md:mt-32 sm:mt-24 mt-16 z-10 xl:px-36 xl:py-36 lg:px-28 lg:py-28 md:px-20 md:py-20 sm:px-16 sm:py-16 px-12 py-12" />
       </div>
-      <div className="py-10 md:py-44 bg-orange-100 flex flex-col md:flex-row">
-        <div className="mx-auto md:ml-32">
-          <CardItem />
-        </div>
-        <div className="mx-auto md:ml-80">
-          <h1 className="text-lg md:text-3xl italic text-teal-700 text-center md:text-left">
-            KOMŞUDA PİŞER BİZE DE DÜŞER
-          </h1>
+
+      
+      <div className='bg-orange-100 sm:py-24 py-16'>
+        <div className="container max-w-[90rem] mx-auto py-10 flex flex-col xl:flex-row items-center justify-center relative z-20">
+          <div className="mx-auto">
+            <CardItem />
+          </div>
+          <div className="mx-auto">
+            <h1 className="text-lg md:text-3xl italic text-teal-700 text-center md:text-left mt-12 xl:mt-0">
+              KOMŞUDA PİŞER BİZE DE DÜŞER
+            </h1>
+          </div>
         </div>
       </div>
     </div>

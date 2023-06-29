@@ -5,7 +5,8 @@ import { HiOutlineMail, HiOutlineLocationMarker, HiOutlinePhone } from "react-ic
 
 const Footer = () => {
   return (
-    <div className="footerclass bg-teal-900 flex flex-col items-center justify-center text-slate-200 p-4 space-y-6">
+    <div className="bg-teal-900">
+    <div className="container max-w-[90rem] mx-auto footerclass flex flex-col items-center justify-center text-slate-200 p-4 space-y-6">
       <div className="text-center">
         <p className="text-2xl font-semibold mb-2">© 2023 NeighborFood</p>
         <p className="text-sm">We deliver quality and healthy food to your doorstep.</p>
@@ -31,6 +32,7 @@ const Footer = () => {
           <span>Call Us</span>
         </button>
       </div>
+    </div>
     </div>
   )
 }

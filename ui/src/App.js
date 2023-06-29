@@ -55,7 +55,7 @@ const App = () => {
           </Routes>
         </BrowserRouter>
         <div className={authCtx.isOnClickedSignButton ? 'blur-sm ' : ''}>
-          <Footer></Footer>
+          <Footer />
         </div>
       </div>
     </div>
