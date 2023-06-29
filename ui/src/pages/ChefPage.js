@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import ChefProfile from '../components/chefpageComponents/ChefProfile'
 import SectionIndicator from '../components/chefpageComponents/SectionIndicator'
+import LoadingSpinner from '../components/chefpageComponents/LoadingSpinner';
 import AuthContext from '../context/AuthContext'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
@@ -79,7 +80,7 @@ function ChefPage() {
             <SectionIndicator isChef={isChef} chefInfo={chefData} />
           </>
         ) : (
-          <p>Loading....</p> // This loading UI should be changed.
+          <LoadingSpinner />
         )}
       </div>
     </div>
