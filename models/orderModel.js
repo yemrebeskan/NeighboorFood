@@ -9,10 +9,12 @@ const orderSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Chef',
   },
-  menu: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Menu',
-  },
+  foods: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Food',
+    },
+  ],
   date: {
     type: Date,
     default: Date.now,

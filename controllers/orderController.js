@@ -3,16 +3,21 @@ const Chef = require('../models/chefModel')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 const Order = require('../models/orderModel')
+const Food = require('../models/foodModel')
 
 exports.makeOrder = catchAsync(async (req, res, next) => {
   const userId = req.params.id
-  const { foodIds } = req.body
+  const { foodIds, chefId } = req.body
   const user = await User.findById(userId)
   const foods = await Food.find({ _id: { $in: foodIds } })
+  const allFoods = foods.map((food) => food._id)
+  console.log(allFoods)
   const newOrder = new Order({
     user: userId,
-    menu: foods,
+    chef: chefId,
+    foods: allFoods,
   })
+  console.log(newOrder)
   await newOrder.save()
   user.orderHistory.push(newOrder)
   await user.save()
@@ -41,8 +46,9 @@ exports.getAllOrdersForUser = catchAsync(async (req, res, next) => {
 
 //belki olmaz
 exports.cancelOrder = catchAsync(async (req, res, next) => {
-  const user = req.user.id
-  const order = await Order.findById(req.params.id)
+  const user = req.params.userId
+  const orderId = req.params.orderId
+  const order = await Order.findById(orderId)
   if (!order) {
     return next(new AppError('No order found with that ID', 404))
   }
@@ -51,7 +57,7 @@ exports.cancelOrder = catchAsync(async (req, res, next) => {
       new AppError('You are not authorized to cancel this order', 401)
     )
   }
-  await Order.findByIdAndDelete(req.params.id)
+  await Order.findByIdAndDelete(orderId)
   res.status(204).json({
     status: 'success',
     data: null,

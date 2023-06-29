@@ -13,7 +13,7 @@ router
   .get(/*authController.protect,*/ orderController.getAllOrdersForUser)
 
 router
-  .route('/order/:id/cancel')
+  .route('/order/:userId/:orderId/cancel')
   .delete(/*authController.protect,*/ orderController.cancelOrder)
 
 module.exports = router

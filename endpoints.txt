@@ -14,7 +14,7 @@ For Favourite:
 For Orders:
     http://127.0.0.1:3001/api/v1/orders/createOrder/:id post(makeOrder)
     http://127.0.0.1:3001/api/v1/orders/order/:id get(getAllOrdersForUser)
-    http://127.0.0.1:3001/api/v1/orders/order/:id/cancel delete(cancelOrder)
+    http://127.0.0.1:3001/api/v1/orders/order/:userId/:orderId/cancel delete(cancelOrder)
 
 For Reviews:
     http://127.0.0.1:3001/api/v1/reviews/makeReview/:userId/:chefId post(makeReview)
