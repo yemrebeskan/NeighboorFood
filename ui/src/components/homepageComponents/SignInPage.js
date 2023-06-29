@@ -92,7 +92,7 @@ const SignInPage = () => {
   };
 
   return (
-    <div className="signin rounded">
+    <div className="signin flex -mt-[50%] rounded sm:w-[600px] w-screen sm:h-auto h-screen">
       <img
         className="exitButton"
         src="https://icon-library.com/images/x-button-icon/x-button-icon-17.jpg"

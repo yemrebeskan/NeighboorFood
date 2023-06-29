@@ -8,17 +8,17 @@ const DropdownMenu = () => {
 
   return (
     //   {authCtx.isAdmin  && ()} bu eklencek chefcontrol için
-    <ul className="absolute right-0 mt-11  bg-white shadow-lg rounded-md  text-green-800 w-48 scale-125 z-10 text-sm">
-      <li className="mb-2 hover:bg-gray-100">
+    <ul className="absolute sm:right-7 right-5 md:mt-12 mt-16 bg-white shadow-lg rounded-md text-green-800 md:w-48 w-36 scale-125 z-10 sm:text-sm text-xs">
+      <li className="hover:bg-gray-100 rounded-t-md">
         <div
           onClick={() => navigation('/profile')}
-          className="w-full text-left p-4 "
+          className="w-full text-left p-4"
         >
           Profile
         </div>
       </li>
 
-      <li className="mb-2 hover:bg-gray-100">
+      <li className="hover:bg-gray-100">
         <div
           onClick={() => navigation('/favorites')}
           className="w-full text-left p-4"
@@ -26,7 +26,7 @@ const DropdownMenu = () => {
           Favorites
         </div>
       </li>
-      <li className="mb-2 hover:bg-gray-100">
+      <li className="hover:bg-gray-100">
         <div
           onClick={() => navigation('/orders')}
           className="w-full text-left p-4"
@@ -34,7 +34,7 @@ const DropdownMenu = () => {
           Orders
         </div>
       </li>
-      <li className="mb-2 hover:bg-gray-100">
+      <li className="hover:bg-gray-100">
         <div
           onClick={() => navigation('/settings')}
           className="w-full text-left p-4"
@@ -42,7 +42,7 @@ const DropdownMenu = () => {
           Settings
         </div>
       </li>
-      <li className="mb-2 hover:bg-gray-100">
+      <li className="hover:bg-gray-100">
         <div
           onClick={() => navigation('/bechef')}
           className="w-full text-left p-4"
@@ -51,7 +51,7 @@ const DropdownMenu = () => {
         </div>
       </li>
 
-      <li className="mb-2 hover:bg-gray-100">
+      <li className="hover:bg-gray-100">
         <div
           onClick={() => navigation('/admin/chefcontrol')}
           className="w-full text-left p-4"
@@ -60,7 +60,7 @@ const DropdownMenu = () => {
         </div>
       </li>
 
-      <li className="mb-2 hover:bg-gray-100">
+      <li className="hover:bg-gray-100 rounded-b-md">
         <div
           onClick={authCtx.onLogout}
           className="w-full text-left text-sm p-4"
