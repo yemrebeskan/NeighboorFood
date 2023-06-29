@@ -44,7 +44,7 @@ export const OrderedFoodContextProvider = (props) => {
       setOrderedFoods(basketFoods)
       setTotalPrice(calculateTotalPrice(basketFoods))
     })
-  }, [orderedFoods, authCtx.isLoggedIn])
+  }, [authCtx.isLoggedIn])
   //setTotalPrice(calculateTotalPrice())
 
   const incrementCountOfFood = (itemId) => {

@@ -23,6 +23,7 @@ const FoodCard = ({ food }) => {
   }
 
   const decreaseCount = async (id) => {
+    console.log(id)
     const uid = localStorage.getItem('uid')
     const res = await axios.delete(
       `http://127.0.0.1:3001/api/v1/users/${uid}/cart/${id}`
@@ -30,6 +31,7 @@ const FoodCard = ({ food }) => {
     console.log(res)
     if (res.data === '') {
       foodCtx.decreaseCountOfFood(id)
+      window.location.reload()
     }
   }
   return (
@@ -45,11 +47,11 @@ const FoodCard = ({ food }) => {
           className="bg-[#87bfb3] w-6 h-6 rounded-full cursor-pointer mr-4 mb-2 hover:mb-0  relative z-10"
           size={12}
           color="white"
-          onClick={() => decreaseCount(food._id)}
+          onClick={() => decreaseCount(food.foodId._id)}
         />
         <div className="absolute w-4 h-4 rounded-full z-0 mr-12 bg-[#537a72]"></div>
         <AiOutlinePlus
-          onClick={() => incrementCount(food._id)}
+          onClick={() => incrementCount(food.foodId._id)}
           className="bg-[#87bfb3] w-6 h-6 rounded-full cursor-pointer mr-2 mb-2 hover:mb-0  relative z-10"
           size={12}
           color="white"

@@ -127,6 +127,7 @@ exports.removeFromCart = async (req, res) => {
 
     const user = await User.findById(userId)
     const food = await Food.findById(foodId)
+
     await user.removeFromCart(food)
     res.status(204).json({
       status: 'success',
@@ -165,7 +166,6 @@ exports.getCart = async (req, res) => {
       path: 'cart.foods.foodId',
       model: 'Food',
     })
-    console.log(user)
     res.status(200).json({
       status: 'success',
       cart: user.cart,

@@ -11,13 +11,11 @@ exports.makeOrder = catchAsync(async (req, res, next) => {
   const user = await User.findById(userId)
   const foods = await Food.find({ _id: { $in: foodIds } })
   const allFoods = foods.map((food) => food._id)
-  console.log(allFoods)
   const newOrder = new Order({
     user: userId,
     chef: chefId,
     foods: allFoods,
   })
-  console.log(newOrder)
   await newOrder.save()
   user.orderHistory.push(newOrder)
   await user.save()
