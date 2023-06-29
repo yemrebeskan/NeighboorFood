@@ -1,43 +1,44 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import logo from './homepageComponents/logo.png';
-import DropdownMenu from './navbarComponents/DropdownMenu';
-import AuthContext from '../context/AuthContext';
-import FoodBasket from './navbarComponents/FoodBasket';
+import React, { useContext, useState, useEffect } from 'react'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import logo from './homepageComponents/logo.png'
+import DropdownMenu from './navbarComponents/DropdownMenu'
+import AuthContext from '../context/AuthContext'
+import FoodBasket from './navbarComponents/FoodBasket'
+import Notifications from './navbarComponents/Notifications'
 
 const NavBar = () => {
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [showBasket, setShowBasket] = useState(false);
-  const authCtx = useContext(AuthContext);
-  const uid = localStorage.getItem('uid');
-  const [user, setUser] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false)
+  const [showBasket, setShowBasket] = useState(false)
+  const authCtx = useContext(AuthContext)
+  const uid = localStorage.getItem('uid')
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
           `http://127.0.0.1:3001/api/v1/users/${uid}`
-        );
-        setUser(response.data.data.user);
+        )
+        setUser(response.data.data.user)
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
-    };
-    fetchUser();
-  }, [uid]);
+    }
+    fetchUser()
+  }, [uid])
 
-  const navigation = useNavigate();
+  const navigation = useNavigate()
 
   const toggleBasket = () => {
-    setShowDropdown(false);
-    setShowBasket((prevState) => !prevState);
-  };
+    setShowDropdown(false)
+    setShowBasket((prevState) => !prevState)
+  }
 
   const toggleDropdown = () => {
-    setShowBasket(false);
-    setShowDropdown((prevState) => !prevState);
-  };
+    setShowBasket(false)
+    setShowDropdown((prevState) => !prevState)
+  }
 
   return (
     <div className="relative z-50 bg-stone-200 mb-16 md:py-12 py-8">
@@ -50,6 +51,7 @@ const NavBar = () => {
             alt="Logo"
           />
         </div>
+
         <div className="buttons text-[10px] sm:text-[12px] md:text-[16px]">
           <div className="flex justify-end items-center">
             <Link to="/aboutus">
@@ -85,6 +87,12 @@ const NavBar = () => {
               >
                 My Chef Page
               </NavLink>
+            )}
+
+            {authCtx.isLoggedIn && (
+              <div className="md:mr-12 mr-6">
+                <Notifications />
+              </div>
             )}
 
             {authCtx.isLoggedIn && !user?.isChef && (
@@ -135,14 +143,14 @@ const NavBar = () => {
                     d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
-                {showDropdown && <DropdownMenu  user={user}/>}
+                {showDropdown && <DropdownMenu user={user} />}
               </button>
             )}
           </div>
         </div>
       </nav>
     </div>
-  );
-};
+  )
+}
 
-export default NavBar;
+export default NavBar
