@@ -72,7 +72,7 @@ const Profile = () => {
   }
 
   const handleGoToOrderHistory = () => {
-    navigate('/orders')
+    navigate('/pastorders')
   }
 
   const handleBecomeChef = () => {

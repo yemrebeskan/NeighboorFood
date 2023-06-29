@@ -17,6 +17,7 @@ import Profile from './pages/Profile'
 import Settings from './pages/Settings'
 import ControlChef from './pages/adminpage/ControlChef'
 import PastOrders from './pages/PastOrders'
+import MenuConfirmation from './pages/MenuConfirmation'
 
 const App = () => {
   const authCtx = useContext(AuthContext)
@@ -29,16 +30,16 @@ const App = () => {
             <NavBar />
           </div>
           {/* <div className="border-2 border-green-900"> */}
-            {authCtx.isClickedSignUpButton && (
-              <div className="fixed top-[50%] left-[50%] flex justify-center items-center blur-none z-40">
-                <SignUpPage />
-              </div>
-            )}
-            {authCtx.isClickedLogInButton && (
-              <div className="fixed top-[50%] left-[50%] flex justify-center items-center blur-none z-50">
-                <SignInPage />
-              </div>
-            )}
+          {authCtx.isClickedSignUpButton && (
+            <div className="fixed top-[50%] left-[50%] flex justify-center items-center blur-none z-40">
+              <SignUpPage />
+            </div>
+          )}
+          {authCtx.isClickedLogInButton && (
+            <div className="fixed top-[50%] left-[50%] flex justify-center items-center blur-none z-50">
+              <SignInPage />
+            </div>
+          )}
           {/* </div> */}
 
           <Routes>
@@ -52,6 +53,10 @@ const App = () => {
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/settings" element={<Settings />}></Route>
             <Route path="/admin/chefcontrol" element={<ControlChef />}></Route>
+            <Route
+              path="/menuconfirmation"
+              element={<MenuConfirmation />}
+            ></Route>
           </Routes>
         </BrowserRouter>
         <div className={authCtx.isOnClickedSignButton ? 'blur-sm ' : ''}>
