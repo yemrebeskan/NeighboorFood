@@ -31,7 +31,6 @@ const FoodCard = ({ food }) => {
     console.log(res)
     if (res.data === '') {
       foodCtx.decreaseCountOfFood(id)
-      window.location.reload()
     }
   }
   return (

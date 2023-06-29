@@ -49,19 +49,20 @@ export const OrderedFoodContextProvider = (props) => {
 
   const incrementCountOfFood = (itemId) => {
     const updatedFoods = orderedFoods.map((food) => {
-      if (food._id === itemId) {
+      if (food.foodId._id === itemId) {
         food.count += 1
         return food
       }
       return food
     })
+    console.log(updatedFoods)
     setOrderedFoods(updatedFoods)
   }
 
   const decreaseCountOfFood = (itemId) => {
     const updatedFoods = orderedFoods
       .map((food) => {
-        if (food._id === itemId) {
+        if (food.foodId._id === itemId) {
           if (food.count > 0) {
             food.count -= 1
           }
