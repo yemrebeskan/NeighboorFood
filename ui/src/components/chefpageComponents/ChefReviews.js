@@ -3,10 +3,9 @@ import Review from './Review'
 import axios from 'axios'
 
 // This data should come from backend:
-const dummyReviews = []
 
 const ChefReviews = ({ isChef, reviews }) => {
-  const [allReviews, setAllReviews] = useState(reviews ? reviews : dummyReviews)
+  const [allReviews, setAllReviews] = useState(reviews ? reviews : undefined)
 
   const changeReviewReply = async (review, incomingReply) => {
     const index = allReviews.findIndex((r) => r.id === review.id)
@@ -29,7 +28,7 @@ const ChefReviews = ({ isChef, reviews }) => {
 
   return (
     <div className="flex flex-col grow">
-      {allReviews.length === 0 ? (
+      {typeof allReviews === 'undefined' ? (
         <div className="mt-5 px-4 text-xl py-2">
           No review was found.
         </div>

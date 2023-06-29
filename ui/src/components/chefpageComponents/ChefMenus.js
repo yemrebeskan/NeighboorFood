@@ -12,8 +12,6 @@ import Modal from 'react-modal'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 
-const dummyMenu = []
-
 const Menu = ({
   menu,
   isChef,
@@ -165,7 +163,7 @@ const Menu = ({
 
       <div className="col-span-2 grid grid-rows-6">
         <div className="row-span-5 w-full h-full flex justify-center items-center">
-          {isChef && uid != id && (
+          {isChef && uid !== id && (
             <>
               {' '}
               <button onClick={() => addBasketHandler(menu)}>
@@ -222,7 +220,7 @@ const Menu = ({
 const ChefMenus = ({ isChef, chefMenu }) => {
   // TODO: This should come from backend
 
-  const [menus, setMenus] = useState(chefMenu ? chefMenu : dummyMenu)
+  const [menus, setMenus] = useState(chefMenu ? chefMenu : undefined)
   const [isEditing, setIsEditing] = useState(false)
   const [isAdding, setIsAdding] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
@@ -283,7 +281,7 @@ const ChefMenus = ({ isChef, chefMenu }) => {
           </button>
         </div>
       )}
-      {menus.length === 0 ? (
+      {typeof menus === 'undefined' ? (
         <div className="mt-5 px-4 text-xl py-2">No menu was found.</div>
       ) : (
         menus.map((menu) => (
