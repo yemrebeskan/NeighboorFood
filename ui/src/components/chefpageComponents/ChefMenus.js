@@ -25,13 +25,15 @@ const Menu = ({
   const foodCtx = useContext(OrderedFoodContext)
 
   const [isDeleteModalOpen, setIsDeleteModelOpen] = useState(false)
-
+  const { id } = useParams()
+  const uid = localStorage.getItem('uid')
   const addBasketHandler = async (menu) => {
     const uid = localStorage.getItem('uid')
     const res = await axios.put('http://127.0.0.1:3001/api/v1/users/cart', {
       userId: uid,
       foodId: menu._id,
     })
+
     if (res.data.status === 'success') {
       if (foodCtx.orderedFoods.some((item) => item._id === menu._id)) {
         foodCtx.incrementCountOfFood(menu._id)
@@ -50,6 +52,7 @@ const Menu = ({
     setIsDeleteModelOpen(true)
   }
   const handleDelete = () => {
+    ÛÛ
     //TODO: BACKEND
     onDelete(menu._id)
   }
@@ -108,11 +111,6 @@ const Menu = ({
         </div>
       )}
       <div className="col-span-2 flex justify-center items-center w-full h-full relative">
-        {menu.isToday ? (
-          <div className="absolute -mt-44 text-3xl text-[#4f7472] font-bold font-dancing">
-            Today's Menu
-          </div>
-        ) : null}
         <div className="flex flex-col items-center justify-center">
           <img
             className="w-[150px] h-[150px] rounded-full bg-cover"
@@ -167,15 +165,19 @@ const Menu = ({
 
       <div className="col-span-2 grid grid-rows-6">
         <div className="row-span-5 w-full h-full flex justify-center items-center">
-          <button onClick={() => addBasketHandler(menu)}>
-            <AiOutlinePlus
-              className="bg-[#87bfb3] w-16 h-16 rounded-full cursor-pointer mr-2 mb-2 hover:mb-0 hover:mr-0 relative z-10"
-              size={36}
-              color="white"
-            />
-          </button>
-
-          <div className="absolute w-16 h-16 rounded-full z-0 bg-[#537a72]"></div>
+          {isChef && uid != id && (
+            <>
+              {' '}
+              <button onClick={() => addBasketHandler(menu)}>
+                <AiOutlinePlus
+                  className="bg-[#87bfb3] w-16 h-16 rounded-full cursor-pointer mr-2 mb-2 hover:mb-0 hover:mr-0 relative z-10"
+                  size={36}
+                  color="white"
+                />
+              </button>
+              <div className="absolute w-16 h-16 rounded-full z-0 bg-[#537a72]"></div>
+            </>
+          )}
         </div>
 
         <div className="row-span-1 h-full w-full flex flex-row items-end">
