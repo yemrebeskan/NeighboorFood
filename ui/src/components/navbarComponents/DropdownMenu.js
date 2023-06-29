@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthContext from '../../context/AuthContext'
 
-const DropdownMenu = () => {
+const DropdownMenu = ({ user }) => {
   const authCtx = useContext(AuthContext)
   const navigation = useNavigate()
 
@@ -36,6 +36,38 @@ const DropdownMenu = () => {
           Orders
         </div>
       </li>
+
+      {!user.isChef ? (
+        <li className="hover:bg-gray-100">
+          <div
+            onClick={() => navigation('/bechef')}
+            className="w-full text-left p-4"
+          >
+            Be Chef
+          </div>
+        </li>
+      ) : (
+        <li className="hover:bg-gray-100">
+          <div
+            onClick={() => navigation('/menuconfirmation')}
+            className="w-full text-left p-4"
+          >
+            Menu Confirmation
+          </div>
+        </li>
+      )}
+
+      {user.isAdmin && (
+        <li className="hover:bg-gray-100">
+          <div
+            onClick={() => navigation('/admin/chefcontrol')}
+            className="w-full text-left p-4"
+          >
+            Chef Control
+          </div>
+        </li>
+      )}
+
       <li className="hover:bg-gray-100">
         <div
           onClick={() => navigation('/settings')}
@@ -44,33 +76,6 @@ const DropdownMenu = () => {
           Settings
         </div>
       </li>
-      <li className="hover:bg-gray-100">
-        <div
-          onClick={() => navigation('/bechef')}
-          className="w-full text-left p-4"
-        >
-          Be Chef
-        </div>
-      </li>
-
-      <li className="hover:bg-gray-100">
-        <div
-          onClick={() => navigation('/admin/chefcontrol')}
-          className="w-full text-left p-4"
-        >
-          Chef Control
-        </div>
-      </li>
-
-      <li className="hover:bg-gray-100">
-        <div
-          onClick={() => navigation('/menuconfirmation')}
-          className="w-full text-left p-4"
-        >
-          Menu Confirmation
-        </div>
-      </li>
-
       <li className="hover:bg-gray-100 rounded-b-md">
         <div
           onClick={authCtx.onLogout}
