@@ -73,7 +73,10 @@ const DropdownMenu = () => {
 
       <li className="hover:bg-gray-100 rounded-b-md">
         <div
-          onClick={authCtx.onLogout}
+          onClick={() => {
+            authCtx.onLogout()
+            navigation('/')
+          }}
           className="w-full text-left text-sm p-4"
         >
           Logout
