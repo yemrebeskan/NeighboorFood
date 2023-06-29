@@ -6,15 +6,12 @@
 }
 
 .signin {
-  width: 600px;
-  margin: 2rem auto;
+  /* width: 600px; */
   padding: 2rem;
   background-color: #e8e5e0;
   display: block;
+  position: fixed;
   flex-direction: row;
-  margin-left: 400px;
-  height: 400px;
-  margin-top: -100px;
 }
 
 .button-class {

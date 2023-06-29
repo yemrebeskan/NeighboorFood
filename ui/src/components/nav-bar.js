@@ -40,20 +40,28 @@ const NavBar = () => {
   };
 
   return (
-    <div className="relative z-50">
-      <nav className="flex bg-stone-200 justify-end">
-        <div className="buttons">
-          <div className="flex justify-end mr-8">
+    <div className="relative z-50 bg-stone-200 mb-28 md:py-12 py-8">
+      <nav className="flex justify-between container max-w-[90rem] mx-auto sm:px-8 px-2">
+        <div>
+          <img
+            onClick={() => navigation('/')}
+            src={logo}
+            className="md:w-40 w-28 absolute mt-3 cursor-pointer"
+            alt="Logo"
+          />
+        </div>
+        <div className="buttons text-[10px] sm:text-[12px] md:text-[16px]">
+          <div className="flex justify-end items-center">
             <Link to="/aboutus">
-              <button className="text-green-700 items-end mb-10 mt-12 mr-16 hover:text-gray-950">
+              <button className="text-green-700 items-end md:mr-16 sm:mr-8 mr-4 hover:text-gray-950">
                 About Us
               </button>
             </Link>
 
             {!authCtx.isLoggedIn && (
-              <div className="border-r-4 border-gray-50 mt-8 mb-7">
+              <div className="border-r-2 border-gray-50">
                 <button
-                  className="text-green-700 mt-2 mb-3 mr-10 p-2 hover:bg-green-700 hover:text-stone-200 rounded"
+                  className="text-green-700 md:mr-5 mr-0 px-2 py-2 hover:bg-green-700 hover:text-stone-200 rounded"
                   onClick={authCtx.handleSignUp}
                 >
                   SIGN UP
@@ -63,7 +71,7 @@ const NavBar = () => {
 
             {!authCtx.isLoggedIn && (
               <button
-                className="text-green-700 items-end mb-10 mt-10 mr-16 ml-12 hover:bg-green-700 p-2 hover:text-stone-200 rounded"
+                className="text-green-700 md:ml-5 ml-0 items-end hover:bg-green-700 px-2 py-2 hover:text-stone-200 rounded"
                 onClick={authCtx.handleLogin}
               >
                 LOG IN
@@ -73,7 +81,7 @@ const NavBar = () => {
             {authCtx.isLoggedIn && user?.isChef && (
               <NavLink
                 to={`/chef/${uid}`}
-                className="text-green-700 items-end mb-10 mt-10 mr-16 ml-4 hover:bg-green-700 p-2 hover:text-stone-200 rounded"
+                className="text-green-700 items-end hover:bg-green-700 px-2 py-2 sm:mr-8 mr-4 hover:text-stone-200 rounded"
               >
                 My Chef Page
               </NavLink>
@@ -81,21 +89,21 @@ const NavBar = () => {
 
             {authCtx.isLoggedIn && !user?.isChef && (
               <Link to="/bechef">
-                <button className="text-green-700 items-end mb-10 mt-10 mr-16 ml-4 hover:bg-green-700 p-2 hover:text-stone-200 rounded">
+                <button className="text-green-700 items-end hover:bg-green-700 px-2 py-2 sm:mr-8 mr-4 hover:text-stone-200 rounded">
                   Be a Chef
                 </button>
               </Link>
             )}
 
             {authCtx.isLoggedIn && (
-              <button className="relative w-10 h-10 mt-8 mr-12 p-2">
+              <button className="relative md:w-10 md:h-10 w-7 h-7 md:mr-12 mr-6">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="w-8 h-8 hover:text-green-700 hover:cursor-pointer hover:scale-150"
+                  className="md:w-10 md:h-10 w-7 h-7 hover:text-green-700 hover:cursor-pointer hover:scale-150"
                   onClick={toggleBasket}
                 >
                   <path
@@ -111,7 +119,7 @@ const NavBar = () => {
             {authCtx.isLoggedIn && (
               <button
                 onClick={toggleDropdown}
-                className="relative w-10 h-10 mt-8 mr-2"
+                className="relative md:w-10 md:h-10 w-7 h-7"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +127,7 @@ const NavBar = () => {
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="w-10 h-10 mt-1"
+                  className="md:w-10 md:h-10 w-7 h-7"
                 >
                   <path
                     strokeLinecap="round"
@@ -133,13 +141,6 @@ const NavBar = () => {
           </div>
         </div>
       </nav>
-      
-        <img
-          onClick={() => navigation('/')}
-          src={logo}
-          className="w-40 -mt-16 ml-10 mb-10 mr-40 cursor-pointer"
-          alt="Logo"
-        />
     </div>
   );
 };

@@ -6,14 +6,11 @@
 }
 
 .signup {
-  width: 600px;
   padding: 2rem;
   background-color: #e8e5e0;
   display: block;
+  position: fixed;
   flex-direction: row;
-  margin-left: 400px;
-  height: 600px;
-  margin-top: -200px;
 }
 
 .input-class {

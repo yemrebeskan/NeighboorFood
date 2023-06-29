@@ -206,7 +206,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="signup flex">
+    <div className="signup flex -mt-[50%] rounded sm:w-[600px] w-screen sm:h-auto h-screen">
       <img
         className="exitButton"
         src="https://icon-library.com/images/x-button-icon/x-button-icon-17.jpg"

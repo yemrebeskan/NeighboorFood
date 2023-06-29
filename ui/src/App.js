@@ -28,18 +28,18 @@ const App = () => {
           <div className={authCtx.isOnClickedSignButton ? 'blur-sm ' : ''}>
             <NavBar />
           </div>
-          <div className="flex justify-center">
+          {/* <div className="border-2 border-green-900"> */}
             {authCtx.isClickedSignUpButton && (
-              <div className="fixed blur-none mr-96 z-40">
-                <SignUpPage></SignUpPage>
+              <div className="fixed top-[50%] left-[50%] flex justify-center items-center blur-none z-40">
+                <SignUpPage />
               </div>
             )}
             {authCtx.isClickedLogInButton && (
-              <div className="fixed mb-40 mr-96 blur-none z-50">
+              <div className="fixed top-[50%] left-[50%] flex justify-center items-center blur-none z-50">
                 <SignInPage />
               </div>
             )}
-          </div>
+          {/* </div> */}
 
           <Routes>
             <Route path="/" element={<HomePage />} />
