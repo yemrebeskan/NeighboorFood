@@ -25,6 +25,7 @@ const Menu = ({
   const [isDeleteModalOpen, setIsDeleteModelOpen] = useState(false)
   const { id } = useParams()
   const uid = localStorage.getItem('uid')
+  const editingBorder = 'border-2 border-black pl-2 bg-gray-200 rounded-lg'
   const addBasketHandler = async (menu) => {
     const uid = localStorage.getItem('uid')
     const res = await axios.put('http://127.0.0.1:3001/api/v1/users/cart', {
@@ -127,26 +128,26 @@ const Menu = ({
 
       <div className="col-span-4">
         {isEditing ? (
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-2">
             <input
-              className="font-bold text-2xl text-[#484743]"
+              className={`font-bold text-2xl text-[#484743] ${editingBorder} w-3/4`}
               type="text"
               value={menu.name}
-              onChange={(e) => onMenuChange(menu.id, 'name', e.target.value)}
+              onChange={(e) => onMenuChange(menu._id, 'name', e.target.value)}
             />
             <input
-              className="font-thin text-md w-24"
+              className={`font-thin text-md w-24 ${editingBorder}`}
               type="text"
               value={menu.kcal}
-              onChange={(e) => onMenuChange(menu.id, 'kcal', e.target.value)}
+              onChange={(e) => onMenuChange(menu._id, 'kcal', e.target.value)}
             />
             <span className="text-3xl">
               $
               <input
-                className="font-extrabold text-3xl mt-8 w-24 text-[#484743]"
+                className={`font-extrabold text-3xl mt-8 w-24 text-[#484743] ${editingBorder}`}
                 type="number"
                 value={menu.price}
-                onChange={(e) => onMenuChange(menu.id, 'price', e.target.value)}
+                onChange={(e) => onMenuChange(menu._id, 'price', e.target.value)}
               />
             </span>
           </div>
@@ -234,8 +235,9 @@ const ChefMenus = ({ isChef, chefMenu }) => {
   const uid = localStorage.getItem('uid')
 
   const handleMenuChange = (id, field, value) => {
+    // Since we use MongoDB we don't have .id property. Instead we have _id.
     setMenus(
-      menus.map((menu) => (menu.id === id ? { ...menu, [field]: value } : menu))
+      menus.map((menu) => (menu._id === id ? { ...menu, [field]: value } : menu))
     )
   }
 
@@ -266,15 +268,15 @@ const ChefMenus = ({ isChef, chefMenu }) => {
   return (
     <div className="w-full">
       {isChef && uid == id && (
-        <div>
+        <div className="flex gap-4">
           <button
-            className="mt-2 bg-green-700 text-white px-4 py-2 rounded-md"
+            className="mt-2 bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-600"
             onClick={() => setIsEditing(!isEditing)}
           >
             {isEditing ? 'Save' : 'Edit'}
           </button>
           <button
-            className="mt-2 bg-green-700 text-white px-4 py-2 rounded-md"
+            className="mt-2 bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-600"
             onClick={handleAddMenu}
           >
             Add Menu
