@@ -55,7 +55,7 @@ const NavBar = () => {
         <div className="buttons text-[10px] sm:text-[12px] md:text-[16px]">
           <div className="flex justify-end items-center">
             <Link to="/aboutus">
-              <button className="text-green-700 items-end md:mr-16 sm:mr-8 mr-4 hover:text-gray-950">
+              <button className="text-green-700 items-end md:mr-16 sm:mr-8 mr-2 hover:text-gray-950">
                 About Us
               </button>
             </Link>
@@ -83,28 +83,28 @@ const NavBar = () => {
             {authCtx.isLoggedIn && user?.isChef && (
               <NavLink
                 to={`/chef/${uid}`}
-                className="text-green-700 items-end hover:bg-green-700 px-2 py-2 sm:mr-8 mr-4 hover:text-stone-200 rounded"
+                className="text-green-700 items-end hover:bg-green-700 px-2 py-2 sm:mr-8 mr-2 hover:text-stone-200 rounded"
               >
                 My Chef Page
               </NavLink>
             )}
 
-            {authCtx.isLoggedIn && (
-              <div className="md:mr-12 mr-6">
-                <Notifications />
-              </div>
-            )}
-
             {authCtx.isLoggedIn && !user?.isChef && (
               <Link to="/bechef">
-                <button className="text-green-700 items-end hover:bg-green-700 px-2 py-2 sm:mr-8 mr-4 hover:text-stone-200 rounded">
+                <button className="text-green-700 items-end hover:bg-green-700 px-2 py-2 sm:mr-8 mr-2 hover:text-stone-200 rounded">
                   Be a Chef
                 </button>
               </Link>
             )}
 
             {authCtx.isLoggedIn && (
-              <button className="relative md:w-10 md:h-10 w-7 h-7 md:mr-12 mr-6">
+              <div className="md:mr-12 mr-2">
+                <Notifications />
+              </div>
+            )}
+
+            {authCtx.isLoggedIn && (
+              <button className="relative md:w-10 md:h-10 w-7 h-7 md:mr-12 mr-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

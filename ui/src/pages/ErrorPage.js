@@ -10,7 +10,7 @@ function ErrorPage({ message }) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-gray-600 bg-gray-200 space-y-3">
+    <div className="flex flex-col items-center justify-center min-h-screen text-gray-600 bg-gray-200 -mt-20">
       <h2 className="text-3xl font-semibold">Oops!</h2>
       <p className="text-lg">{message}</p>
       <button 

@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import { FaPen } from 'react-icons/fa'
-import { useParams } from 'react-router-dom'
-import axios from 'axios'
+import React, { useState } from 'react';
+import { FaPen } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const ChefAbout = ({ isChef, about, phone, email }) => {
-  const [isEditing, setIsEditing] = useState(false)
-  const [aboutText, setAboutText] = useState(about)
-  const [phoneText, setPhoneText] = useState(phone)
-  const [emailText, setEmailText] = useState(email)
-  const { id } = useParams()
-  const uid = localStorage.getItem('uid')
+  const [isEditing, setIsEditing] = useState(false);
+  const [aboutText, setAboutText] = useState(about);
+  const [phoneText, setPhoneText] = useState(phone);
+  const [emailText, setEmailText] = useState(email);
+  const { id } = useParams();
+  const uid = localStorage.getItem('uid');
 
   const handleSave = () => {
     axios
@@ -24,16 +24,16 @@ const ChefAbout = ({ isChef, about, phone, email }) => {
       })
       .catch((error) => {
         console.error('Error saving data:', error)
-      })
+      });
 
-    setIsEditing(false)
+    setIsEditing(false);
   }
 
   const handleEditClick = () => {
     if (isEditing) {
-      handleSave()
+      handleSave();
     }
-    setIsEditing(!isEditing)
+    setIsEditing(!isEditing);
   }
   return (
     <div>
@@ -70,7 +70,7 @@ const ChefAbout = ({ isChef, about, phone, email }) => {
         <div className="flex flex-row-reverse">
           <button
             onClick={handleEditClick}
-            className=" mt-2 mb-2 bg-green-800 text-white px-4 py-2 rounded-md"
+            className=" mt-2 mb-2 bg-green-800 text-white spx-4 py-2 rounded-md"
           >
             {isEditing ? 'Save' : <FaPen className="fas fa-pen"></FaPen>}
           </button>
