@@ -177,3 +177,23 @@ exports.getCart = async (req, res) => {
     })
   }
 }
+
+exports.getPastOrders = async (req, res) => {
+  try {
+    console.log('a')
+    const uid = req.params.id
+    const user = await User.findById(uid).populate({
+      path: 'orderHistory',
+      model: 'Order',
+    })
+    res.status(200).json({
+      status: 'success',
+      cart: user.orderHistory,
+    })
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    })
+  }
+}

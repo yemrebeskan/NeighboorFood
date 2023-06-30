@@ -26,4 +26,6 @@ router
   .route('/:id/chefapply')
   .put(/*authController.protect,*/ userController.chefApply)
 
+router.route('/:id/pastorders').get(userController.getPastOrders)
+
 module.exports = router

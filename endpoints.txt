@@ -15,6 +15,9 @@ For Orders:
     http://127.0.0.1:3001/api/v1/orders/createOrder/:id post(makeOrder)
     http://127.0.0.1:3001/api/v1/orders/order/:id get(getAllOrdersForUser)
     http://127.0.0.1:3001/api/v1/orders/order/:userId/:orderId/cancel delete(cancelOrder)
+    http://127.0.0.1:3001/api/v1/orders/order/:id/reject put(rejectOrder)
+    http://127.0.0.1:3001/api/v1/orders/order/:id/accept put(acceptOrder)
+    http://127.0.0.1:3001/api/v1/orders/order/:id/complete put(completeOrder)
 
 For Reviews:
     http://127.0.0.1:3001/api/v1/reviews/makeReview/:userId/:chefId post(makeReview)
@@ -36,6 +39,7 @@ For Users:
     http://127.0.0.1:3001/api/v1/users/carts delete(clearCart)
     http://127.0.0.1:3001/api/v1/users/:id/rate put(rateChefAndComment)
     http://127.0.0.1:3001/api/v1/users/:id/chefapply put(chefApply)
+    http://127.0.0.1:3001/api/v1/users/:id/pastorders get(getPastOrders)
 
 For Admins:
     http://127.0.0.1:3001/api/v1/admin/ post(createAdmin)

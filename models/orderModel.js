@@ -11,8 +11,14 @@ const orderSchema = new mongoose.Schema({
   },
   foods: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Food',
+      orderedFood: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Food',
+      },
+      quantity: {
+        type: String,
+        default: 1,
+      },
     },
   ],
   date: {

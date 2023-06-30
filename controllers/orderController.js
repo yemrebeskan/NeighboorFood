@@ -9,8 +9,38 @@ exports.makeOrder = catchAsync(async (req, res, next) => {
   const userId = req.params.id
   const { foodIds, chefId } = req.body
   const user = await User.findById(userId)
-  const foods = await Food.find({ _id: { $in: foodIds } })
-  const allFoods = foods.map((food) => food._id)
+  const foodsReq = []
+  foodIds.forEach(async (foodId) => {
+    foodsReq.push(Food.findById(foodId))
+  })
+  const foods = await Promise.all(foodsReq)
+  const usedFoods = []
+  const allFoods = []
+  for (let i = 0; i < foods.length; i++) {
+    if (
+      usedFoods.some(
+        (usedFoodId) => foods[i]._id.toString() === usedFoodId.toString()
+      )
+    ) {
+      continue
+    } else {
+      let orderedFood = foods[i]._id
+      let quantity = 1
+      for (let j = 0; j < foods.length; j++) {
+        if (
+          foods[i]._id.toString() === foods[j]._id.toString() &&
+          i !== j &&
+          !usedFoods.some((usedFoodId) => foods[i]._id === usedFoodId)
+        ) {
+          quantity += 1
+        }
+      }
+      usedFoods.push(foods[i]._id)
+      orderedFood = foods[i]._id
+      allFoods.push({ orderedFood, quantity })
+    }
+  }
+
   const newOrder = new Order({
     user: userId,
     chef: chefId,
@@ -84,6 +114,38 @@ exports.rejectOrder = catchAsync(async (req, res, next) => {
     { state: 'rejected' },
     { new: true }
   )
+  res.status(200).json({
+    status: 'success',
+    data: {
+      order,
+    },
+  })
+})
+
+exports.completeOrder = catchAsync(async (req, res, next) => {
+  const orderId = req.params.id
+  const order = await Order.findByIdAndUpdate(
+    orderId,
+    {
+      state: 'completed',
+    },
+    { new: true }
+  )
+  res.status(200).json({
+    status: 'success',
+    data: {
+      order,
+    },
+  })
+})
+
+exports.getPendingOrders = catchAsync(async (req, res, next) => {
+  const chefId = req.params.chefId
+
+  const order = await Order.find({ chef: chefId, state: 'pending' }).populate({
+    path: 'foods.orderedFood',
+  })
+  console.log(order)
   res.status(200).json({
     status: 'success',
     data: {

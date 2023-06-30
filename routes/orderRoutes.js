@@ -16,4 +16,12 @@ router
   .route('/order/:userId/:orderId/cancel')
   .delete(/*authController.protect,*/ orderController.cancelOrder)
 
+router.route('/order/:id/accept').put(orderController.acceptOrder)
+
+router.route('/order/:id/reject').put(orderController.rejectOrder)
+
+router.route('/order/:id/complete').put(orderController.completeOrder)
+
+router.route('/:chefId').get(orderController.getPendingOrders)
+
 module.exports = router
