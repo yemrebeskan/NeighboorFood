@@ -7,39 +7,19 @@ const Food = require('../models/foodModel')
 
 exports.makeOrder = catchAsync(async (req, res, next) => {
   const userId = req.params.id
-  const { foodIds, chefId } = req.body
+  const { orderedFoods, chefId } = req.body
   const user = await User.findById(userId)
   const foodsReq = []
-  foodIds.forEach(async (foodId) => {
-    foodsReq.push(Food.findById(foodId))
+  orderedFoods.forEach(async (orderedFood) => {
+    foodsReq.push(Food.findById(orderedFood.foodId))
   })
   const foods = await Promise.all(foodsReq)
-  const usedFoods = []
-  const allFoods = []
-  for (let i = 0; i < foods.length; i++) {
-    if (
-      usedFoods.some(
-        (usedFoodId) => foods[i]._id.toString() === usedFoodId.toString()
-      )
-    ) {
-      continue
-    } else {
-      let orderedFood = foods[i]._id
-      let quantity = 1
-      for (let j = 0; j < foods.length; j++) {
-        if (
-          foods[i]._id.toString() === foods[j]._id.toString() &&
-          i !== j &&
-          !usedFoods.some((usedFoodId) => foods[i]._id === usedFoodId)
-        ) {
-          quantity += 1
-        }
-      }
-      usedFoods.push(foods[i]._id)
-      orderedFood = foods[i]._id
-      allFoods.push({ orderedFood, quantity })
-    }
-  }
+
+  const allFoods = foods.map((food, index) => {
+    const orderedFood = food._id
+    const quantity = orderedFoods[index].quantity
+    return { orderedFood, quantity }
+  })
 
   const newOrder = new Order({
     user: userId,
@@ -58,7 +38,14 @@ exports.makeOrder = catchAsync(async (req, res, next) => {
 })
 
 exports.getAllOrdersForUser = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id).populate('orderHistory')
+  const user = await User.findById(req.params.id).populate({
+    path: 'orderHistory',
+    model: 'Order',
+    populate: {
+      path: 'foods.orderedFood', // 'foods' is an array of Food references in the Menu model
+      model: 'Food', // 'Food' is the model name for our foods
+    },
+  })
   const order = user.orderHistory
   if (!user) {
     return next(new AppError('No user found with that ID', 404))

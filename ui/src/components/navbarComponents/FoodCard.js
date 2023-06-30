@@ -28,7 +28,7 @@ const FoodCard = ({ food }) => {
     const res = await axios.delete(
       `http://127.0.0.1:3001/api/v1/users/${uid}/cart/${id}`
     )
-    console.log(res)
+
     if (res.data === '') {
       foodCtx.decreaseCountOfFood(id)
     }
