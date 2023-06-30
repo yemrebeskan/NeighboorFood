@@ -8,16 +8,18 @@
 
 .suggestions {
   position: absolute;
-  top: 100%;
-  left: 0;
+  /* margin-left: 105px; */
+  /* margin-top: -10px; */
+  /* top: 100%; */
+  /* left: 0; */
   z-index: 999;
   background-color: #ffffff;
   border: 1px solid #ced4da;
   border-radius: 8px; 
   padding: 0;
-  margin: 0;
+  /* margin: 0; */
   list-style-type: none;
-  width: 400px; 
+  /* width: 400px;  */
 }
 
 .suggestion {

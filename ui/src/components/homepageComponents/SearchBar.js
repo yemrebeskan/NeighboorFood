@@ -109,6 +109,7 @@ const SearchBar = (props) => {
   
 
   return (
+    <div>
     <form
     className="border-solid border-2 border-slate-400 rounded-lg flex items-center max-w-[607px] mx-auto w-full py-2"
       onSubmit={handleSubmit}
@@ -125,20 +126,23 @@ const SearchBar = (props) => {
       >
         Search
       </button>
-      {suggestions.length > 0 && (
-        <ul className="suggestions">
-          {suggestions.map((suggestion) => (
-            <li
-              key={suggestion}
-              className="suggestion"
-              onClick={() => handleSuggestionClick(suggestion)}
-            >
-              {suggestion}
-            </li>
-          ))}
-        </ul>
-      )}
     </form>
+    <div className='max-w-[607px] mx-auto w-full py-2'>
+    {suggestions.length > 0 && (
+      <ul className="suggestions sm:-mt-5 sm:w-[400px] -mt-4 sm:text-[16px] text-[12px] w-[250px] ml-2">
+        {suggestions.map((suggestion) => (
+          <li
+            key={suggestion}
+            className="suggestion"
+            onClick={() => handleSuggestionClick(suggestion)}
+          >
+            {suggestion}
+          </li>
+        ))}
+      </ul>
+    )}
+    </div>
+    </div>
   );
 };
 

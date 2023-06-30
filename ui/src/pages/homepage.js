@@ -43,7 +43,7 @@ const HomePage = () => {
   return (
     <div className={authCtx.isOnClickedSignButton ? 'blur' : ''}>
       <div className="container max-w-[90rem] mx-auto py-6 px-4 flex xl:justify-between justify-center items-center flex-col xl:flex-row">
-        <div className="mx-auto w-full">
+        <div className="w-full">
           <SearchBar onSearch={handleSearch} />
         </div>
         <img src={img} className="mx-auto rounded-lg xl:my-0 my-6" />
