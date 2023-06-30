@@ -46,7 +46,6 @@ const NavBar = () => {
         <div>
           <img
             onClick={() => {
-              window.location.reload();
               navigation('/')}
               }
             src={logo}
