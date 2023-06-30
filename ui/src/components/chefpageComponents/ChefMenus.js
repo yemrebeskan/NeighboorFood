@@ -55,6 +55,31 @@ const Menu = ({
     //TODO: BACKEND
     onDelete(menu._id)
   }
+ /* const menuSubmit = async (event) => {
+    event.preventDefault();
+  
+    try {
+      const chefId = 'your_chef_id'; // Replace with the actual chef ID
+  
+      const response = await fetch(`http://127.0.0.1:3001/api/v1/chefs/${chefId}/menu`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(menu), 
+      });
+  
+      if (response.ok) {
+        console.log('Menu updated successfully!');
+      } else {
+        console.log('Menu update failed!');
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
+  };
+  */
+  
 
   return (
     <div className="grid grid-cols-8 w-full py-8 my-4 mb-8 bg-white rounded-lg relative">
@@ -128,7 +153,8 @@ const Menu = ({
 
       <div className="col-span-4">
         {isEditing ? (
-          <div className="flex flex-col gap-2">
+          // <form className="flex flex-col gap-2" onSubmit = {menuSubmit}>
+          <form className="flex flex-col gap-2">
             <input
               className={`font-bold text-2xl text-[#484743] ${editingBorder} w-3/4`}
               type="text"
@@ -150,7 +176,7 @@ const Menu = ({
                 onChange={(e) => onMenuChange(menu._id, 'price', e.target.value)}
               />
             </span>
-          </div>
+          </form>
         ) : (
           <div>
             <h2 className="font-bold text-2xl text-[#484743]">{menu.name}</h2>
