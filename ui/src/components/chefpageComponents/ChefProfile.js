@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import StarRating from './StarRating';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import EditImage from './EditImage';
@@ -19,12 +19,19 @@ const ChefProfile = ({ isChef, chefInfo }) => {
   );
   const [favoritesCount, setFavoritesCount] = useState(0);
 
+    useEffect(() => {
+      let favCount = parseInt(chef.favouriteCount);
+      setFavoritesCount(favCount);
+    }, []);
+
+
   const toggleFavorite = async () => {
     setIsFavorited((prevIsFavorited) => !prevIsFavorited)
     setFavoritesCount((prevCount) =>
       isFavorited ? prevCount - 1 : prevCount + 1
     );
 
+    
     if (isFavorited) {
       const child = favCtx.favoriteChefs.find((chef) => chef.id == id);
       const uid = localStorage.getItem('uid');
@@ -42,7 +49,7 @@ const ChefProfile = ({ isChef, chefInfo }) => {
       const res = await axios.put(
         `http://127.0.0.1:3001/api/v1/favourites/${uid}/${chefInfo._id}`
       );
-      console.log(chefInfo);
+
       if (res.data.status === 'success') {
         favCtx.addChefToFavorites({
           id: id,

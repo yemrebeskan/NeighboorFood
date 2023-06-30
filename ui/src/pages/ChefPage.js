@@ -39,7 +39,6 @@ function ChefPage() {
       return 'ERROR';
     }
     const chefData = res.data.data.chef.at(0);
-
     const menuRes = await axios.get(
       `http://127.0.0.1:3001/api/v1/chefs/${id}/menu`
     );
@@ -56,6 +55,7 @@ function ChefPage() {
 
     chefData.menu = menuRes.data.data.menu;
     chefData.reviews = reviewResp.data.data.reviews;
+
     return chefData;
   }
   useEffect(() => {
