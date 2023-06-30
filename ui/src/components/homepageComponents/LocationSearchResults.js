@@ -6,12 +6,12 @@ const MenuCard = ({ menu }) => {
   // This component will display individual menu
   // You can customize this as per your needs
   return (
-    <div className="grid grid-cols-8 w-full py-8 my-4 mb-8 bg-white rounded-lg relative shrink-0">
+    <div className="max-w-[500px] grid grid-cols-8 py-8 bg-white rounded-lg relative shrink-0 cursor-pointer sm:text-[16px] text-[12px]">
       <div className="m-2 col-span-2 flex justify-center items-center w-full h-full relative">
         <div className="flex flex-col items-center justify-center">
           <Link to={`/chef/${menu.chefId}`}>
             <img
-              className="w-[150px] h-[150px] rounded-full bg-cover"
+              className="sm:w-[150px] sm:h-[150px] w-[80px] h-[80px] rounded-full bg-cover"
               src={menu.image}
               alt={menu.name}
             />
@@ -36,9 +36,9 @@ const ChefProfile = ({ chef }) => {
   // This component will display individual chef profile
   // You can customize this as per your needs
   return (
-    <div className="flex flex-col items-center shrink-0">
+    <div className="flex flex-col items-center shrink-0 cursor-pointer sm:text-[16px] text-[12px]">
       <img
-        className="w-32 h-32 object-cover rounded-full border-4 border-white"
+        className="sm:w-32 sm:h-32 w-24 h-24 object-cover rounded-full border-4 border-white"
         src={chef.image}
         alt={chef.name}
         onClick={() => {
@@ -53,13 +53,13 @@ const ChefProfile = ({ chef }) => {
 
 const LocationSearchResults = ({ menus, chefs }) => {
   return (
-    <div className="flex flex-col gap-12">
-      <div className="flex flex-row gap-8 overflow-x-scroll">
+    <div className="flex flex-col gap-12 justify-center items-center sm:mt-12 mt-2">
+      <div className="flex flex-row gap-8 overflow-x-scroll max-w-full">
         {chefs.map((chef) => (
           <ChefProfile key={chef.id} chef={chef} />
         ))}
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 sm:my-8 my-1">
         {menus.map((menu) => (
           <MenuCard key={menu.id} menu={menu} />
         ))}

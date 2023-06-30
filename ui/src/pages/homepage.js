@@ -49,7 +49,7 @@ const HomePage = () => {
         <img src={img} className="mx-auto rounded-lg xl:my-0 my-6" />
       </div>
       {isSearched && (
-        <div>
+        <div className='container max-w-[90rem] mx-auto px-2'>
           <LocationSearchResults
             menus={searchResults.menus}
             chefs={searchResults.chefs}
