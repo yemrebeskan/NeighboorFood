@@ -1,30 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
 import AuthContext from './AuthContext'
-// Temp Data
-const initialChefsData = [
-  {
-    id: 11,
-    name: 'Chef 1',
-    image:
-      'https://www.themanual.com/wp-content/uploads/sites/9/2022/03/chef-tobais-dorzon.jpg?resize=1200%2C630&p=1',
-    rating: 4.5,
-  },
-  {
-    id: 12,
-    name: 'Chef 2',
-    image:
-      'https://www.themanual.com/wp-content/uploads/sites/9/2022/03/chef-tobais-dorzon.jpg?resize=1200%2C630&p=1',
-    rating: 3,
-  },
-  {
-    id: 13,
-    name: 'Chef 3',
-    image:
-      'https://www.themanual.com/wp-content/uploads/sites/9/2022/03/chef-tobais-dorzon.jpg?resize=1200%2C630&p=1',
-    rating: 5,
-  },
-]
 
 const FavoriteChefsContext = React.createContext({
   favoriteChefs: [],
@@ -34,7 +10,8 @@ const FavoriteChefsContext = React.createContext({
 })
 
 export const FavoriteChefsContextProvider = (props) => {
-  const [favoriteChefs, setFavoriteChefs] = useState(initialChefsData)
+  const authCtx = useContext(AuthContext)
+  const [favoriteChefs, setFavoriteChefs] = useState([])
 
   const addChefToFavorites = (newItem) => {
     newItem.count = 1
@@ -45,14 +22,29 @@ export const FavoriteChefsContextProvider = (props) => {
 
   const removeChefFromFavorites = (removedItemId) => {
     setFavoriteChefs((prevState) =>
-      prevState.filter((item) => item._id != removedItemId)
+      prevState.filter((item) => item._id !== removedItemId)
     )
   }
 
   const deleteChefs = () => {
     setFavoriteChefs([])
   }
-  useEffect(() => {})
+
+  useEffect(() => {
+    const fetchFavoriteChefs = async () => {
+      try {
+        const uid = localStorage.getItem('uid')
+        const response = await axios.get(`http://127.0.0.1:3001/api/v1/favourites/${uid}`)
+        setFavoriteChefs(response.data.data.favouriteChefs)
+      } catch (error) {
+        console.log('Error fetching favorite chefs:', error)
+      }
+    }
+
+    if (authCtx.isLoggedIn) {
+      fetchFavoriteChefs()
+    }
+  }, [authCtx.isLoggedIn])
 
   return (
     <FavoriteChefsContext.Provider
