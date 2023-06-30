@@ -23,6 +23,14 @@ export const OrderedFoodContextProvider = (props) => {
     })
   }
 
+  const calculateTotalPriceBasket = (orderedFoodsBasket) => {
+    let total = 0
+    orderedFoodsBasket.forEach((food) => {
+      total += food.price * food.count
+    })
+    return total
+  }
+
   const calculateTotalPrice = () => {
     let total = 0
     orderedFoods.forEach((food) => {
@@ -42,7 +50,7 @@ export const OrderedFoodContextProvider = (props) => {
         return food
       })
       setOrderedFoods(basketFoods)
-      setTotalPrice(calculateTotalPrice(basketFoods))
+      setTotalPrice(calculateTotalPriceBasket(basketFoods))
     })
   }, [authCtx.isLoggedIn])
   //setTotalPrice(calculateTotalPrice())
