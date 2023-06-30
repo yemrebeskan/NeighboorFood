@@ -45,7 +45,10 @@ const NavBar = () => {
       <nav className="flex justify-between container max-w-[90rem] mx-auto sm:px-8 px-2">
         <div>
           <img
-            onClick={() => navigation('/')}
+            onClick={() => {
+              window.location.reload();
+              navigation('/')}
+              }
             src={logo}
             className="md:w-40 w-28 absolute mt-3 cursor-pointer"
             alt="Logo"

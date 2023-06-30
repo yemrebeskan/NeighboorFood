@@ -8,6 +8,7 @@ const cities = [
   'aksaray',
   'amasya',
   'ankara',
+  'salihli',
   'antalya',
   'ardahan',
   'artvin',
