@@ -44,7 +44,13 @@ const Favorites = () => {
 
   return (
     <div className="grid">
-      {favoriteChefs.map((chef, index) => (
+    {favoriteChefs.length === 0 ? (
+      <div className="p-10 m-6 rounded-xl text-center h-80">
+      <p className="text-3xl text-gray-600">You don't have any favorite chefs.</p>
+    </div>
+    
+    ) : (
+      favoriteChefs.map((chef, index) => (
         <ChefCard
           name={chef.name}
           image={chef.image}
@@ -53,8 +59,9 @@ const Favorites = () => {
           id={chef.chefId}
           onDelete={handleChefDelete}
         />
-      ))}
-    </div>
+      ))
+    )}
+  </div>
   )
 }
 
