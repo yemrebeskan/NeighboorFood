@@ -47,6 +47,7 @@ exports.getAllOrdersForUser = catchAsync(async (req, res, next) => {
       model: 'Food', // 'Food' is the model name for our foods
     },
   })
+
   const order = user.orderHistory
   if (!user) {
     return next(new AppError('No user found with that ID', 404))

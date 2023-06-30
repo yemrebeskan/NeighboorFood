@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema({
   surname: {
     type: String,
     trim: true,
-    validate: [validator.isAlpha, 'Surname must be in Alpha'],
   },
   email: {
     type: String,
