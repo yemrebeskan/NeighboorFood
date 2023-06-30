@@ -14,7 +14,8 @@ exports.makeOrder = catchAsync(async (req, res, next) => {
     foodsReq.push(Food.findById(orderedFood.foodId))
   })
   const foods = await Promise.all(foodsReq)
-
+  await user.clearCart()
+  await user.save()
   const allFoods = foods.map((food, index) => {
     const orderedFood = food._id
     const quantity = orderedFoods[index].quantity
