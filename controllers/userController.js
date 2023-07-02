@@ -213,6 +213,7 @@ exports.getPastOrders = async (req, res) => {
 exports.getNotifications = async (req, res, next) => {
   try {
     const uid = req.params.id
+    console.log(uid)
     const notifications = await Notification.find({ to: uid })
     res.status(200).json({
       status: 'success',

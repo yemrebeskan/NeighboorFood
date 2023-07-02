@@ -139,7 +139,7 @@ exports.rejectOrder = catchAsync(async (req, res, next) => {
   ).populate({ path: 'user', model: 'User' })
   const notification = new Notification({
     message: 'We are upset. Your order has been rejected.',
-    to: order.user,
+    to: order.user._id,
   })
 
   await notification.save()

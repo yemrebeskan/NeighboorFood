@@ -14,10 +14,10 @@ const Notifications = () => {
   useEffect(() => {
     const fetchNotification = async () => {
       const uid = localStorage.getItem('uid')
-      console.log(uid)
+
       try {
         const response = await axios.get(
-          `http://127.0.0.1:3001/api/v1/users/64998cf0c6f7293997abdaa9/notifications`
+          `http://127.0.0.1:3001/api/v1/users/${uid}/notifications`
         )
 
         setNotifications(response.data.notifications)

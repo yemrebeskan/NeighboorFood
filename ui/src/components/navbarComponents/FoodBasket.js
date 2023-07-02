@@ -22,8 +22,8 @@ const FoodBasket = () => {
       }
     )
     if (res.data.status === 'success') {
-      window.location.reload();
       navigate('/orders')
+      window.location.reload()
     }
   }
 
