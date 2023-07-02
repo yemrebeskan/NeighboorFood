@@ -3,82 +3,41 @@ import React, { useEffect, useState } from 'react'
 import faviconImage from './photo4.png'
 
 const MenuConfirmation = () => {
-  //const [orders, setOrders] = useState([])
+  const [menus, setMenus] = useState([])
 
-  const orders = [
-    {
-      id: 1,
-      mealName: 'Pizza',
-      mealId: 'pza123',
-      mealPhoto: faviconImage,
-      quantity: 2,
-      customer: {
-        id: 1,
-        firstName: 'Ahmet',
-        lastName: 'Yılmaz',
-      },
-    },
-    {
-      id: 2,
-      mealName: 'Hamburger',
-      mealId: 'hmb456',
-      mealPhoto: faviconImage,
-      quantity: 1,
-      customer: {
-        id: 2,
-        firstName: 'Ayşe',
-        lastName: 'Kara',
-      },
-    },
-    {
-      id: 3,
-      mealName: 'Salata',
-      mealId: 'slt789',
-      mealPhoto: faviconImage,
-      quantity: 3,
-      customer: {
-        id: 3,
-        firstName: 'Mehmet',
-        lastName: 'Demir',
-      },
-    },
-  ]
-
-  /* useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const uid = localStorage.getItem('uid')
-        const res = await axios.get(
-          `http://127.0.0.1:3001/api/v1/orders/${uid}`
-        )
-        console.log(res.data.data.order)
-        setOrders(res.data.data.order)
-      } catch (error) {
-        console.error(error)
-      }
+  const fetchData = async () => {
+    try {
+      const uid = localStorage.getItem('uid')
+      const res = await axios.get(`http://127.0.0.1:3001/api/v1/orders/${uid}`)
+      setMenus(res.data.data.order)
+    } catch (error) {
+      console.error(error)
     }
+  }
 
+  useEffect(() => {
     fetchData()
-  }, [])*/
+  }, [])
 
-  const handleAccept = async (order) => {
-    const updatedOrders = orders.filter((ord) => order.id !== ord.id)
-    setOrders(updatedOrders)
+  const handleAccept = async (menu) => {
+    const updatedMenus = menus.filter((m) => menu.id !== m.id)
+    setMenus(updatedMenus)
     /*await axios.delete(
-      `https://isces.onrender.com/api/v1/admin/orders/${order.id}`
+      `https://isces.onrender.com/api/v1/admin/menus/${menu.id}`
     )*/
   }
 
-  const handleReject = async (order) => {
-    const updatedOrders = orders.filter((ord) => order.id !== ord.id)
-    setOrders(updatedOrders)
+  const handleReject = async (menu) => {
+    const updatedMenus = menus.filter((m) => menu.id !== m.id)
+    setMenus(updatedMenus)
     /*await axios.delete(
-      `https://isces.onrender.com/api/v1/admin/orders/${order.id}`
+      `https://isces.onrender.com/api/v1/admin/menus/${menu.id}`
     )*/
   }
+
   return (
     <div style={{ minHeight: '400px' }}>
-      <h1 className="text-3xl font-bold flex justify-center mt-4 ">
+      <h1 className="text-3xl font-bold flex justify-center mt-4">
         Menü Onayı
       </h1>
       <div
@@ -88,12 +47,11 @@ const MenuConfirmation = () => {
           display: 'flex',
           justifyContent: 'center',
           minHeight: '525px',
-
           alignItems: 'center',
           flexWrap: 'wrap',
         }}
       >
-        {orders.map((order, index) => (
+        {menus.map((menu, index) => (
           <div
             key={index}
             style={{
@@ -102,8 +60,8 @@ const MenuConfirmation = () => {
               justifyContent: 'space-between',
               alignItems: 'center',
               gap: '0.5rem',
-              width: '200px',
-              height: '300px',
+              width: '300px',
+              height: '600px',
               padding: '1rem',
               border: '1px solid #ccc',
               borderRadius: '5px',
@@ -111,36 +69,34 @@ const MenuConfirmation = () => {
               margin: '0.5rem',
             }}
           >
-            <img
-              src={order.mealPhoto}
-              alt="Order"
-              style={{
-                width: '100px',
-                height: '100px',
-                objectFit: 'cover',
-                borderRadius: '50%',
-              }}
-            />
+            {menu.foods.map((food, index) => (
+              <div
+                key={index}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  width: '100%',
+                }}
+              >
+                <img
+                  src={food.orderedFood.image}
+                  alt="Menu"
+                  style={{
+                    width: '100px',
+                    height: '100px',
+                    objectFit: 'cover',
+                    borderRadius: '50%',
+                  }}
+                ></img>
+                <div style={{ textAlign: 'center' }}>
+                  <p style={{ margin: 0 }}>{food.orderedFood.name}</p>
+                  <p style={{ margin: 0 }}>Quantity: {food.quantity}</p>
+                </div>
+              </div>
+            ))}
             <div style={{ textAlign: 'center' }}>
-              <p style={{ margin: 0, fontWeight: 'bold' }}>
-                {
-                  //student.studentInfos.department.name || 'Menu'}
-                  order.mealName
-                }
-              </p>
-              <p style={{ margin: 0 }}>
-                {
-                  //student.studentInfos.name || 'İsim'}{' '}
-                  order.customer.firstName + ' ' + order.customer.lastName
-                }
-              </p>
-              <p style={{ margin: 0 }}>
-                Adedi:
-                {
-                  //student.studentInfos.isCandidate || 'Adedi'}
-                  order.quantity
-                }
-              </p>
+              <p style={{ margin: 0 }}>Müşteri: {menu.user}</p>
             </div>
 
             <button
@@ -151,10 +107,9 @@ const MenuConfirmation = () => {
                 borderRadius: '5px',
                 fontSize: '16px',
                 fontWeight: 'bold',
-
                 cursor: 'pointer',
               }}
-              onClick={() => handleAccept(student)}
+              onClick={() => handleAccept(menu)}
             >
               Accept
             </button>
@@ -166,10 +121,9 @@ const MenuConfirmation = () => {
                 borderRadius: '5px',
                 fontSize: '16px',
                 fontWeight: 'bold',
-
                 cursor: 'pointer',
               }}
-              onClick={() => handleReject(student)}
+              onClick={() => handleReject(menu)}
             >
               Reject
             </button>
