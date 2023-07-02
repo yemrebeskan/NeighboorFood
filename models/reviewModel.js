@@ -17,6 +17,10 @@ const reviewSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  reply: {
+    type: String,
+    default: '',
+  },
   date: {
     type: Date,
     default: Date.now,

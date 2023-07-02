@@ -46,7 +46,26 @@ exports.makeReview = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: {
+      user,
+      chef,
       newReview,
+    },
+  })
+})
+
+exports.makeReply = catchAsync(async (req, res, next) => {
+  const reviewId = req.params.id
+  const { reply } = req.body
+  const review = await Review.findById(reviewId)
+  if (!review) {
+    return next(new AppError(`No review found with that ${reviewId}`, 404))
+  }
+  review.reply = reply
+  await review.save()
+  res.status(200).json({
+    status: 'success',
+    data: {
+      review,
     },
   })
 })

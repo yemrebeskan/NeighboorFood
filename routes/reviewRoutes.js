@@ -7,6 +7,9 @@ router
   .route('/makeReview/:userId/:chefId')
   .post(/*authController.protect,*/ reviewController.makeReview)
 
+router
+  .route('/makeReply/:id')
+  .put(/*authController.protect,*/ reviewController.makeReply)
 
 router
   .route('/user/:id')
