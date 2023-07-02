@@ -11,6 +11,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  phoneNumber: {
+    type: String,
+    trim: true,
+    default: '0000000000',
+  },
   email: {
     type: String,
     unique: [true, 'Email already exists'],

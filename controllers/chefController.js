@@ -220,6 +220,28 @@ exports.removeFoodFromMenu = catchAsync(async (req, res, next) => {
   })
 })
 
+exports.updateFood = catchAsync(async (req, res, next) => {
+  const chefId = req.params.id
+  const foodId = req.params.foodId
+  const { name, kcali, price, likes, disslikes, image } = req.body
+  const chef = await Chef.findOne({ userInfos: chefId })
+  const menu = await Menu.findOne({ chefInfos: chefId._id })
+  const food = await Food.findByIdAndUpdate(
+    foodId,
+    { name, kcali, price, likes, disslikes, image },
+    { new: true, runValidators: true }
+  )
+  await menu.save()
+  res.status(200).json({
+    status: 'success',
+    data: {
+      chef,
+      menu,
+      food,
+    },
+  })
+})
+
 // BURA ÇALIŞIYO AMA CANCEL CHEF OLAN BİRİ USERID'SİNİ GİRİNCE HATA VERİYO AMA TÜM USERLARDA ARAYINCA O ID İLE ÇIKIYOR
 exports.cancelChef = catchAsync(async (req, res, next) => {
   const userId = req.params.id

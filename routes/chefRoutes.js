@@ -20,6 +20,7 @@ router
 
 router
   .route('/:id/:foodId')
+  .put(/*authController.protect,*/ chefController.updateFood)
   .delete(/*authController.protect,*/ chefController.removeFoodFromMenu)
 
 router
