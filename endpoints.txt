@@ -40,6 +40,8 @@ For Users:
     http://127.0.0.1:3001/api/v1/users/:id/rate put(rateChefAndComment)
     http://127.0.0.1:3001/api/v1/users/:id/chefapply put(chefApply)
     http://127.0.0.1:3001/api/v1/users/:id/pastorders get(getPastOrders)
+    http://127.0.0.1:3001/api/v1/users/:id/notifications get(getNotifications)
+    http://127.0.0.1:3001/api/v1/users/:nid/notification delete(deleteNotification)
 
 For Admins:
     http://127.0.0.1:3001/api/v1/admin/ post(createAdmin)
