@@ -63,8 +63,8 @@ exports.acceptApplication = catchAsync(async (req, res, next) => {
   await chefsMenu.save()
 
   const newNotification = new Notification({
-    user: user._id,
     message: 'Your application has been accepted',
+    to: user._id,
   })
   await newNotification.save()
 
