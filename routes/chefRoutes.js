@@ -33,7 +33,7 @@ router
   .put(/*authController.protect,*/ chefController.updateAbout)
 
 router
-  .route('/:id/food')
+  .route('/:foodId/food')
   .get(chefController.getFoodImage)
   .put(/*authController.protect,*/ chefController.changeFoodImage)
 

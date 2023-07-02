@@ -262,7 +262,6 @@ exports.getThumbnail = catchAsync(async (req, res, next) => {
   res.end(imageBuffer)
 })
 
-
 exports.changeThumbnail = catchAsync(async (req, res, next) => {
   const filePath = req.file.path
   const imageBase64 = fs.readFileSync(filePath, { encoding: 'base64' })
@@ -311,7 +310,9 @@ exports.removeThumbnail = catchAsync(async (req, res, next) => {
 
 exports.getFoodImage = catchAsync(async (req, res, next) => {
   const foodId = req.params.foodId
+  const food = await Food.findById(foodId)
   const imageBase64 = food.image
+
   const imageBuffer = Buffer.from(imageBase64, 'base64')
   res.writeHead(200, {
     'Content-Type': 'image/png',
