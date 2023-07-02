@@ -13,14 +13,18 @@ exports.makeOrder = catchAsync(async (req, res, next) => {
   const chef = await Chef.findById(chefId)
   const chefNotification = new Notification({
     message: 'You have a new order',
-    to: chef.userInfos,
-  })
-  await chefNotification.save()
+    to: chefId,
+    toModel: 'Chef',
+  });
+  await chefNotification.save();
+  
   const userNotification = new Notification({
-    message: 'You have ordered menu succesfully.',
+    message: 'You have ordered the menu successfully.',
     to: userId,
-  })
-  await userNotification.save()
+    toModel: 'User',
+  });
+  await userNotification.save();
+  
   const foodsReq = []
   orderedFoods.forEach(async (orderedFood) => {
     foodsReq.push(Food.findById(orderedFood.foodId))

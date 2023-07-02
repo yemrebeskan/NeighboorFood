@@ -8,13 +8,18 @@ const notificationSchema = new Schema({
   },
   to: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    refPath: 'toModel',
+  },
+  toModel: {
+    type: String,
+    enum: ['User', 'Chef'],
   },
   date: {
     type: Date,
     default: Date.now,
   },
-})
+});
+
 
 const Notification = mongoose.model('notification', notificationSchema)
 

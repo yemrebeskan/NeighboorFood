@@ -21,7 +21,6 @@ const Profile = () => {
         const response = await axios.get(
           `http://127.0.0.1:3001/api/v1/users/${uid}`
         )
-        console.log(response.data.data)
         setImage(response.data.data.user.image)
         setUser(response.data.data.user)
       } catch (error) {
