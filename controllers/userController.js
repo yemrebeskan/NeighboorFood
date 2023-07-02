@@ -1,6 +1,7 @@
 const User = require('../models/userModel')
 const Chef = require('../models/chefModel')
 const Food = require('../models/foodModel')
+const Admin = require('../models/adminModel')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 const Application = require('../models/applicationModel')
@@ -35,7 +36,7 @@ exports.getUserById = catchAsync(async (req, res, next) => {
 
 exports.chefApply = catchAsync(async (req, res, next) => {
   const id = req.params.id
-  console.log(id)
+  const aid = await Admin.findOne().select('_id')
   const userr = await User.findById(id)
 
   if (userr.isChef || userr.isApplied) {
@@ -57,6 +58,12 @@ exports.chefApply = catchAsync(async (req, res, next) => {
     streetAddress: streetAdress,
     city: city,
   })
+  const newNotification = new Notification({
+    to: aid,
+    message:
+      'You have a new application from ' + user.name + ' ' + user.surname,
+  })
+  await newNotification.save()
 
   await application.save()
   res.status(200).json({

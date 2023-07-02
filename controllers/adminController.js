@@ -5,6 +5,7 @@ const Admin = require('../models/adminModel')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 const Application = require('../models/applicationModel')
+const Menu = require('../models/menuModel')
 
 exports.createAdmin = catchAsync(async (req, res, next) => {
   const { name, surname, email, password } = req.body
@@ -55,6 +56,17 @@ exports.acceptApplication = catchAsync(async (req, res, next) => {
     city: city,
   })
   await newChef.save()
+
+  const chefsMenu = new Menu({
+    chef: newChef._id,
+  })
+  await chefsMenu.save()
+
+  const newNotification = new Notification({
+    user: user._id,
+    message: 'Your application has been accepted',
+  })
+  await newNotification.save()
 
   await Application.findByIdAndRemove(applicationId)
 
