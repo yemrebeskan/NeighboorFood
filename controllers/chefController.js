@@ -6,6 +6,7 @@ const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 const User = require('../models/userModel')
 const Menu = require('../models/menuModel')
+const fs = require('fs')
 
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -244,41 +245,55 @@ exports.cancelChef = catchAsync(async (req, res, next) => {
     },
   })
 })
-;(exports.changeThumbnail = upload.single('thumbnail')),
-  catchAsync(async (req, res, next) => {
-    const userId = req.params.id
-    const chef = await Chef.findOne({ userInfos: userId })
-    const realChefId = chef.userInfos._id
 
-    if (!chef) {
-      return next(new AppError(`No chef found with that id: ${userId}`, 404))
-    }
-
-    //burası çalışcak mı emin değilim
-    if (chef.thumbnail) {
-      removeThumbnail(chef.thumbnail)
-    }
-    const imagePath = path.join('images', 'thumbnails', req.file.filename)
-
-    await Chef.findOneAndUpdate(
-      { userInfos: realChefId },
-      { thumbnail: imagePath },
-      { new: true, runValidators: true }
-    )
-
-    res.status(200).json({
-      status: 'success',
-      data: {
-        thumbnail: chef.thumbnail,
-      },
-    })
+exports.getThumbnail = catchAsync(async (req, res, next) => {
+  const userId = req.params.id
+  const chef = await Chef.findOne({ userInfos: userId })
+  if (!chef) {
+    const id = req.params.id
+    return next(new AppError(`No chef found with that ${id}`, 404))
+  }
+  const imageBase64 = chef.thumbnail
+  const imageBuffer = Buffer.from(imageBase64, 'base64')
+  res.writeHead(200, {
+    'Content-Type': 'image/png',
+    'Content-Length': imageBuffer.length,
   })
+  res.end(imageBuffer)
+})
+
+
+exports.changeThumbnail = catchAsync(async (req, res, next) => {
+  const filePath = req.file.path
+  const imageBase64 = fs.readFileSync(filePath, { encoding: 'base64' })
+  const userId = req.params.id
+  const chef = await Chef.findOneAndUpdate(
+    { userInfos: userId },
+    { thumbnail: imageBase64 },
+    { new: true, runValidators: true }
+  )
+
+  if (!chef) {
+    return next(new AppError(`No chef found with that id: ${userId}`, 404))
+  }
+
+  fs.unlinkSync(filePath)
+  res.status(200).json({
+    status: 'success',
+    data: {
+      chef,
+    },
+  })
+})
 
 exports.removeThumbnail = catchAsync(async (req, res, next) => {
   const userId = req.params.id
   const chef = await Chef.findOneAndUpdate(
     { userInfos: userId },
-    { thumbnail: '' },
+    {
+      thumbnail:
+        'https://www.contentviewspro.com/wp-content/uploads/2017/07/default_image.png',
+    },
     { new: true, runValidators: true }
   )
 
@@ -290,6 +305,40 @@ exports.removeThumbnail = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       thumbnail: chef.thumbnail,
+    },
+  })
+})
+
+exports.getFoodImage = catchAsync(async (req, res, next) => {
+  const foodId = req.params.foodId
+  const imageBase64 = food.image
+  const imageBuffer = Buffer.from(imageBase64, 'base64')
+  res.writeHead(200, {
+    'Content-Type': 'image/png',
+    'Content-Length': imageBuffer.length,
+  })
+  res.end(imageBuffer)
+})
+
+exports.changeFoodImage = catchAsync(async (req, res, next) => {
+  const filePath = req.file.path
+  const imageBase64 = fs.readFileSync(filePath, { encoding: 'base64' })
+  const foodId = req.params.foodId
+  const food = await Food.findByIdAndUpdate(
+    foodId,
+    { image: imageBase64 },
+    { new: true, runValidators: true }
+  )
+
+  if (!food) {
+    return next(new AppError(`No food found with that id: ${foodId}`, 404))
+  }
+
+  fs.unlinkSync(filePath)
+  res.status(200).json({
+    status: 'success',
+    data: {
+      food,
     },
   })
 })

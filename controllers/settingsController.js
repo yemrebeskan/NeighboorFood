@@ -2,6 +2,7 @@ const multer = require('multer')
 const path = require('path')
 const User = require('../models/userModel')
 const bcryptjs = require('bcryptjs')
+const fs = require('fs')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 
@@ -42,44 +43,47 @@ exports.updateUser = catchAsync(async (req, res, next) => {
     },
   })
 })
-;(exports.changeImage = upload.single('image')),
-  catchAsync(async (req, res, next) => {
-    if (!req.file) {
-      return next(new AppError('Please upload an image!', 400))
-    }
 
-    if (!user) {
-      return next(new AppError('No user found with that ID', 404))
-    }
-    //burası çalışcak mı emin değilim
-    if (user.image) {
-      removeImage(user.image)
-    }
-
-    const imagePath = path.join('images', 'profile_pictures', req.file.filename)
-
-    const user = await User.findByIdAndUpdate(
-      req.user.id,
-      { image: imagePath },
-      { new: true, runValidators: true }
-    )
-
-    if (!user) {
-      return next(new AppError('User not found', 404))
-    }
-
-    res.status(200).json({
-      status: 'success',
-      data: {
-        user,
-      },
-    })
+exports.getImage = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.params.id)
+  if (!user) {
+    const id = req.params.id
+    return next(new AppError(`No user found with that ${id}`, 404))
+  }
+  const imageBase64 = user.image
+  const imageBuffer = Buffer.from(imageBase64, 'base64')
+  res.writeHead(200, {
+    'Content-Type': 'image/png',
+    'Content-Length': imageBuffer.length,
   })
+  res.end(imageBuffer)
+})
+
+exports.changeImage = catchAsync(async (req, res, next) => {
+  const filePath = req.file.path
+  const imageBase64 = fs.readFileSync(filePath, { encoding: 'base64' })
+  const userId = req.params.id
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { image: imageBase64 },
+    { new: true, runValidators: true }
+  )
+  fs.unlinkSync(filePath)
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user,
+    },
+  })
+})
 
 exports.removeImage = catchAsync(async (req, res, next) => {
   const user = await User.findByIdAndUpdate(
     req.params.id,
-    { image: null },
+    {
+      image:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png',
+    },
     { new: true, runValidators: true }
   )
   if (!user) {

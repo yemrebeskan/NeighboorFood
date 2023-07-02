@@ -24,11 +24,17 @@ router
 
 router
   .route('/:id/thumbnail')
+  .get(/*authController.protect,*/ chefController.getThumbnail)
   .put(/*authController.protect,*/ chefController.changeThumbnail)
   .delete(/*authController.protect,*/ chefController.removeThumbnail)
 
 router
   .route('/:id/about')
   .put(/*authController.protect,*/ chefController.updateAbout)
+
+router
+  .route('/:id/food')
+  .get(chefController.getFoodImage)
+  .put(/*authController.protect,*/ chefController.changeFoodImage)
 
 module.exports = router

@@ -14,6 +14,7 @@ router
 
 router
   .route('/:id/image')
+  .get(/*authController.protect,*/ settingsController.getImage)
   .put(/*authController.protect,*/ settingsController.changeImage)
   .delete(/*authController.protect,*/ settingsController.removeImage)
 
