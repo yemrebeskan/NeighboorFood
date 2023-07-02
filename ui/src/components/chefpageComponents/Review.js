@@ -1,31 +1,37 @@
-import React, { useState } from 'react'
-import { BsStarFill, BsStar } from 'react-icons/bs'
-import { useParams } from 'react-router-dom'
+import React, { useState } from 'react';
+import { BsStarFill, BsStar } from 'react-icons/bs';
+import { useParams } from 'react-router-dom';
+import ErrorModal from '../../errorModal/errorModal';
 
 const Review = ({ review, isChef, changeReviewReply }) => {
-  const { reviewer, date, rating, comment, menuItem, reply } = review
+  const { reviewer, date, rating, comment, menuItem, reply } = review;
 
-  const [replyText, setReplyText] = useState(reply || '')
-  const [isReplying, setIsReplying] = useState(false)
-  const { id } = useParams()
-  const uid = localStorage.getItem('uid')
+  const [replyText, setReplyText] = useState(reply || '');
+  const [isReplying, setIsReplying] = useState(false);
+  const [error, setError] = useState(null);
+  const { id } = useParams();
+  const uid = localStorage.getItem('uid');
 
   const handleReply = () => {
-    // Save the reply to the server here
-    changeReviewReply(review, replyText)
-    setIsReplying(false)
-  }
+    try {
+      // Save the reply to the server here
+      changeReviewReply(review, replyText);
+      setIsReplying(false);
+    } catch (error) {
+      setError('An error occurred while submitting the reply. Please try again later.');
+    }
+  };
 
-  const starElements = []
+  const starElements = [];
   for (let i = 1; i <= 5; i++) {
     if (i <= rating) {
-      starElements.push(<BsStarFill key={i} className="text-yellow-400" />)
+      starElements.push(<BsStarFill key={i} className="text-yellow-400" />);
     } else {
-      starElements.push(<BsStar key={i} className="text-yellow-400" />)
+      starElements.push(<BsStar key={i} className="text-yellow-400" />);
     }
   }
 
-  const hiddenName = `${reviewer.name[0]}*** ${reviewer.surname[0]}***`
+  const hiddenName = `${reviewer.name[0]}*** ${reviewer.surname[0]}***`;
 
   return (
     <div className="mx-8 bg-white p-4 px-8 mb-4 rounded-lg">
@@ -54,7 +60,7 @@ const Review = ({ review, isChef, changeReviewReply }) => {
           {reply}
         </p>
       )}
-      {isChef && uid == id &&(
+      {isChef && uid == id && (
         <div className="mt-4">
           {isReplying && (
             <div>
@@ -83,8 +89,15 @@ const Review = ({ review, isChef, changeReviewReply }) => {
             )}
         </div>
       )}
+      {error && (
+       <ErrorModal
+        isOpen={error !== null}
+        errorMessage={error}
+        onClose={ () => setError(null)}
+      /> 
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Review
+export default Review;

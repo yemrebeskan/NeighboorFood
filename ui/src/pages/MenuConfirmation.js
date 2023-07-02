@@ -1,17 +1,17 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import faviconImage from './photo4.png'
-
+import ErrorModal from '../errorModal/errorModal'
 const MenuConfirmation = () => {
   const [menus, setMenus] = useState([])
-
+  const [error, setError] = useState(null)
   const fetchData = async () => {
     try {
       const uid = localStorage.getItem('uid')
       const res = await axios.get(`http://127.0.0.1:3001/api/v1/orders/${uid}`)
       setMenus(res.data.data.order)
     } catch (error) {
-      console.error(error)
+      setError('Error fetching menus. Please try again later.')
     }
   }
 
@@ -130,6 +130,13 @@ const MenuConfirmation = () => {
           </div>
         ))}
       </div>
+      {error && (
+        <ErrorModal
+          isOpen={error !== null}
+          errorMessage={error}
+          onClose={() => setError(null)}
+        />
+      )}
     </div>
   )
 }

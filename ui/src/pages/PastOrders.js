@@ -1,9 +1,10 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { BsArrowDownCircleFill, BsFillArrowUpCircleFill } from 'react-icons/bs'
-
+import ErrorModal from '../errorModal/errorModal'
 const OrderCart = ({ menu, date, state }) => {
   const [isOpen, setIsOpen] = useState(false)
+  
   let name = ''
   let total = 0
   menu.forEach((m) => {
@@ -78,6 +79,7 @@ const OrderCart = ({ menu, date, state }) => {
 
 const PastOrders = () => {
   const [pastOrders, setPastOrders] = useState([])
+  const [error, setError] = useState(null)
   useEffect(() => {
     const uid = localStorage.getItem('uid')
     axios
@@ -85,7 +87,7 @@ const PastOrders = () => {
       .then((res) => {
         setPastOrders(res.data.orderHistory)
       })
-      .catch((err) => console.log(err))
+      .catch((err) => { setError("Couldn't fetch past orders") })
   }, [])
 
   return (
@@ -98,6 +100,13 @@ const PastOrders = () => {
           state={order.state}
         />
       ))}
+      {error && (
+        <ErrorModal
+          isOpen={error !== null}
+          errorMessage={error}
+          onClose={() => setError(null)}
+        />
+      )}
     </div>
   )
 }

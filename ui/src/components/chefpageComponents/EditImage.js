@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { AiOutlineCamera } from 'react-icons/ai';
-
+import ErrorModal from '../../errorModal/errorModal';
 const EditImage = ({ className, circle, onPictureChange, onPictureRemove }) => {
     const fileInputRef = useRef(null);
     const [menuOpen, setMenuOpen] = useState(false);

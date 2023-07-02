@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { FaPen } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import ErrorModal from '../../errorModal/errorModal';
+import { useParams } from 'react-router-dom';
 
 const ChefAbout = ({ isChef, about, phone, email }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [aboutText, setAboutText] = useState(about);
   const [phoneText, setPhoneText] = useState(phone);
   const [emailText, setEmailText] = useState(email);
+  const [error, setError] = useState(null);
+
   const { id } = useParams();
   const uid = localStorage.getItem('uid');
 
@@ -19,24 +22,27 @@ const ChefAbout = ({ isChef, about, phone, email }) => {
         email: emailText,
       })
       .then((response) => {
-        console.log('Data saved successfully!')
-        setIsEditing(false)
+        console.log('Data saved successfully!');
+        setIsEditing(false);
       })
       .catch((error) => {
-        console.error('Error saving data:', error)
+        setError("Error saving data. Please try again later.");
       });
 
     setIsEditing(false);
-  }
+  };
 
   const handleEditClick = () => {
     if (isEditing) {
       handleSave();
     }
     setIsEditing(!isEditing);
-  }
+  };
+
   return (
     <div>
+
+
       {isEditing ? (
         <div>
           <textarea
@@ -66,18 +72,25 @@ const ChefAbout = ({ isChef, about, phone, email }) => {
           <p>{emailText}</p>
         </div>
       )}
-      {isChef && uid == id && (
+      {isChef && uid === id && (
         <div className="flex flex-row-reverse">
           <button
             onClick={handleEditClick}
-            className=" mt-2 mb-2 bg-green-800 text-white spx-4 py-2 rounded-md"
+            className="mt-2 mb-2 bg-green-800 text-white spx-4 py-2 rounded-md"
           >
             {isEditing ? 'Save' : <FaPen className="fas fa-pen"></FaPen>}
           </button>
         </div>
       )}
+      {error && (
+        <ErrorModal
+          isOpen={error !== null}
+          errorMessage={error}
+          onClose={() => setError(null)}
+        />
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default ChefAbout
+export default ChefAbout;

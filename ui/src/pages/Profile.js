@@ -5,7 +5,7 @@ import axios from 'axios'
 
 import profileImage from './adminpage/image.jpg'
 import { FiEdit2 } from 'react-icons/fi'
-
+import ErrorModal from '../errorModal/errorModal'
 const Profile = () => {
   const navigate = useNavigate()
   const authCtx = useContext(AuthContext)
@@ -14,7 +14,7 @@ const Profile = () => {
   const uid = localStorage.getItem('uid')
   const [image, setImage] = useState(profileImage)
   const [user, setUser] = useState({})
-
+  const [error, setError] = useState(null)
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -25,6 +25,7 @@ const Profile = () => {
         setImage(response.data.data.user.image)
         setUser(response.data.data.user)
       } catch (error) {
+        setError('Error fetching user data. Please try again later.')
         console.log(error)
       }
     }
@@ -58,11 +59,11 @@ const Profile = () => {
         console.log('Resim yüklendi!')
         navigate('/profile')
       } catch (error) {
-        // İstek başarısız olduğunda yapılacak işlemler
+        setError('Resim yüklenirken hata oluştu!')
         console.error('Resim yüklenirken hata oluştu:', error)
       }
     } else {
-      // Uyarı veya hata mesajı gösterebilirsiniz.
+      setError('Desteklenmeyen dosya formatı!')
       console.log('Desteklenmeyen dosya formatı!')
     }
   }
@@ -143,6 +144,13 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      {error && (
+        <ErrorModal
+          isOpen={error !== null}
+          errorMessage={error}
+          onClose={() => setError(null)}
+        />
+      )}
     </div>
   )
 }

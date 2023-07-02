@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom'
 import ChefCard from '../components/navbarComponents/ChefCard'
 import FavoriteChefsContext from '../context/FavoriteChefsContex'
 import axios from 'axios'
-
+import ErrorModal from '../errorModal/errorModal'
 const Favorites = () => {
   const favCtx = useContext(FavoriteChefsContext)
 
   const navigate = useNavigate()
   const authCtx = useContext(AuthContext)
-
+  const [error, setError] = useState(null)
   const [favoriteChefs, setFavoriteChefs] = useState([])
 
   useEffect(() => {
@@ -24,17 +24,24 @@ const Favorites = () => {
   }, [favCtx.favoriteChefs])
 
   const handleChefDelete = async (chefId) => {
-    const child = favoriteChefs.find((chef) => chef.chefId == chefId)
-
-    const uid = localStorage.getItem('uid')
-    const res = await axios.delete(
-      `http://127.0.0.1:3001/api/v1/favourites/${uid}/${chefId}`
-    )
-    if (res.data.status === 'success') {
-      favCtx.removeChefFromFavorites(child._id)
+    const child = favoriteChefs.find((chef) => chef.chefId == chefId);
+  
+    const uid = localStorage.getItem('uid');
+  
+    try {
+      const res = await axios.delete(
+        `http://127.0.0.1:3001/api/v1/favourites/${uid}/${chefId}`
+      );
+  
+      if (res.data.status === 'success') {
+        favCtx.removeChefFromFavorites(child._id);
+      }
+    } catch (error) {
+      setError('Error deleting chef from favorites. Please try again later.');
     }
     // CALL API
-  }
+  };
+  
 
   useEffect(() => {
     if (!authCtx.isLoggedIn) {
@@ -61,6 +68,13 @@ const Favorites = () => {
         />
       ))
     )}
+    {error && (
+        <ErrorModal
+          isOpen={error !== null}
+          errorMessage={error}
+          onClose={() => setError(null)}
+        />
+      )}
   </div>
   )
 }

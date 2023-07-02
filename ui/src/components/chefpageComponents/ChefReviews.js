@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import Review from './Review';
 import axios from 'axios';
+import ErrorModal from '../../errorModal/errorModal';
 
 // This data should come from backend:
 
 const ChefReviews = ({ isChef, reviews }) => {
   const [allReviews, setAllReviews] = useState(reviews ? reviews : undefined);
-
+  const [error, setError] = useState(null);
   const changeReviewReply = async (review, incomingReply) => {
     const index = allReviews.findIndex((r) => r.id === review.id);
     if (index !== -1) {

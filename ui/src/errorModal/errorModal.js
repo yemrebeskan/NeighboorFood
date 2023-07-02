@@ -10,7 +10,6 @@ const ErrorModal = ({ isOpen, errorMessage, onClose }) => {
       className="error-modal"
       overlayClassName="error-modal-overlay"
     >
-      <h2 className="error-modal__title">Error</h2>
       <p className="error-modal__message">{errorMessage}</p>
       <button className="error-modal__close" onClick={onClose}>
         Close

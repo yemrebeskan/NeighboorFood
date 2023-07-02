@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import './BeChefPage.css'
 import chefImg from '../components/homepageComponents/chef_img.jpeg'
 import axios from 'axios'
-
+import ErrorModal from '../errorModal/errorModal'
 const BeShefPage = () => {
   const navigate = useNavigate()
   const authCtx = useContext(AuthContext)
@@ -12,6 +12,7 @@ const BeShefPage = () => {
   const [country, setCountry] = useState('')
   const [streetAddress, setStreetAdress] = useState('')
   const [city, setCity] = useState('')
+  const [error, setError] = useState(null);
 
   const aboutHandler = (event) => {
     setAboutNewChef(event.target.value)
@@ -30,23 +31,32 @@ const BeShefPage = () => {
     setCountry(event.target.value)
   }
 
-  const beChef = async () => {
-    event.preventDefault()
-
+  const beChef = async (event) => {
+    event.preventDefault();
+  
     const chefInfos = {
       aboutNewChef: aboutNewChef,
       country: country,
       streetAddress: streetAddress,
       city: city.toLowerCase(),
+    };
+  
+    const uid = localStorage.getItem('uid');
+  
+    try {
+      const res = await axios.put(
+        `http://127.0.0.1:3001/api/v1/users/${uid}/chefapply`,
+        chefInfos
+      );
+  
+      if (res.data.status === 'success') {
+        navigate('/');
+      }
+    } catch (error) {
+      setError('Error applying to be a chef. Please try again later.');
     }
-    const uid = localStorage.getItem('uid')
-    const res = await axios.put(
-      `http://127.0.0.1:3001/api/v1/users/${uid}/chefapply`,
-      chefInfos
-    )
-    console.log(res)
-    if (res.data.status === 'success') navigate('/')
-  }
+  };
+  
 
   useEffect(() => {
     if (!localStorage.getItem('uid')) {
@@ -173,6 +183,13 @@ const BeShefPage = () => {
           </button>
         </div>
       </form>
+      {error && (
+        <ErrorModal
+          isOpen={error !== null}
+          errorMessage={error}
+          onClose={() => setError(null)}
+        />
+      )}
     </div>
   )
 }
