@@ -4,11 +4,23 @@ const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 const Order = require('../models/orderModel')
 const Food = require('../models/foodModel')
+const Notification = require('../models/notificationModel')
 
 exports.makeOrder = catchAsync(async (req, res, next) => {
   const userId = req.params.id
   const { orderedFoods, chefId } = req.body
   const user = await User.findById(userId)
+  const chef = await Chef.findById(chefId)
+  const chefNotification = new Notification({
+    message: 'You have a new order',
+    to: chef.userInfos,
+  })
+  await chefNotification.save()
+  const userNotification = new Notification({
+    message: 'You have ordered menu succesfully.',
+    to: userId,
+  })
+  await userNotification.save()
   const foodsReq = []
   orderedFoods.forEach(async (orderedFood) => {
     foodsReq.push(Food.findById(orderedFood.foodId))
@@ -65,7 +77,10 @@ exports.getAllOrdersForUser = catchAsync(async (req, res, next) => {
 exports.cancelOrder = catchAsync(async (req, res, next) => {
   const user = req.params.userId
   const orderId = req.params.orderId
-  const order = await Order.findById(orderId)
+  const order = await Order.findById(orderId).populate({
+    path: 'chef',
+    model: 'Chef',
+  })
   if (!order) {
     return next(new AppError('No order found with that ID', 404))
   }
@@ -74,6 +89,19 @@ exports.cancelOrder = catchAsync(async (req, res, next) => {
       new AppError('You are not authorized to cancel this order', 401)
     )
   }
+  const chefNotification = new Notification({
+    message: 'Order has been canceled.',
+    to: order.chef.userInfos,
+  })
+
+  await chefNotification.save()
+
+  const userNotification = new Notification({
+    message: 'You have canceled your order successfully.',
+    to: order.user,
+  })
+
+  await userNotification.save()
   await Order.findByIdAndDelete(orderId)
   res.status(204).json({
     status: 'success',
@@ -88,6 +116,12 @@ exports.acceptOrder = catchAsync(async (req, res, next) => {
     { state: 'accepted' },
     { new: true }
   )
+  const notification = new Notification({
+    message: 'Your order has been accepted. It is preparing...',
+    to: order.user,
+  })
+
+  await notification.save()
   res.status(200).json({
     status: 'success',
     data: {
@@ -102,7 +136,13 @@ exports.rejectOrder = catchAsync(async (req, res, next) => {
     orderId,
     { state: 'rejected' },
     { new: true }
-  )
+  ).populate({ path: 'user', model: 'User' })
+  const notification = new Notification({
+    message: 'We are upset. Your order has been rejected.',
+    to: order.user,
+  })
+
+  await notification.save()
   res.status(200).json({
     status: 'success',
     data: {
@@ -120,6 +160,12 @@ exports.completeOrder = catchAsync(async (req, res, next) => {
     },
     { new: true }
   )
+  const notification = new Notification({
+    message: 'Your order has been completed successfully.',
+    to: order.user,
+  })
+
+  await notification.save()
   res.status(200).json({
     status: 'success',
     data: {
@@ -134,7 +180,7 @@ exports.getPendingOrders = catchAsync(async (req, res, next) => {
   const order = await Order.find({ chef: chefId, state: 'pending' }).populate({
     path: 'foods.orderedFood',
   })
-  console.log(order)
+
   res.status(200).json({
     status: 'success',
     data: {

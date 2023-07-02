@@ -28,4 +28,8 @@ router
 
 router.route('/:id/pastorders').get(userController.getPastOrders)
 
+router.route('/:id/notifications').get(userController.getNotifications)
+
+router.route('/:nid/notification').delete(userController.deleteNotification)
+
 module.exports = router

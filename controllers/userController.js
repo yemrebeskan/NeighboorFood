@@ -4,6 +4,7 @@ const Food = require('../models/foodModel')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 const Application = require('../models/applicationModel')
+const Notification = require('../models/notificationModel')
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find()
@@ -193,6 +194,54 @@ exports.getPastOrders = async (req, res) => {
     res.status(200).json({
       status: 'success',
       orderHistory: user.orderHistory,
+    })
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    })
+  }
+}
+
+exports.getNotifications = async (req, res, next) => {
+  try {
+    const uid = req.params.id
+    const notifications = await Notification.find({ to: uid })
+    res.status(200).json({
+      status: 'success',
+      notifications: notifications,
+    })
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    })
+  }
+}
+
+exports.deleteNotification = async (req, res, next) => {
+  try {
+    const nid = req.params.nid
+    const notification = await Notification.findByIdAndRemove(nid)
+    res.status(200).json({
+      status: 'success',
+      notifications: notification,
+    })
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    })
+  }
+}
+
+exports.deleteNotifications = async (req, res, next) => {
+  try {
+    const uid = req.params.uid
+    const notifications = await Notification.deleteMany({ userInfos: uid })
+    res.status(200).json({
+      status: 'success',
+      notifications: notifications,
     })
   } catch (err) {
     res.status(404).json({
