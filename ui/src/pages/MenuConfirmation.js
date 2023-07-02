@@ -43,57 +43,38 @@ const MenuConfirmation = () => {
       },
     },
   ]
-  /*
-  useEffect(() => {
+
+  /* useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("https://isces.onrender.com/api/v1/rep/");
-        const representatives = res.data.data.representatives;
-        const candidateRes = await axios.get(
-          "https://isces.onrender.com/api/v1/admin/candidates"
-        );
-        const candidates = candidateRes.data.data.candidates;
-        const allStudents = [...representatives, ...candidates];
-
-        setStudents(allStudents);
+        const uid = localStorage.getItem('uid')
+        const res = await axios.get(
+          `http://127.0.0.1:3001/api/v1/orders/${uid}`
+        )
+        console.log(res.data.data.order)
+        setOrders(res.data.data.order)
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
-    };
-
-    fetchData();
-  }, []);
-
-  const handleRemoveAuthority = async (student) => {
-    const updatedStudents = students.filter(
-      (std) => student.studentInfos._id !== std.studentInfos._id
-    );
-    setStudents(updatedStudents);
-    if (student.studentInfos.isRepresentative) {
-      await axios.delete(
-        `https://isces.onrender.com/api/v1/rep/cancelRep/${student.studentInfos._id}`
-      );
-    } else if (student.studentInfos.isCandidate) {
-      await axios.delete(
-        `https://isces.onrender.com/api/v1/candidate/${student.studentInfos._id}`
-      );
     }
-  };
-*/
+
+    fetchData()
+  }, [])*/
+
   const handleAccept = async (order) => {
-    /*
-        const updatedOrders = orders.filter((ord) => order.id !== ord.id)
-        setOrders(updatedOrders)
-        await axios.delete(`https://isces.onrender.com/api/v1/admin/orders/${order.id}`)
-        */
+    const updatedOrders = orders.filter((ord) => order.id !== ord.id)
+    setOrders(updatedOrders)
+    /*await axios.delete(
+      `https://isces.onrender.com/api/v1/admin/orders/${order.id}`
+    )*/
   }
 
   const handleReject = async (order) => {
-    /*
-        const updatedOrders = orders.filter((ord) => order.id !== ord.id)
-        setOrders(updatedOrders)
-        await axios.delete(`https://isces.onrender.com/api/v1/admin/orders/${order.id}`)
-        */
+    const updatedOrders = orders.filter((ord) => order.id !== ord.id)
+    setOrders(updatedOrders)
+    /*await axios.delete(
+      `https://isces.onrender.com/api/v1/admin/orders/${order.id}`
+    )*/
   }
   return (
     <div style={{ minHeight: '400px' }}>

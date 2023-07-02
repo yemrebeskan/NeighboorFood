@@ -18,6 +18,7 @@ For Orders:
     http://127.0.0.1:3001/api/v1/orders/order/:id/reject put(rejectOrder)
     http://127.0.0.1:3001/api/v1/orders/order/:id/accept put(acceptOrder)
     http://127.0.0.1:3001/api/v1/orders/order/:id/complete put(completeOrder)
+    http://127.0.0.1:3001/api/v1/orders/:chefId get(getPendingOrders) 
 
 For Reviews:
     http://127.0.0.1:3001/api/v1/reviews/makeReview/:userId/:chefId post(makeReview)

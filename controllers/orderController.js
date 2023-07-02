@@ -175,11 +175,13 @@ exports.completeOrder = catchAsync(async (req, res, next) => {
 })
 
 exports.getPendingOrders = catchAsync(async (req, res, next) => {
-  const chefId = req.params.chefId
-
-  const order = await Order.find({ chef: chefId, state: 'pending' }).populate({
-    path: 'foods.orderedFood',
-  })
+  const uid = req.params.chefId
+  const chef = await Chef.findOne({ userInfos: uid })
+  const order = await Order.find({ chef: chef._id, state: 'pending' }).populate(
+    {
+      path: 'foods.orderedFood',
+    }
+  )
 
   res.status(200).json({
     status: 'success',
