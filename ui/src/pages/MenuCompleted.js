@@ -2,14 +2,17 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import ErrorModal from '../errorModal/errorModal'
 
-const MenuConfirmation = () => {
+const MenuCompleted = () => {
   const [menus, setMenus] = useState([])
   const [error, setError] = useState(null)
   const fetchData = async () => {
     try {
       const uid = localStorage.getItem('uid')
-      const res = await axios.get(`http://127.0.0.1:3001/api/v1/orders/${uid}`)
+      const res = await axios.get(
+        `http://127.0.0.1:3001/api/v1/orders/${uid}/accepted`
+      )
       setMenus(res.data.data.order)
+      console.log(res.data.data.order)
     } catch (error) {
       setError('Error fetching menus. Please try again later.')
     }
@@ -19,15 +22,7 @@ const MenuConfirmation = () => {
     fetchData()
   }, [])
 
-  const handleAccept = async (menu) => {
-    const updatedMenus = menus.filter((m) => menu.id !== m.id)
-    setMenus(updatedMenus)
-    /*await axios.delete(
-      `https://isces.onrender.com/api/v1/admin/menus/${menu.id}`
-    )*/
-  }
-
-  const handleReject = async (menu) => {
+  const handleCompleted = async (menu) => {
     const updatedMenus = menus.filter((m) => menu.id !== m.id)
     setMenus(updatedMenus)
     /*await axios.delete(
@@ -109,23 +104,9 @@ const MenuConfirmation = () => {
                 fontWeight: 'bold',
                 cursor: 'pointer',
               }}
-              onClick={() => handleAccept(menu)}
+              onClick={() => handleCompleted(menu)}
             >
-              Accept
-            </button>
-            <button
-              style={{
-                backgroundColor: 'red',
-                color: 'white',
-                padding: '10px 20px',
-                borderRadius: '5px',
-                fontSize: '16px',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-              }}
-              onClick={() => handleReject(menu)}
-            >
-              Reject
+              Completed
             </button>
           </div>
         ))}
@@ -141,4 +122,4 @@ const MenuConfirmation = () => {
   )
 }
 
-export default MenuConfirmation
+export default MenuCompleted

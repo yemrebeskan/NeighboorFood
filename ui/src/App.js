@@ -18,6 +18,7 @@ import Settings from './pages/Settings'
 import ControlChef from './pages/adminpage/ControlChef'
 import PastOrders from './pages/PastOrders'
 import MenuConfirmation from './pages/MenuConfirmation'
+import MenuCompleted from './pages/MenuCompleted'
 
 const App = () => {
   const authCtx = useContext(AuthContext)
@@ -57,6 +58,7 @@ const App = () => {
               path="/menuconfirmation"
               element={<MenuConfirmation />}
             ></Route>
+            <Route path="/menucompleted" element={<MenuCompleted />}></Route>
           </Routes>
         </BrowserRouter>
         <div className={authCtx.isOnClickedSignButton ? 'blur-sm ' : ''}>
