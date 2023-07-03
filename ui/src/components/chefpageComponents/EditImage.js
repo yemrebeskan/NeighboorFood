@@ -21,13 +21,19 @@ const EditImage = ({ className, circle, onPictureRemove }) => {
     console.log(reader)
     reader.onloadend = async () => {
       try {
+        
         const base64Data = reader.result.split(',')[1]
         console.log(base64Data)
+        const imagedata = {
+          image: base64Data,
+        }
         const response = await axios.put(
           `http://127.0.0.1:3001/api/v1/settings/${uid}/image`,
-          base64Data
+          imagedata
         )
         console.log('Profile picture changed21')
+        console.log(response)
+
       } catch (error) {
         console.log(error)
       }

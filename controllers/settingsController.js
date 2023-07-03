@@ -55,7 +55,9 @@ exports.getImage = catchAsync(async (req, res, next) => {
 })
 
 exports.changeImage = catchAsync(async (req, res, next) => {
-  const imageBase64 = req.body
+  console.log(req.body)
+  const imageBase64 = req.body.image
+
   const userId = req.params.id
   const user = await User.findByIdAndUpdate(
     userId,
