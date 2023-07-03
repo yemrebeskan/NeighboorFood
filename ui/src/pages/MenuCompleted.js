@@ -5,6 +5,7 @@ import ErrorModal from '../errorModal/errorModal'
 const MenuCompleted = () => {
   const [menus, setMenus] = useState([])
   const [error, setError] = useState(null)
+  const [name, setName] = useState('')
   const fetchData = async () => {
     try {
       const uid = localStorage.getItem('uid')
@@ -91,7 +92,8 @@ const MenuCompleted = () => {
               </div>
             ))}
             <div style={{ textAlign: 'center' }}>
-              <p style={{ margin: 0 }}>Müşteri: {menu.user}</p>
+              <p style={{ margin: 0 }}>Müşteri: {menu.user.name+' '+menu.user.surname}</p>
+              <p style={{ margin: 0 }}>Phone Number: {menu.user.phoneNumber}</p>
             </div>
 
             <button

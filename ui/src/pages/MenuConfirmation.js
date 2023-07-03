@@ -96,7 +96,10 @@ const MenuConfirmation = () => {
               </div>
             ))}
             <div style={{ textAlign: 'center' }}>
-              <p style={{ margin: 0 }}>Müşteri: {menu.user}</p>
+              <p style={{ margin: 0 }}>
+                Müşteri: {menu.user.name + ' ' + menu.user.surname}
+              </p>
+              <p style={{ margin: 0 }}>Phone Number: {menu.user.phoneNumber}</p>
             </div>
 
             <button

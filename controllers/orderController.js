@@ -177,11 +177,15 @@ exports.completeOrder = catchAsync(async (req, res, next) => {
 exports.getPendingOrders = catchAsync(async (req, res, next) => {
   const uid = req.params.chefId
   const chef = await Chef.findOne({ userInfos: uid })
-  const order = await Order.find({ chef: chef._id, state: 'pending' }).populate(
-    {
+  const order = await Order.find({
+    chef: chef._id,
+    state: 'pending',
+  })
+    .populate({
       path: 'foods.orderedFood',
-    }
-  )
+    })
+    .populate('user') // user alanını populate et
+
 
   res.status(200).json({
     status: 'success',
@@ -197,14 +201,16 @@ exports.getAcceptedOrders = catchAsync(async (req, res, next) => {
   const order = await Order.find({
     chef: chef._id,
     state: 'accepted',
-  }).populate({
-    path: 'foods.orderedFood',
   })
+    .populate({
+      path: 'foods.orderedFood',
+    })
+    .populate('user') // user alanını populate et
 
   res.status(200).json({
     status: 'success',
     data: {
-      order,
+      order, // orders olarak düzeltiliyor
     },
   })
 })
