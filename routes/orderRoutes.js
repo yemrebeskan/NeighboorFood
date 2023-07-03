@@ -24,4 +24,6 @@ router.route('/order/:id/complete').put(orderController.completeOrder)
 
 router.route('/:chefId').get(orderController.getPendingOrders)
 
+router.route('/:chefId/accepted').get(orderController.getAcceptedOrders)
+
 module.exports = router

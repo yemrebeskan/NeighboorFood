@@ -190,3 +190,21 @@ exports.getPendingOrders = catchAsync(async (req, res, next) => {
     },
   })
 })
+
+exports.getAcceptedOrders = catchAsync(async (req, res, next) => {
+  const uid = req.params.chefId
+  const chef = await Chef.findOne({ userInfos: uid })
+  const order = await Order.find({
+    chef: chef._id,
+    state: 'accepted',
+  }).populate({
+    path: 'foods.orderedFood',
+  })
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      order,
+    },
+  })
+})
