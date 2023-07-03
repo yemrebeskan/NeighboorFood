@@ -187,11 +187,11 @@ exports.updateAbout = catchAsync(async (req, res, next) => {
 
 exports.addFoodToMenu = catchAsync(async (req, res, next) => {
   const chefId = req.params.id
-  const { name, kcali, price, likes, disslikes, image } = req.body
-  const newFood = new Food({ name, kcali, price, likes, disslikes, image })
+  const { name, kcal, price, likes, disslikes, image } = req.body
+  const newFood = new Food({ name, kcal, price, likes, disslikes, image })
   const savedFood = await newFood.save()
   const chef = await Chef.findOne({ userInfos: chefId })
-  const menu = await Menu.findOne({ chefInfos: chefId })
+  const menu = await Menu.findOne({ chefInfos: chef._id })
   menu.foods.push(savedFood._id)
   await menu.save()
   res.status(200).json({
@@ -207,7 +207,7 @@ exports.removeFoodFromMenu = catchAsync(async (req, res, next) => {
   const chefId = req.params.id
   const foodId = req.params.foodId
   const chef = await Chef.findOne({ userInfos: chefId })
-  const menu = await Menu.findOne({ chefInfos: chefId })
+  const menu = await Menu.findOne({ chefInfos: chef._id })
   menu.foods.pull(foodId)
   await menu.save()
   await Food.findByIdAndDelete(foodId)
@@ -225,7 +225,7 @@ exports.updateFood = catchAsync(async (req, res, next) => {
   const foodId = req.params.foodId
   const { name, kcali, price, likes, disslikes, image } = req.body
   const chef = await Chef.findOne({ userInfos: chefId })
-  const menu = await Menu.findOne({ chefInfos: chefId._id })
+  const menu = await Menu.findOne({ chefInfos: chef._id })
   const food = await Food.findByIdAndUpdate(
     foodId,
     { name, kcali, price, likes, disslikes, image },
@@ -276,17 +276,12 @@ exports.getThumbnail = catchAsync(async (req, res, next) => {
     return next(new AppError(`No chef found with that ${id}`, 404))
   }
   const imageBase64 = chef.thumbnail
-  const imageBuffer = Buffer.from(imageBase64, 'base64')
-  res.writeHead(200, {
-    'Content-Type': 'image/png',
-    'Content-Length': imageBuffer.length,
-  })
-  res.end(imageBuffer)
+  res.send(imageBase64)
 })
 
 exports.changeThumbnail = catchAsync(async (req, res, next) => {
-  const filePath = req.file.path
-  const imageBase64 = fs.readFileSync(filePath, { encoding: 'base64' })
+  console.log(req.body)
+  const imageBase64 = req.body.thumbnail
   const userId = req.params.id
   const chef = await Chef.findOneAndUpdate(
     { userInfos: userId },
@@ -294,11 +289,6 @@ exports.changeThumbnail = catchAsync(async (req, res, next) => {
     { new: true, runValidators: true }
   )
 
-  if (!chef) {
-    return next(new AppError(`No chef found with that id: ${userId}`, 404))
-  }
-
-  fs.unlinkSync(filePath)
   res.status(200).json({
     status: 'success',
     data: {
@@ -334,18 +324,11 @@ exports.getFoodImage = catchAsync(async (req, res, next) => {
   const foodId = req.params.foodId
   const food = await Food.findById(foodId)
   const imageBase64 = food.image
-
-  const imageBuffer = Buffer.from(imageBase64, 'base64')
-  res.writeHead(200, {
-    'Content-Type': 'image/png',
-    'Content-Length': imageBuffer.length,
-  })
-  res.end(imageBuffer)
+  res.send(imageBase64)
 })
 
 exports.changeFoodImage = catchAsync(async (req, res, next) => {
-  const filePath = req.file.path
-  const imageBase64 = fs.readFileSync(filePath, { encoding: 'base64' })
+  const imageBase64 = req.body.getFoodImage
   const foodId = req.params.foodId
   const food = await Food.findByIdAndUpdate(
     foodId,
@@ -353,11 +336,6 @@ exports.changeFoodImage = catchAsync(async (req, res, next) => {
     { new: true, runValidators: true }
   )
 
-  if (!food) {
-    return next(new AppError(`No food found with that id: ${foodId}`, 404))
-  }
-
-  fs.unlinkSync(filePath)
   res.status(200).json({
     status: 'success',
     data: {

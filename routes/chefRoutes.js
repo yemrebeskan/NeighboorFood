@@ -14,20 +14,22 @@ router
 router.route('/district/:district').get(chefController.getChefByDistrict)
 
 router
+  .route('/:id/thumbnail')
+  .get(/*authController.protect,*/ chefController.getThumbnail)
+  .put(/*authController.protect,*/ chefController.changeThumbnail)
+  .delete(/*authController.protect,*/ chefController.removeThumbnail)
+
+
+router
   .route('/:id/menu')
   .get(chefController.getChefMenu)
   .put(/*authController.protect, */ chefController.addFoodToMenu)
 
 router
   .route('/:id/:foodId')
-  .put(/*authController.protect,*/ chefController.updateFood)
-  .delete(/*authController.protect,*/ chefController.removeFoodFromMenu)
+  .put(chefController.updateFood)
+  .delete(chefController.removeFoodFromMenu)
 
-router
-  .route('/:id/thumbnail')
-  .get(/*authController.protect,*/ chefController.getThumbnail)
-  .put(/*authController.protect,*/ chefController.changeThumbnail)
-  .delete(/*authController.protect,*/ chefController.removeThumbnail)
 
 router
   .route('/:id/about')

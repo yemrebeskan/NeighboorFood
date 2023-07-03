@@ -2,45 +2,22 @@ import React, { useRef, useState } from 'react'
 import { AiOutlineCamera } from 'react-icons/ai'
 import ErrorModal from '../../errorModal/errorModal'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
 
 const EditImage = ({ className, circle, onPictureRemove }) => {
   const fileInputRef = useRef(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const uid = localStorage.getItem('uid')
-    const { id } = useParams()
 
   const handlePictureChange = (event) => {
     const file = event.target.files[0]
     if (file) {
-      onPictureChange(file)
+      thumbnailChange(file)
     }
-  }
-  const onPictureChange = async (file) => {
-    const reader = new FileReader()
-    console.log('burdayız')
-    console.log(file)
-    console.log(reader)
-    reader.onloadend = async () => {
-      try {
-        const base64Data = reader.result.split(',')[1]
-        console.log(base64Data)
-        const imagedata = {
-          image: base64Data,
-        }
-        const response = await axios.put(
-          `http://127.0.0.1:3001/api/v1/settings/${uid}/image`,
-          imagedata
-        )
-        window.location.reload()
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    reader.readAsDataURL(file)
   }
 
+
   const thumbnailChange = async (file) => {
+    const uid = localStorage.getItem('uid')
     const reader = new FileReader()
     reader.onloadend = async () => {
       try {
@@ -48,8 +25,9 @@ const EditImage = ({ className, circle, onPictureRemove }) => {
         const thumbnaildata = {
           thumbnail: base64Data,
         }
+        console.log(thumbnaildata)
         const response = await axios.put(
-          `http://127.0.0.1:3001/api/v1/settings/${uid}/thumbnail`,
+          `http://127.0.0.1:3001/api/v1/chefs/${uid}/thumbnail`,
           thumbnaildata
         )
         window.location.reload()

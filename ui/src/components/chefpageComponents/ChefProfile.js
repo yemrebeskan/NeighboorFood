@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import StarRating from './StarRating'
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import EditImage from './EditImage'
+import EditThumbnail from './EditThumbnail'
 import FavoriteChefsContext from '../../context/FavoriteChefsContex'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
@@ -29,7 +30,7 @@ const ChefProfile = ({ isChef, chefInfo }) => {
     const fetchImage = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:3001/api/v1/settings/${uid}/image`
+          `http://127.0.0.1:3001/api/v1/settings/${id}/image`
         )
         setImageData(response.data)
       } catch (error) {
@@ -39,6 +40,22 @@ const ChefProfile = ({ isChef, chefInfo }) => {
 
     fetchImage()
   }, [])
+
+    const [imageThumbnail, setImageThumbnail] = useState('')
+    useEffect(() => {
+      const fetchImage = async () => {
+        try {
+          const response = await axios.get(
+            `http://127.0.0.1:3001/api/v1/chefs/${id}/thumbnail`
+          )
+          setImageThumbnail(response.data)
+        } catch (error) {
+          console.error('Error fetching image:', error)
+        }
+      }
+
+      fetchImage()
+    }, [])
 
   const onPictureChange = async (file) => {
     const reader = new FileReader()
@@ -107,13 +124,13 @@ const ChefProfile = ({ isChef, chefInfo }) => {
     <div className="bg-white sm:p-8 p-3 mb-8 rounded-lg relative">
       <div
         className="bg-cover bg-center sm:h-72 h-52 relative"
-        style={{ backgroundImage: `url(${chef.backgroundImage})` }}
+        style={{ backgroundImage: `url(data:image/png;base64,${imageThumbnail})` }}
       >
         {isChef && uid == id && (
-          <EditImage
+          <EditThumbnail
             className="absolute bottom-2 right-2"
             circle={false}
-            onPictureChange={() => console.log('Background picture changed')}
+            onThumbnailChange={() => {onThumbnailChange(), console.log('Thumbnail changed')}}
             onPictureRemove={() => console.log('Background picture removed')}
           />
         )}
