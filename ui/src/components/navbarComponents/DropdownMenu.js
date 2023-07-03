@@ -56,7 +56,17 @@ const DropdownMenu = ({ user }) => {
           </div>
         </li>
       )}
-    
+
+      {user.isChef && (
+        <li className="hover:bg-gray-100">
+          <div
+            onClick={() => navigation('/menucompleted')}
+            className="w-full text-left p-4"
+          >
+            Menu Completed
+          </div>
+        </li>
+      )}
 
       {user.isAdmin && (
         <li className="hover:bg-gray-100">

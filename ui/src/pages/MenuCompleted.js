@@ -33,7 +33,7 @@ const MenuCompleted = () => {
   return (
     <div style={{ minHeight: '400px' }}>
       <h1 className="text-3xl font-bold flex justify-center mt-4">
-        Menü Onayı
+        Menü Tamamlanması
       </h1>
       <div
         style={{
@@ -106,7 +106,7 @@ const MenuCompleted = () => {
               }}
               onClick={() => handleCompleted(menu)}
             >
-              Completed
+              Complete
             </button>
           </div>
         ))}
