@@ -51,24 +51,17 @@ exports.getImage = catchAsync(async (req, res, next) => {
     return next(new AppError(`No user found with that ${id}`, 404))
   }
   const imageBase64 = user.image
-  const imageBuffer = Buffer.from(imageBase64, 'base64')
-  res.writeHead(200, {
-    'Content-Type': 'image/png',
-    'Content-Length': imageBuffer.length,
-  })
-  res.end(imageBuffer)
+  res.send(imageBase64)
 })
 
 exports.changeImage = catchAsync(async (req, res, next) => {
-  const filePath = req.file.path
-  const imageBase64 = fs.readFileSync(filePath, { encoding: 'base64' })
+  const imageBase64 = req.body
   const userId = req.params.id
   const user = await User.findByIdAndUpdate(
     userId,
     { image: imageBase64 },
     { new: true, runValidators: true }
   )
-  fs.unlinkSync(filePath)
   res.status(200).json({
     status: 'success',
     data: {

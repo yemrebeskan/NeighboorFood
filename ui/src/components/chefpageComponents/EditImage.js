@@ -1,29 +1,51 @@
-import React, { useRef, useState } from 'react';
-import { AiOutlineCamera } from 'react-icons/ai';
-import ErrorModal from '../../errorModal/errorModal';
-const EditImage = ({ className, circle, onPictureChange, onPictureRemove }) => {
-    const fileInputRef = useRef(null);
-    const [menuOpen, setMenuOpen] = useState(false);
-  
-    const handlePictureChange = (event) => {
-      const file = event.target.files[0];
-      if (file) {
-        onPictureChange(file);
+import React, { useRef, useState } from 'react'
+import { AiOutlineCamera } from 'react-icons/ai'
+import ErrorModal from '../../errorModal/errorModal'
+import axios from 'axios'
+
+const EditImage = ({ className, circle, onPictureRemove }) => {
+  const fileInputRef = useRef(null)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const uid = localStorage.getItem('uid')
+
+  const handlePictureChange = (event) => {
+    const file = event.target.files[0]
+    if (file) {
+      onPictureChange(file)
+    }
+  }
+  const onPictureChange = async (file) => {
+    const reader = new FileReader()
+    console.log('burdayız')
+    console.log(file)
+    console.log(reader)
+    reader.onloadend = async () => {
+      try {
+        const base64Data = reader.result.split(',')[1]
+        console.log(base64Data)
+        const response = await axios.put(
+          `http://127.0.0.1:3001/api/v1/settings/${uid}/image`,
+          base64Data
+        )
+        console.log('Profile picture changed21')
+      } catch (error) {
+        console.log(error)
       }
-    };
-  
-    const handleRemoveClick = () => {
-      onPictureRemove();
-      setMenuOpen(false);
-    };
-  
-    const handleMenuClick = () => {
-      setMenuOpen((prevMenuOpen) => !prevMenuOpen);
-    };
+    }
+    reader.readAsDataURL(file)
+  }
+  const handleRemoveClick = () => {
+    onPictureRemove()
+    setMenuOpen(false)
+  }
+
+  const handleMenuClick = () => {
+    setMenuOpen((prevMenuOpen) => !prevMenuOpen)
+  }
 
   return (
     <div className={`${className}`}>
-       <div>
+      <div>
         <button
           type="button"
           className={`flex items-center justify-center w-10 h-10 rounded-full ${
@@ -75,7 +97,7 @@ const EditImage = ({ className, circle, onPictureChange, onPictureRemove }) => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default EditImage;
+export default EditImage
