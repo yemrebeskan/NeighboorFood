@@ -19,17 +19,15 @@ router
   .put(/*authController.protect,*/ chefController.changeThumbnail)
   .delete(/*authController.protect,*/ chefController.removeThumbnail)
 
-
 router
   .route('/:id/menu')
   .get(chefController.getChefMenu)
-  .put(/*authController.protect, */ chefController.addFoodToMenu)
+  .post(/*authController.protect, */ chefController.addFoodToMenu)
 
 router
   .route('/:id/:foodId')
   .put(chefController.updateFood)
   .delete(chefController.removeFoodFromMenu)
-
 
 router
   .route('/:id/about')

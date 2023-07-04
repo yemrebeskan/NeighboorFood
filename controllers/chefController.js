@@ -1,33 +1,9 @@
-const multer = require('multer')
-const path = require('path')
 const Chef = require('../models/chefModel')
 const Food = require('../models/foodModel')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 const User = require('../models/userModel')
 const Menu = require('../models/menuModel')
-const fs = require('fs')
-
-const multerStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'images/thumbnails')
-  },
-  filename: (req, file, cb) => {
-    const ext = file.mimetype.split('/')[1]
-    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`)
-  },
-})
-
-const upload = multer({
-  storage: multerStorage,
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith('image')) {
-      cb(null, true)
-    } else {
-      cb(new AppError('Not an image! Please upload only images.', 400), false)
-    }
-  },
-})
 
 exports.getAllChefs = catchAsync(async (req, res, next) => {
   const city = req.params.location
@@ -187,13 +163,28 @@ exports.updateAbout = catchAsync(async (req, res, next) => {
 
 exports.addFoodToMenu = catchAsync(async (req, res, next) => {
   const chefId = req.params.id
-  const { name, kcal, price, likes, disslikes, image } = req.body
-  const newFood = new Food({ name, kcal, price, likes, disslikes, image })
+  const { name, kcal, price, likes, dislikes, image } = req.body
+
+  const newFood = new Food({ name, kcal, price, likes, dislikes, image })
   const savedFood = await newFood.save()
+
   const chef = await Chef.findOne({ userInfos: chefId })
-  const menu = await Menu.findOne({ chefInfos: chef._id })
+  if (!chef) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Chef not found',
+    })
+  }
+
+  let menu = await Menu.findOne({ chefInfos: chef._id })
+  if (!menu) {
+    // Create a new menu if it doesn't exist
+    menu = new Menu({ chefInfos: chef._id, foods: [] })
+  }
+
   menu.foods.push(savedFood._id)
   await menu.save()
+
   res.status(200).json({
     status: 'success',
     data: {
@@ -303,7 +294,7 @@ exports.removeThumbnail = catchAsync(async (req, res, next) => {
     { userInfos: userId },
     {
       thumbnail:
-        'https://www.contentviewspro.com/wp-content/uploads/2017/07/default_image.png',
+        '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',
     },
     { new: true, runValidators: true }
   )
