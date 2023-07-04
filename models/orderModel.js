@@ -30,6 +30,10 @@ const orderSchema = new mongoose.Schema({
     enum: ['pending', 'accepted', 'rejected', 'completed'],
     default: 'pending',
   },
+  active: {
+    type: Boolean,
+    default: true,
+  },
 })
 
 const Order = mongoose.model('Order', orderSchema)

@@ -1,29 +1,39 @@
-import React, { useState } from 'react';
+import axios from 'axios'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [errors, setErrors] = useState([]);
-
+const PaymentModal = ({ isOpen, onClose, totalAmount, orderId }) => {
+  const [phone, setPhone] = useState('')
+  const [address, setAddress] = useState('')
+  const [errors, setErrors] = useState([])
+  const navigate = useNavigate()
   const validate = () => {
-    let tempErrors = [];
+    let tempErrors = []
 
-    if(phone.trim() === '') tempErrors.push('Phone number is required.');
-    if(address.trim() === '') tempErrors.push('Delivery address is required.');
+    if (phone.trim() === '') tempErrors.push('Phone number is required.')
+    if (address.trim() === '') tempErrors.push('Delivery address is required.')
 
-    setErrors(tempErrors);
+    setErrors(tempErrors)
 
-    return tempErrors.length === 0;
-  };
+    return tempErrors.length === 0
+  }
 
-  const handleSubmit = () => {
-    if(!validate()) return;
+  const handleSubmit = async () => {
+    const res = await axios.put(
+      `http://127.0.0.1:3001/api/v1/orders/order/${orderId}/completed`
+    )
+    if (res.data.status === 'success') {
+      onClose()
+      navigate('/orders')
+    } else {
+      // Error Modal
+    }
+    if (!validate()) return
 
-    onClose();
     // Handle submit data here.
-  };
+  }
 
-  if(!isOpen) return null;
+  if (!isOpen) return null
 
   return (
     <div className="fixed z-50 inset-0 overflow-y-auto">
@@ -33,7 +43,10 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
           <p>Your payment will be made at the door. Total: ${totalAmount}</p>
 
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phone">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="phone"
+            >
               Phone Number:
             </label>
             <input
@@ -42,11 +55,14 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
               type="text"
               placeholder="Phone Number"
               value={phone}
-              onChange={e => setPhone(e.target.value)}
+              onChange={(e) => setPhone(e.target.value)}
             />
           </div>
           <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="address">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="address"
+            >
               Delivery Address:
             </label>
             <input
@@ -55,28 +71,36 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
               type="text"
               placeholder="Delivery Address"
               value={address}
-              onChange={e => setAddress(e.target.value)}
+              onChange={(e) => setAddress(e.target.value)}
             />
           </div>
 
           <div className="mb-6">
             {errors.map((error, index) => (
-              <p key={index} className="text-red-500 text-xs italic">{error}</p>
+              <p key={index} className="text-red-500 text-xs italic">
+                {error}
+              </p>
             ))}
           </div>
 
           <div className="flex items-center justify-between">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={handleSubmit}>
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              onClick={handleSubmit}
+            >
               Confirm
             </button>
-            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={onClose}>
+            <button
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              onClick={onClose}
+            >
               Cancel
             </button>
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PaymentModal;
+export default PaymentModal

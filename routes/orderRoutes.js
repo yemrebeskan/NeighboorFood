@@ -10,7 +10,7 @@ router
 
 router
   .route('/order/:id')
-  .get(/*authController.protect,*/ orderController.getAllOrdersForUser)
+  .get(/*authController.protect,*/ orderController.getActiveOrderForUser)
 
 router
   .route('/order/:userId/:orderId/cancel')
@@ -25,5 +25,9 @@ router.route('/order/:id/complete').put(orderController.completeOrder)
 router.route('/:chefId').get(orderController.getPendingOrders)
 
 router.route('/:chefId/accepted').get(orderController.getAcceptedOrders)
+
+router
+  .route('/order/:orderId/completed')
+  .put(orderController.completeOrderForUser)
 
 module.exports = router

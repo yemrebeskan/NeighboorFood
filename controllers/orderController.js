@@ -34,6 +34,13 @@ exports.makeOrder = catchAsync(async (req, res, next) => {
     return { orderedFood, quantity }
   })
 
+  const ordersOfUser = await Order.findOne({ user: user, active: true })
+  if (ordersOfUser) {
+    return next(
+      new AppError('First you should confirm your active order.', 404)
+    )
+  }
+
   const newOrder = new Order({
     user: userId,
     chef: chefId,
@@ -50,7 +57,7 @@ exports.makeOrder = catchAsync(async (req, res, next) => {
   })
 })
 
-exports.getAllOrdersForUser = catchAsync(async (req, res, next) => {
+exports.getActiveOrderForUser = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.params.id).populate({
     path: 'orderHistory',
     model: 'Order',
@@ -60,7 +67,7 @@ exports.getAllOrdersForUser = catchAsync(async (req, res, next) => {
     },
   })
 
-  const order = user.orderHistory
+  const order = user.orderHistory.filter((order) => order.active === true)
   if (!user) {
     return next(new AppError('No user found with that ID', 404))
   }
@@ -186,7 +193,6 @@ exports.getPendingOrders = catchAsync(async (req, res, next) => {
     })
     .populate('user') // user alanını populate et
 
-
   res.status(200).json({
     status: 'success',
     data: {
@@ -214,3 +220,27 @@ exports.getAcceptedOrders = catchAsync(async (req, res, next) => {
     },
   })
 })
+
+exports.completeOrderForUser = async (req, res, next) => {
+  try {
+    const oid = req.params.orderId
+    const updatedOrder = await Order.findByIdAndUpdate(
+      oid,
+      {
+        active: false,
+      },
+      { new: true }
+    )
+    res.status(202).json({
+      status: 'success',
+      data: {
+        updatedOrder, // orders olarak düzeltiliyor
+      },
+    })
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err,
+    })
+  }
+}

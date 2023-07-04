@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import AuthContext from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import './Orders.css'
-import PaymentModal from './PaymentModal';
+import PaymentModal from './PaymentModal'
 
 import {
   AiOutlineArrowLeft,
@@ -44,12 +44,12 @@ const OrderCart = ({ menu, ordersCtx }) => {
 const Orders = () => {
   const navigate = useNavigate()
   const authCtx = useContext(AuthContext)
-
+  const [orderId, setOrderId] = useState('')
   const [selectedOrder, setSelectedOrder] = useState(null)
   const [isEmpty, setIsEmty] = useState(false)
   const [orders, setOrders] = useState([])
   const [totalPrice, setTotalPrice] = useState(0)
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
 
   const closeSelectedOrder = () => {
     setSelectedOrder(null)
@@ -62,17 +62,26 @@ const Orders = () => {
     })
   }
 
+  const completeOrder = () => {
+    setIsPaymentModalOpen(true)
+  }
+
   useEffect(() => {
     const uid = localStorage.getItem('uid')
     axios
       .get(`http://127.0.0.1:3001/api/v1/orders/order/${uid}`)
       .then((result) => {
+        if (result.data.data.order.length === 1) {
+          setOrderId(result.data.data.order[0]._id)
+        }
+
         const orderList = []
         result.data.data.order.map((order) => {
           order.foods.forEach((f) => {
             orderList.push(f)
           })
         })
+
         if (orderList.length === 0) {
           setIsEmty(true)
         } else {
@@ -86,57 +95,58 @@ const Orders = () => {
   return (
     <div className="mb-64">
       <div className={`${isPaymentModalOpen ? 'blur' : ''}`}>
-      {isEmpty ? (
-        <div className="w-screen h-full flex flex-col justify-center items-center text-center">
-          <p className="text-2xl text-black/70">
-            You do not have any orders yet...
-          </p>
-          <div className="w-full container max-w-xs m-auto mt-16">
-            <button
-              onClick={() => navigate('/')}
-              className="bg-blue-600 py-2 px-6 rounded-md text-white w-full flex justify-between"
-            >
-              <AiOutlineArrowLeft className="mt-[4.5px]" /> Go Home
-            </button>
+        {isEmpty ? (
+          <div className="w-screen h-full flex flex-col justify-center items-center text-center">
+            <p className="text-2xl text-black/70">
+              You do not have any orders yet...
+            </p>
+            <div className="w-full container max-w-xs m-auto mt-16">
+              <button
+                onClick={() => navigate('/')}
+                className="bg-blue-600 py-2 px-6 rounded-md text-white w-full flex justify-between"
+              >
+                <AiOutlineArrowLeft className="mt-[4.5px]" /> Go Home
+              </button>
+              <button
+                onClick={() => navigate('/pastorders')}
+                className="bg-[#134e4a] mt-3 py-2 px-6 rounded-md text-white w-full flex justify-between"
+              >
+                Review Your Past Orders{' '}
+                <AiOutlineArrowRight className="mt-[4.5px]" />
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="mt-12 container max-w-7xl m-auto">
+            <div className="flex justify-between items-center">
+              <p className="text-3xl font-bold">Total Price: ${totalPrice}</p>
+              <button
+                className="my-3 py-4 px-6 bg-[#219b4e] rounded-lg text-white font-bold"
+                onClick={completeOrder}
+              >
+                Complete Order
+              </button>
+            </div>
+
+            <h1 className="text-xl font-bold mt-12">Your Orders:</h1>
+            {orders.reverse().map((food, index) => (
+              <div>
+                <OrderCart menu={food} key={index} />
+              </div>
+            ))}
+
             <button
               onClick={() => navigate('/pastorders')}
-              className="bg-[#134e4a] mt-3 py-2 px-6 rounded-md text-white w-full flex justify-between"
+              className="bg-[#134e4a] mt-20 py-2 px-6 rounded-md text-white"
             >
-              Review Your Past Orders{' '}
-              <AiOutlineArrowRight className="mt-[4.5px]" />
+              Review Your Past Orders
             </button>
           </div>
-        </div>
-      ) : (
-        <div className="mt-12 container max-w-7xl m-auto">
-          <div className="flex justify-between items-center">
-            <p className="text-3xl font-bold">Total Price: ${totalPrice}</p>
-            <button 
-              className="my-3 py-4 px-6 bg-[#219b4e] rounded-lg text-white font-bold"
-              onClick={() => setIsPaymentModalOpen(true)}
-            >
-              Complete Order
-            </button>
-          </div>
+        )}
+      </div>
 
-          <h1 className="text-xl font-bold mt-12">Your Orders:</h1>
-          {orders.reverse().map((food, index) => (
-            <div>
-              <OrderCart menu={food} key={index} />
-            </div>
-          ))}
-
-          <button
-            onClick={() => navigate('/pastorders')}
-            className="bg-[#134e4a] mt-20 py-2 px-6 rounded-md text-white"
-          >
-            Review Your Past Orders
-          </button>
-        </div>
-      )}
-        </div>
-            
-      <PaymentModal 
+      <PaymentModal
+        orderId={orderId}
         isOpen={isPaymentModalOpen}
         onClose={() => setIsPaymentModalOpen(false)}
         totalAmount={totalPrice}
