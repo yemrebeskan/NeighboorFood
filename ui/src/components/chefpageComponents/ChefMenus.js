@@ -11,6 +11,7 @@ import EditImage from './EditImage'
 import Modal from 'react-modal'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import { set } from 'mongoose'
 
 const Menu = ({
   menu,
@@ -55,30 +56,7 @@ const Menu = ({
     //TODO: BACKEND
     onDelete(menu._id)
   }
- /* const menuSubmit = async (event) => {
-    event.preventDefault();
-  
-    try {
-      const chefId = 'your_chef_id'; // Replace with the actual chef ID
-  
-      const response = await fetch(`http://127.0.0.1:3001/api/v1/chefs/${chefId}/menu`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(menu), 
-      });
-  
-      if (response.ok) {
-        console.log('Menu updated successfully!');
-      } else {
-        console.log('Menu update failed!');
-      }
-    } catch (error) {
-      console.error('An error occurred:', error);
-    }
-  };
-  */
+
   
 
   return (
@@ -267,6 +245,20 @@ const ChefMenus = ({ isChef, chefMenu }) => {
     )
   }
 
+   const menuSubmit = async () => {
+
+    console.log("kağan")
+    try {
+      const uid = localStorage.getItem('uid'); 
+      const response = await axios.post(`http://127.0.0.1:3001/api/v1/chefs/${uid}/menu`, {
+        body: (newMenu), 
+      });
+    } catch (error) {
+      setErrorMessage("Error adding menu");
+    }
+  };
+  
+
   const handlePhotoChange = (id) => {
     // Handle photo change here
   }
@@ -349,7 +341,7 @@ const ChefMenus = ({ isChef, chefMenu }) => {
                     >
                       Add Menu
                     </h3>
-                    <div className="mt-4 space-y-6">
+                    <form className="mt-4 space-y-6">
                       <div className="rounded-md shadow-sm">
                         <input
                           type="text"
@@ -418,11 +410,11 @@ const ChefMenus = ({ isChef, chefMenu }) => {
                           className="mt-4"
                         />
                       </div>
-                    </div>
+                    </form>
                   </div>
                 </div>
               </div>
-              <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <form onSubmit={menuSubmit} className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
                   className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
@@ -437,7 +429,7 @@ const ChefMenus = ({ isChef, chefMenu }) => {
                 >
                   Cancel
                 </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>
