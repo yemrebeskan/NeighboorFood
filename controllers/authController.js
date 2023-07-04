@@ -1,4 +1,5 @@
 const { promisify } = require('util')
+const { OAuth2Client } = require('google-auth-library')
 const jwt = require('jsonwebtoken')
 const User = require('./../models/userModel')
 const Admin = require('./../models/adminModel')
@@ -10,6 +11,8 @@ const signToken = (id) => {
     expiresIn: process.env.JWT_EXPIRES_IN,
   })
 }
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
 exports.signup = catchAsync(async (req, res, next) => {
   const body = { ...req.body }
@@ -37,10 +40,51 @@ exports.signup = catchAsync(async (req, res, next) => {
   }
 })
 
+exports.googleLogin = catchAsync(async (req, res, next) => {  
+  const { tokenId } = req.body
+  if ( tokenId ) {
+    try {
+      const response = await client.verifyIdToken({
+        idToken: tokenId,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      })
+      const { email_verified, name, email } = response.payload
+      
+      const newUser = new User({
+        name: name,
+        email: email,
+        password: email + process.env.JWT_SECRET,
+      })
+      const token = signToken(newUser._id)
+
+      res.status(201).json({
+        status: 'success',
+        token,
+        data: {
+          user: newUser,
+        },
+      })
+    } catch (err) {
+      res.status(400).json({
+        status: 'fail',
+        message: err,
+      })
+    }
+  } else {
+    res.status(400).json({
+      status: 'fail',
+      message: 'Google login failed',
+    })
+  }
+})
+
+
+
+
+
 exports.login = catchAsync(async (req, res, next) => {
   try {
     const body = { ...req.body }
-
     const { email, password } = body
     if (!email || !password) {
       return next(new AppError('Please provide email and password!', 400))
