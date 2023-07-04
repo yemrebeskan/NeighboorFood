@@ -12,6 +12,7 @@ const Favorites = () => {
   const authCtx = useContext(AuthContext)
   const [error, setError] = useState(null)
   const [favoriteChefs, setFavoriteChefs] = useState([])
+  const [isUnfavoriteLoading, setIsUnfavoriteLoading] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
@@ -26,14 +27,15 @@ const Favorites = () => {
       .finally(() => setIsLoading(false))
   }, [favCtx.favoriteChefs])
 
-  const handleChefDelete = async (chefId) => {
-    const child = favoriteChefs.find((chef) => chef.chefId == chefId)
+  const handleChefDelete = async (userId) => {
+    setIsUnfavoriteLoading(true)
+    const child = favoriteChefs.find((chef) => chef.id == userId)
 
     const uid = localStorage.getItem('uid')
 
     try {
       const res = await axios.delete(
-        `http://127.0.0.1:3001/api/v1/favourites/${uid}/${chefId}`
+        `http://127.0.0.1:3001/api/v1/favourites/${uid}/${child.chefId}`
       )
 
       if (res.data.status === 'success') {
@@ -41,6 +43,8 @@ const Favorites = () => {
       }
     } catch (error) {
       setError('Error deleting chef from favorites. Please try again later.')
+    } finally {
+      setIsUnfavoriteLoading(false)
     }
     // CALL API
   }
@@ -55,6 +59,11 @@ const Favorites = () => {
     <div className="flex flex-col items-center">
       {isLoading && (
         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 mb-12 border-green-500"></div>
+      )}
+      {isUnfavoriteLoading && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 mb-12 border-green-500"></div>
+        </div>
       )}
       {!isLoading && favoriteChefs.length === 0 ? (
         <div className="p-10 m-6 rounded-xl text-center h-80">
