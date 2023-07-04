@@ -153,11 +153,11 @@ exports.updateAbout = catchAsync(async (req, res, next) => {
 
 exports.addFoodToMenu = catchAsync(async (req, res, next) => {
   const chefId = req.params.id
+  const chef = await Chef.findOne({ userInfos: chefId })
   const { name, kcal, price, image } = req.body
-  const newFood = new Food({ name, kcal, price, image })
+  const newFood = new Food({ name, kcal, price, image, chef: chef._id })
   const savedFood = await newFood.save()
 
-  const chef = await Chef.findOne({ userInfos: chefId })
   if (!chef) {
     return res.status(404).json({
       status: 'fail',
