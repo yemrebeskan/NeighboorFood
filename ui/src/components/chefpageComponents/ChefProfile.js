@@ -190,10 +190,10 @@ const ChefProfile = ({ isChef, chefInfo }) => {
           <p className="text-sm text-center scale-150">{favoritesCount}</p>
         </div>
       </div>
-
+          
       <div className="mt-14">
         <h1 className="sm:text-2xl text-xl font-bold">{chef.name}</h1>
-
+        <p className="sm:text-lg text-md opacity-80">{chef.address}</p>
         <div className="flex items-center mt-2">
           <span className="sm:text-lg text-md font-semibold opacity-80">
             <StarRating stars={chef.rating} totalVotes={chef.totalVotes} />
