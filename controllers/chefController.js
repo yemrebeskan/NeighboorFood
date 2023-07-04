@@ -106,7 +106,6 @@ exports.getChefMenu = catchAsync(async (req, res, next) => {
   })
 })
 
-
 exports.updateChef = catchAsync(async (req, res, next) => {
   const chefId = req.params.id
   const { thumbnail, menu, about } = req.body
@@ -155,9 +154,8 @@ exports.updateAbout = catchAsync(async (req, res, next) => {
 
 exports.addFoodToMenu = catchAsync(async (req, res, next) => {
   const chefId = req.params.id
-  const { name, kcal, price, likes, dislikes, image } = req.body
-
-  const newFood = new Food({ name, kcal, price, likes, dislikes, image })
+  const { name, kcal, price, image } = req.body
+  const newFood = new Food({ name, kcal, price, image })
   const savedFood = await newFood.save()
 
   const chef = await Chef.findOne({ userInfos: chefId })

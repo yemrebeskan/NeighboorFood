@@ -12,6 +12,10 @@ import Modal from 'react-modal'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { set } from 'mongoose'
+import {
+  convertFileToBase64,
+  createImageFromBase64,
+} from '../../utils/convertToFileToBase64'
 
 const Menu = ({
   menu,
@@ -21,6 +25,7 @@ const Menu = ({
   onPhotoChange,
   onDelete,
 }) => {
+  console.log(menu.image)
   const foodCtx = useContext(OrderedFoodContext)
 
   const [isDeleteModalOpen, setIsDeleteModelOpen] = useState(false)
@@ -56,8 +61,6 @@ const Menu = ({
     //TODO: BACKEND
     onDelete(menu._id)
   }
-
-  
 
   return (
     <div className="grid grid-cols-8 w-full py-8 my-4 mb-8 bg-white rounded-lg relative">
@@ -151,7 +154,9 @@ const Menu = ({
                 className={`font-extrabold text-3xl mt-8 w-24 text-[#484743] ${editingBorder}`}
                 type="number"
                 value={menu.price}
-                onChange={(e) => onMenuChange(menu._id, 'price', e.target.value)}
+                onChange={(e) =>
+                  onMenuChange(menu._id, 'price', e.target.value)
+                }
               />
             </span>
           </form>
@@ -241,23 +246,45 @@ const ChefMenus = ({ isChef, chefMenu }) => {
   const handleMenuChange = (id, field, value) => {
     // Since we use MongoDB we don't have .id property. Instead we have _id.
     setMenus(
-      menus.map((menu) => (menu._id === id ? { ...menu, [field]: value } : menu))
+      menus.map((menu) =>
+        menu._id === id ? { ...menu, [field]: value } : menu
+      )
     )
   }
 
-   const menuSubmit = async () => {
-
-    console.log("kağan")
+  const menuSubmit = async (e) => {
+    e.preventDefault()
     try {
-      const uid = localStorage.getItem('uid'); 
-      const response = await axios.post(`http://127.0.0.1:3001/api/v1/chefs/${uid}/menu`, {
-        body: (newMenu), 
-      });
+      const uid = localStorage.getItem('uid')
+      console.log(selectedImage)
+      const image64 = await convertFileToBase64(selectedImage)
+      newMenu.image = image64.split(',')[1]
+      console.log(newMenu.image)
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+
+      console.log(newMenu)
+      const response = await axios.post(
+        `http://127.0.0.1:3001/api/v1/chefs/${uid}/menu`,
+        newMenu,
+        config
+      )
+      console.log(response)
+      if (response.status === 200) {
+        console.log('Afied')
+        window.location.reload()
+      } else {
+        console.log('Aç kal oç')
+      }
+      // TODO: Think later for base64 strings
+      //handleSaveNewMenu(newMenu)
     } catch (error) {
-      setErrorMessage("Error adding menu");
+      setErrorMessage('Error adding menu')
     }
-  };
-  
+  }
 
   const handlePhotoChange = (id) => {
     // Handle photo change here
@@ -341,7 +368,7 @@ const ChefMenus = ({ isChef, chefMenu }) => {
                     >
                       Add Menu
                     </h3>
-                    <form className="mt-4 space-y-6">
+                    <form className="mt-4 space-y-6" onSubmit={menuSubmit}>
                       <div className="rounded-md shadow-sm">
                         <input
                           type="text"
@@ -410,26 +437,25 @@ const ChefMenus = ({ isChef, chefMenu }) => {
                           className="mt-4"
                         />
                       </div>
+                      <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button
+                          type="submit"
+                          className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
+                        >
+                          Add
+                        </button>
+                        <button
+                          type="button"
+                          className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+                          onClick={handleCancelAddMenu}
+                        >
+                          Cancel
+                        </button>
+                      </div>
                     </form>
                   </div>
                 </div>
               </div>
-              <form onSubmit={menuSubmit} className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button
-                  type="button"
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
-                  onClick={handleSaveNewMenu}
-                >
-                  Add
-                </button>
-                <button
-                  type="button"
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
-                  onClick={handleCancelAddMenu}
-                >
-                  Cancel
-                </button>
-              </form>
             </div>
           </div>
         </div>

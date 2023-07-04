@@ -1,38 +1,43 @@
-import React, { useState } from 'react';
-import ChefMenus from './ChefMenus';
-import ChefAbout from './ChefAbout';
-import ChefReviews from './ChefReviews';
+import React, { useState } from 'react'
+import ChefMenus from './ChefMenus'
+import ChefAbout from './ChefAbout'
+import ChefReviews from './ChefReviews'
+import { createImageFromBase64 } from '../../utils/convertToFileToBase64'
 
 function makeMenuObjectWithDbData(chefMenu) {
   const menu = chefMenu.foods.map((food) => {
     return {
       ...food,
       _id: food._id,
+      image: food.image.includes('http:')
+        ? food.image
+        : createImageFromBase64(food.image),
     }
-  });
-  return menu;
+  })
+  return menu
 }
 
 function SectionIndicator({ isChef, chefInfo }) {
   //This should come from backend
-  const aboutText = chefInfo.about;
-  const phone = chefInfo.phone ? chefInfo.phone : 'XXX-XXX-XX-XX';
-  const email = chefInfo.email;
+  const aboutText = chefInfo.about
+  const phone = chefInfo.phone ? chefInfo.phone : 'XXX-XXX-XX-XX'
+  const email = chefInfo.email
   const chefMenu = chefInfo.menu
     ? makeMenuObjectWithDbData(chefInfo.menu)
-    : undefined;
-  const chefReviews = chefInfo.reviews ? chefInfo.reviews : undefined;
-  const [selectedSection, setSelectedSection] = useState('Menus');
-  const sections = ['Menus', 'About', 'Reviews'];
+    : undefined
+
+  const chefReviews = chefInfo.reviews ? chefInfo.reviews : undefined
+  const [selectedSection, setSelectedSection] = useState('Menus')
+  const sections = ['Menus', 'About', 'Reviews']
 
   const handleClick = (section) => {
-    setSelectedSection(section);
+    setSelectedSection(section)
   }
 
   const renderSelectedSection = () => {
     switch (selectedSection) {
       case 'Menus':
-        return <ChefMenus isChef={isChef} chefMenu={chefMenu} />;
+        return <ChefMenus isChef={isChef} chefMenu={chefMenu} />
       case 'About':
         //TODO: this should come from backend
         return (
@@ -42,9 +47,9 @@ function SectionIndicator({ isChef, chefInfo }) {
             phone={phone}
             email={email}
           />
-        );
+        )
       case 'Reviews':
-        console.log(chefReviews);
+        console.log(chefReviews)
         return (
           <ChefReviews
             isChef={isChef}
@@ -59,9 +64,9 @@ function SectionIndicator({ isChef, chefInfo }) {
                 : undefined
             }
           />
-        );
+        )
       default:
-        return null;
+        return null
     }
   }
 
