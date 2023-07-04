@@ -1,5 +1,4 @@
 const { promisify } = require('util')
-const { OAuth2Client } = require('google-auth-library')
 const jwt = require('jsonwebtoken')
 const User = require('./../models/userModel')
 const Admin = require('./../models/adminModel')
@@ -12,7 +11,6 @@ const signToken = (id) => {
   })
 }
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
 exports.signup = catchAsync(async (req, res, next) => {
   const body = { ...req.body }
@@ -39,7 +37,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     })
   }
 })
-
+/*
 exports.googleLogin = catchAsync(async (req, res, next) => {  
   const { tokenId } = req.body
   if ( tokenId ) {
@@ -77,7 +75,7 @@ exports.googleLogin = catchAsync(async (req, res, next) => {
     })
   }
 })
-
+*/
 
 
 

@@ -25,6 +25,11 @@ router
   .post(/*authController.protect, */ chefController.addFoodToMenu)
 
 router
+  .route('/:foodId/change')
+  .put(chefController.changeFoodImage)
+  .delete(chefController.removeFoodImage)
+
+router
   .route('/:id/:foodId')
   .put(chefController.updateFood)
   .delete(chefController.removeFoodFromMenu)
