@@ -23,7 +23,7 @@ const Favorites = () => {
       .then((result) => {
         setFavoriteChefs(result.data.data.favouriteChefs)
       })
-    setIsLoading(false)
+      .finally(() => setIsLoading(false))
   }, [favCtx.favoriteChefs])
 
   const handleChefDelete = async (chefId) => {
@@ -52,9 +52,9 @@ const Favorites = () => {
   }, [authCtx.isLoggedIn, navigate])
 
   return (
-    <div className="grid">
+    <div className="flex flex-col items-center">
       {isLoading && (
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500 absolute right-1/2 bottom-1/4"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 mb-12 border-green-500"></div>
       )}
       {!isLoading && favoriteChefs.length === 0 ? (
         <div className="p-10 m-6 rounded-xl text-center h-80">
@@ -63,16 +63,18 @@ const Favorites = () => {
           </p>
         </div>
       ) : (
-        favoriteChefs.map((chef, index) => (
-          <ChefCard
-            name={chef.name}
-            image={chef.image}
-            rating={chef.rating}
-            key={index}
-            id={chef.chefId}
-            onDelete={handleChefDelete}
-          />
-        ))
+        <div className="p-8 mt-12 grid grid-cols-2 auto-rows-auto gap-12 w-screen">
+          {favoriteChefs.map((chef, index) => (
+            <ChefCard
+              name={chef.name}
+              image={chef.image}
+              rating={chef.rating}
+              key={index}
+              id={chef.id} //We should use chef's userId instead chefId to redirect our users to chef pages
+              onDelete={handleChefDelete}
+            />
+          ))}
+        </div>
       )}
       {error && (
         <ErrorModal
