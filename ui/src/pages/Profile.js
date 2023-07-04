@@ -44,7 +44,7 @@ const Profile = () => {
   const handleProfileAddressChange = async () => {
     try {
       const addressPush = {
-        district: address,
+        adress: address,
       }
       console.log('Yeni adres gönderme öncesi:', address)
       const response = await axios.put(
@@ -180,12 +180,13 @@ const Profile = () => {
               rows={2}
             />
           </div>
+          <form onSubmit={handleProfileAddressChange}>
           <button
             className="px-3 py-1 mb-5 bg-teal-500 text-white rounded text-sm md:text-base"
-            onClick={handleProfileAddressChange}
           >
             Change Address
           </button>
+          </form>
           <div className="flex justify-center md:justify-between">
             <button
               className="mb-2 md:mb-0 md:mr-2 bg-teal-500 text-white px-4 py-2 rounded"
@@ -205,12 +206,14 @@ const Profile = () => {
               rows={1}
             />
           </div>
+          <form onSubmit={handleProfilePhoneChange}>
           <button
             className="px-3 py-1 mb-5 mt-4 bg-teal-500 text-white rounded text-sm md:text-base"
-            onClick={handleProfilePhoneChange}
           >
+          
             Change Phone Number
           </button>
+          </form>
           <div className="flex justify-center md:justify-between">
             <button
               className="mb-2 md:mb-0 md:mr-2 bg-teal-500 text-white px-4 py-2 rounded"
