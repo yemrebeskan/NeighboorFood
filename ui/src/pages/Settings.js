@@ -2,14 +2,14 @@ import React, { useState, useEffect, useContext } from 'react'
 import AuthContext from '../context/AuthContext'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import ErrorModal from '../errorModal/errorModal';
+import ErrorModal from '../errorModal/errorModal'
 const Settings = () => {
   const navigate = useNavigate()
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [deleteAccount, setDeleteAccount] = useState(false)
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null)
 
   const uid = localStorage.getItem('uid')
 
@@ -26,7 +26,7 @@ const Settings = () => {
         setUser(response.data.data.user)
       } catch (error) {
         console.log(error)
-        setError('Error fetching user data'); 
+        setError('Error fetching user data')
       }
     }
     fetchUser()
@@ -47,7 +47,7 @@ const Settings = () => {
         console.log(error) // Hata durumunda
       }
     } else {
-      setError('New password and new password confirmation do not match');
+      setError('New password and new password confirmation do not match')
     }
   }
   const handleDeleteAccount = async () => {
@@ -61,16 +61,15 @@ const Settings = () => {
           }) // Hesap silindikten sonra yönlendirme
       } catch (error) {
         console.log(error) // Hata durumunda
-        setError('Error deleting account');
+        setError('Error deleting account')
       }
-    }
-    else{
-      setError('Please confirm account deletion');
+    } else {
+      setError('Please confirm account deletion')
     }
   }
   const closeModal = () => {
-    setError(null); 
-  };
+    setError(null)
+  }
 
   useEffect(() => {
     if (!authCtx.isLoggedIn) {
@@ -84,24 +83,24 @@ const Settings = () => {
 
       {/* Şifre Değiştirme */}
       <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-2">Şifre Değiştirme</h2>
+        <h2 className="text-lg font-semibold mb-2">Change Password</h2>
         <input
           type="password"
-          placeholder="Eski Şifre"
+          placeholder="Current Password"
           className="border border-gray-300 px-3 py-2 rounded-lg w-full mb-2"
           value={currentPassword}
           onChange={(e) => setCurrentPassword(e.target.value)}
         />
         <input
           type="password"
-          placeholder="Yeni Şifre"
+          placeholder="New Password"
           className="border border-gray-300 px-3 py-2 rounded-lg w-full mb-2"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
         />
         <input
           type="password"
-          placeholder="Yeni Şifre Tekrar"
+          placeholder="Confirm New Password"
           className="border border-gray-300 px-3 py-2 rounded-lg w-full mb-4"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
@@ -110,33 +109,33 @@ const Settings = () => {
           className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded w-full"
           onClick={handlePasswordChange}
         >
-          Şifre Değiştir
+          Change Password
         </button>
       </div>
 
       {/* Rol Kontrolü */}
       <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-2">Aşçılık İşlemleri</h2>
+        <h2 className="text-lg font-semibold mb-2">Chef Operations</h2>
         {user?.isChef ? (
           <button
             className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded w-full"
             onClick={() => navigate('/')}
           >
-            Aşçılıktan Çık
+            Resignation from Chef
           </button>
         ) : (
           <button
             className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded w-full"
             onClick={() => navigate('/bechef')}
           >
-            Aşçı Ol
+            Be Chef
           </button>
         )}
       </div>
 
       {/* Hesap Silme */}
       <div>
-        <h2 className="text-lg font-semibold mb-2">Hesap Silme</h2>
+        <h2 className="text-lg font-semibold mb-2">Delete Account</h2>
         <label className="flex items-center">
           <input
             type="checkbox"
@@ -144,20 +143,20 @@ const Settings = () => {
             checked={deleteAccount}
             onChange={() => setDeleteAccount(!deleteAccount)}
           />
-          <span>Hesabımı silmek istiyorum</span>
+          <span>I want to delete my account</span>
         </label>
         <button
           className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded w-full"
           onClick={handleDeleteAccount}
         >
-          Hesabı Sil
+          Delete Account
         </button>
       </div>
       <ErrorModal
         isOpen={error !== null}
         errorMessage={error}
         onClose={closeModal}
-      /> 
+      />
     </div>
   )
 }

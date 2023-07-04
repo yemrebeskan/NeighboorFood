@@ -166,13 +166,13 @@ const Profile = () => {
               className="mb-2 md:mb-0 md:mr-2 bg-teal-500 text-white px-4 py-2 rounded"
               onClick={handleBecomeChef}
             >
-              Chef Ol
+              Be Chef
             </button>
           )}
         </div>
         <div className="m-8 flex flex-col items-center">
           <div className="flex items-center mb-4">
-            <span className="mr-2">Adres:</span>
+            <span className="mr-2">Address:</span>
             <textarea
               defaultValue={address}
               onChange={handleAddressInputChange}
@@ -191,7 +191,7 @@ const Profile = () => {
               className="mb-2 md:mb-0 md:mr-2 bg-teal-500 text-white px-4 py-2 rounded"
               onClick={handleGoToOrderHistory}
             >
-              Sipariş Geçmişi
+              Past Orders
             </button>
           </div>
         </div>
@@ -216,7 +216,7 @@ const Profile = () => {
               className="mb-2 md:mb-0 md:mr-2 bg-teal-500 text-white px-4 py-2 rounded"
               onClick={handleGoToSettings}
             >
-              Ayarlar
+              Settings
             </button>
           </div>
         </div>

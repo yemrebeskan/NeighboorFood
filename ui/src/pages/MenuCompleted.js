@@ -34,7 +34,7 @@ const MenuCompleted = () => {
   return (
     <div style={{ minHeight: '400px' }}>
       <h1 className="text-3xl font-bold flex justify-center mt-4">
-        Menü Tamamlanması
+        Menu Completed
       </h1>
       <div
         style={{
@@ -92,7 +92,9 @@ const MenuCompleted = () => {
               </div>
             ))}
             <div style={{ textAlign: 'center' }}>
-              <p style={{ margin: 0 }}>Müşteri: {menu.user.name+' '+menu.user.surname}</p>
+              <p style={{ margin: 0 }}>
+                Customer: {menu.user.name + ' ' + menu.user.surname}
+              </p>
               <p style={{ margin: 0 }}>Phone Number: {menu.user.phoneNumber}</p>
             </div>
 
