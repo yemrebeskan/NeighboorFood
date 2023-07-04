@@ -27,8 +27,7 @@ const App = () => {
   const authCtx = useContext(AuthContext);
 
   return (
-    <div className="">
-      <div>
+    <div className="flex flex-col min-h-screen">
         <BrowserRouter>
           <div className={authCtx.isOnClickedSignButton ? 'blur-sm ' : ''}>
             <NavBar />
@@ -61,10 +60,10 @@ const App = () => {
             <Route path="/terms" element={<TermsOfServicePage />} /> 
             <Route path="*" element={<ErrorPage message="Page not found" />} />
           </Routes>
+          <div className="flex-grow">&nbsp;</div>
           <Footer />
         </BrowserRouter>
       </div>
-    </div>
   );
 }
 
