@@ -38,7 +38,7 @@ const MenuConfirmation = () => {
   return (
     <div style={{ minHeight: '400px' }}>
       <h1 className="text-3xl font-bold flex justify-center mt-4">
-        Menü Onayı
+        Menu Confirmation
       </h1>
       <div
         style={{
@@ -97,7 +97,7 @@ const MenuConfirmation = () => {
             ))}
             <div style={{ textAlign: 'center' }}>
               <p style={{ margin: 0 }}>
-                Müşteri: {menu.user.name + ' ' + menu.user.surname}
+                Customer: {menu.user.name + ' ' + menu.user.surname}
               </p>
               <p style={{ margin: 0 }}>Phone Number: {menu.user.phoneNumber}</p>
             </div>
