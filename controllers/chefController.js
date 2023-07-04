@@ -87,21 +87,13 @@ exports.getChefByDistrict = catchAsync(async (req, res, next) => {
     },
   })
 })
-
 exports.getChefMenu = catchAsync(async (req, res, next) => {
   const userId = req.params.id
   const chef = await Chef.findOne({ userInfos: userId })
-    .populate({
-      path: 'menu',
-      model: 'Menu',
-      populate: {
-        path: 'foods', // 'foods' is an array of Food references in the Menu model
-        model: 'Food', // 'Food' is the model name for our foods
-      },
-    })
-    .populate({
-      path: 'userInfos',
-    })
+  const menu = await Menu.findOne({ chefInfos: chef._id }).populate({
+    path: 'foods',
+    model: 'Food',
+  })
   if (!chef) {
     const id = req.params.id
     return next(new AppError(`No chef found with that ${id}`, 404))
@@ -109,11 +101,11 @@ exports.getChefMenu = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: {
-      chef,
-      menu: chef.menu,
+      menu,
     },
   })
 })
+
 
 exports.updateChef = catchAsync(async (req, res, next) => {
   const chefId = req.params.id
