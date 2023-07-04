@@ -58,45 +58,18 @@ exports.makeOrder = catchAsync(async (req, res, next) => {
 })
 
 exports.getActiveOrderForUser = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id).populate({
-    path: 'orderHistory',
-    model: 'Order',
-    populate: {
+  const uid = req.params.id
+  const activeOrder = await Order.findOne({ user: uid, active: true }).populate(
+    {
       path: 'foods.orderedFood',
       model: 'Food',
-    },
-    populate: {
-      path: 'chef',
-      model: 'Chef',
-      populate: {
-        path: 'userInfos',
-        model: 'User',
-        select: 'name surname',
-      },
-    },
-  })
-  if (!user) {
-    return next(new AppError('No user found with that ID', 404))
-  }
-  const order = user.orderHistory.filter((order) => order.active === true)[0]
-  if (order) {
-    const activeOrder = await Order.findById(order._id).populate({
-      path: 'foods.orderedFood',
-      model: 'Food',
-    })
-    res.status(200).json({
-      status: 'success',
-
-      data: {
-        activeOrder,
-      },
-    })
-  }
+    }
+  )
 
   res.status(200).json({
     status: 'success',
 
-    data: {},
+    data: { activeOrder },
   })
 })
 

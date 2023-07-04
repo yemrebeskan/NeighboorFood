@@ -25,6 +25,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, orderId }) => {
     if (res.data.status === 'success') {
       onClose()
       navigate('/orders')
+      window.location.reload()
     } else {
       // Error Modal
     }
