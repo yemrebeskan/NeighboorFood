@@ -7,7 +7,6 @@ import {
 } from 'react-icons/ai'
 import { FaShoppingBasket } from 'react-icons/fa'
 import OrderedFoodContext from '../../context/OrderedFoodContext'
-import EditMenuImage from './EditImage'
 import Modal from 'react-modal'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
@@ -172,14 +171,7 @@ const Menu = ({
             className="w-[150px] h-[150px] rounded-full bg-cover"
             src={menu.image}
           />
-          {isInnerEditing && (
-            <EditMenuImage
-              className="absolute bottom-[-20px] left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2"
-              circle={true}
-              menu={menu}
-              onPictureRemove={() => console.log('Profile picture removed')}
-            />
-          )}
+          
         </div>
       </div>
       <div className="col-span-4 relative">
