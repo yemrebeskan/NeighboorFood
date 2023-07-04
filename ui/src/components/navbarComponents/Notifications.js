@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import ReviewModal from './ReviewModal'
 import {
   BellIcon,
   CheckCircleIcon,
@@ -10,6 +11,12 @@ const Notifications = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [hasNewNotification, setHasNewNotification] = useState(true)
   const [notifications, setNotifications] = useState([])
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  // TODO: Backend!!
+  const chef = { name: 'Chef Dummy' } // Dummy chef data
+  const order = { details: 'Dummy order details' } // Dummy order data
 
   useEffect(() => {
     const fetchNotification = async () => {
@@ -31,6 +38,13 @@ const Notifications = () => {
   const handleOpen = () => {
     setIsOpen(!isOpen)
     setHasNewNotification(false)
+  }
+
+  const handleNotificationClick = (notification) => {
+    if (notification.message === 'Order is completed and delivered.') {
+      setIsModalOpen(true)
+    }
+        deleteNotification(notification._id)
   }
 
   const deleteNotification = async (id) => {
@@ -63,16 +77,11 @@ const Notifications = () => {
               Notifications
             </p>
           </div>
-          <div
-            className="py-1"
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="options-menu"
-          >
+          <div className="py-1">
             {notifications.map((notification) => (
               <a
                 key={notification._id}
-                onClick={() => deleteNotification(notification._id)}
+                onClick={() => handleNotificationClick(notification)}
                 href="#"
                 className={`flex items-center px-4 py-3 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 ${
                   notification.isNew ? 'bg-yellow-50' : ''
@@ -96,6 +105,12 @@ const Notifications = () => {
           </div>
         </div>
       )}
+      <ReviewModal
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
+        chef={chef}
+        order={order}
+      />
     </div>
   )
 }
