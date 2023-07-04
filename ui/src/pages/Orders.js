@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import AuthContext from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import './Orders.css'
+import PaymentModal from './PaymentModal';
 
 import {
   AiOutlineArrowLeft,
@@ -48,6 +49,7 @@ const Orders = () => {
   const [isEmpty, setIsEmty] = useState(false)
   const [orders, setOrders] = useState([])
   const [totalPrice, setTotalPrice] = useState(0)
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   const closeSelectedOrder = () => {
     setSelectedOrder(null)
@@ -83,6 +85,7 @@ const Orders = () => {
 
   return (
     <div className="mb-64">
+      <div className={`${isPaymentModalOpen ? 'blur' : ''}`}>
       {isEmpty ? (
         <div className="w-screen h-full flex flex-col justify-center items-center text-center">
           <p className="text-2xl text-black/70">
@@ -108,7 +111,10 @@ const Orders = () => {
         <div className="mt-12 container max-w-7xl m-auto">
           <div className="flex justify-between items-center">
             <p className="text-3xl font-bold">Total Price: ${totalPrice}</p>
-            <button className="my-3 py-4 px-6 bg-[#219b4e] rounded-lg text-white font-bold">
+            <button 
+              className="my-3 py-4 px-6 bg-[#219b4e] rounded-lg text-white font-bold"
+              onClick={() => setIsPaymentModalOpen(true)}
+            >
               Complete Order
             </button>
           </div>
@@ -128,6 +134,13 @@ const Orders = () => {
           </button>
         </div>
       )}
+        </div>
+            
+      <PaymentModal 
+        isOpen={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
+        totalAmount={totalPrice}
+      />
     </div>
   )
 }

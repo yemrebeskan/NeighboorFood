@@ -31,3 +31,6 @@
     flex-basis: 33.33%;
   }
   
+  .blur {
+    filter: blur(8px);
+  }
