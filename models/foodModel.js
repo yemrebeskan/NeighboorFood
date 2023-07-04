@@ -31,6 +31,10 @@ const foodSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  chef: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Chef',
+  },
 })
 
 const Food = mongoose.model('Food', foodSchema)
