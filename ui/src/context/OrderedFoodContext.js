@@ -23,8 +23,6 @@ export const OrderedFoodContextProvider = (props) => {
     })
   }
 
- 
-
   const calculateTotalPrice = () => {
     let total = 0
     orderedFoods.forEach((food) => {
@@ -37,6 +35,8 @@ export const OrderedFoodContextProvider = (props) => {
     const uid = localStorage.getItem('uid')
     axios.get(`http://127.0.0.1:3001/api/v1/users/${uid}/cart`).then((res) => {
       const basketFoods = res.data.cart.foods.map((food) => {
+        food._id = food.foodId._id
+        food.chef = food.foodId.chef
         food.count = food.quantity
         food.name = food.foodId.name
         food.image = food.foodId.image
@@ -44,7 +44,6 @@ export const OrderedFoodContextProvider = (props) => {
         return food
       })
       setOrderedFoods(basketFoods)
- 
     })
   }, [authCtx.isLoggedIn])
 
@@ -55,7 +54,7 @@ export const OrderedFoodContextProvider = (props) => {
 
   const incrementCountOfFood = (itemId) => {
     const updatedFoods = orderedFoods.map((food) => {
-      if (food.foodId._id === itemId) {
+      if (food._id === itemId) {
         food.count += 1
         return food
       }
@@ -68,7 +67,7 @@ export const OrderedFoodContextProvider = (props) => {
   const decreaseCountOfFood = (itemId) => {
     const updatedFoods = orderedFoods
       .map((food) => {
-        if (food.foodId._id === itemId) {
+        if (food._id === itemId) {
           if (food.count > 0) {
             food.count -= 1
           }

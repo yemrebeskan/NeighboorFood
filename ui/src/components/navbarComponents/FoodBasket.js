@@ -11,14 +11,15 @@ const FoodBasket = () => {
 
   const giveOrder = async () => {
     const orderedFoodIds = foodCtx.orderedFoods.map((food) => {
-      return { foodId: food.foodId._id, quantity: food.count }
+      return { foodId: food._id, quantity: food.count }
     })
-
+    console.log(orderedFoodIds)
+    console.log(foodCtx.orderedFoods[0].chef)
     const res = await axios.post(
       `http://127.0.0.1:3001/api/v1/orders/createOrder/${uid}`,
       {
         orderedFoods: orderedFoodIds,
-        chefId: foodCtx.orderedFoods[0].foodId.chef,
+        chefId: foodCtx.orderedFoods[0].chef,
       }
     )
     if (res.data.status === 'success') {

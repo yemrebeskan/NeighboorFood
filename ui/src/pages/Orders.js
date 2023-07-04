@@ -71,16 +71,16 @@ const Orders = () => {
     axios
       .get(`http://127.0.0.1:3001/api/v1/orders/order/${uid}`)
       .then((result) => {
-        if (result.data.data.order.length === 1) {
-          setOrderId(result.data.data.order[0]._id)
+        if (result.data.data.activeOrder) {
+          setOrderId(result.data.data.activeOrder._id)
         }
 
         const orderList = []
-        result.data.data.order.map((order) => {
-          order.foods.forEach((f) => {
-            orderList.push(f)
+        if (result.data.data.activeOrder) {
+          result.data.data.activeOrder.foods.map((order) => {
+            orderList.push(order)
           })
-        })
+        }
 
         if (orderList.length === 0) {
           setIsEmty(true)

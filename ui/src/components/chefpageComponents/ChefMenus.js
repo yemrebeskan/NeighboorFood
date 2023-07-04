@@ -59,7 +59,7 @@ const Menu = ({
     })
 
     if (res.data.status === 'success') {
-      if (foodCtx.orderedFoods.some((item) => item.name === menu.name)) {
+      if (foodCtx.orderedFoods.some((item) => item._id === menu._id)) {
         foodCtx.incrementCountOfFood(menu._id)
       } else {
         foodCtx.addItemToOrders(menu)

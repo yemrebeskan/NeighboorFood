@@ -46,11 +46,11 @@ const FoodCard = ({ food }) => {
           className="bg-[#87bfb3] w-6 h-6 rounded-full cursor-pointer mr-4 mb-2 hover:mb-0  relative z-10"
           size={12}
           color="white"
-          onClick={() => decreaseCount(food.foodId._id)}
+          onClick={() => decreaseCount(food._id)}
         />
         <div className="absolute w-4 h-4 rounded-full z-0 mr-12 bg-[#537a72]"></div>
         <AiOutlinePlus
-          onClick={() => incrementCount(food.foodId._id)}
+          onClick={() => incrementCount(food._id)}
           className="bg-[#87bfb3] w-6 h-6 rounded-full cursor-pointer mr-2 mb-2 hover:mb-0  relative z-10"
           size={12}
           color="white"

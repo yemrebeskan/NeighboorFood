@@ -71,24 +71,34 @@ exports.getActiveOrderForUser = catchAsync(async (req, res, next) => {
       populate: {
         path: 'userInfos',
         model: 'User',
-        select: 'name surname'
+        select: 'name surname',
       },
-    }
+    },
   })
-
-  const order = user.orderHistory.filter((order) => order.active === true)
   if (!user) {
     return next(new AppError('No user found with that ID', 404))
   }
+  const order = user.orderHistory.filter((order) => order.active === true)[0]
+  if (order) {
+    const activeOrder = await Order.findById(order._id).populate({
+      path: 'foods.orderedFood',
+      model: 'Food',
+    })
+    res.status(200).json({
+      status: 'success',
+
+      data: {
+        activeOrder,
+      },
+    })
+  }
+
   res.status(200).json({
     status: 'success',
-    results: order.length,
-    data: {
-      order,
-    },
+
+    data: {},
   })
 })
-
 
 //belki olmaz
 exports.cancelOrder = catchAsync(async (req, res, next) => {
