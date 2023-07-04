@@ -91,7 +91,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
 exports.updateAdress = catchAsync(async (req, res, next) => {
   const id = req.params.id
-  const adress = req.body
+  const adress = req.body.adress
   const user = await User.findByIdAndUpdate(
     id,
     { district: adress },
