@@ -266,7 +266,7 @@ exports.getThumbnail = catchAsync(async (req, res, next) => {
 
 exports.changeFoodImage = catchAsync(async (req, res, next) => {
   const foodId = req.params.foodId
-  const imageBase64 = req.body.getFoodImage
+  const imageBase64 = req.body.newFoodImage
   const food = await Food.findByIdAndUpdate(
     foodId,
     { image: imageBase64 },
