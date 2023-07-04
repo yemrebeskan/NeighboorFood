@@ -25,6 +25,7 @@ const Profile = () => {
         setImage(response.data.data.user.image)
         setUser(response.data.data.user)
         setAddress(response.data.data.user.district)
+        console.log(response.data.data.user.district)
         console.log(response.data.data.user)
       } catch (error) {
         setError('Error fetching user data. Please try again later.')
@@ -41,11 +42,14 @@ const Profile = () => {
   }, [authCtx.isLoggedIn, navigate])
 
   const [address, setAddress] = useState(user.district)
-  const handleProfileAddressChange = async () => {
+  const handleProfileAddressChange = async (event) => {
+    event.preventDefault()
+    const addressPush = {
+      adress: address,
+    }
+    console.log('Yeni adres gönderme öncesi:', addressPush)
     try {
-      const addressPush = {
-        adress: address,
-      }
+    
       console.log('Yeni adres gönderme öncesi:', address)
       const response = await axios.put(
         `http://127.0.0.1:3001/api/v1/settings/${uid}/address`,
@@ -59,6 +63,7 @@ const Profile = () => {
   }
 
   const handleAddressInputChange = (event) => {
+    
     setAddress(event.target.value)
   }
 
@@ -93,11 +98,16 @@ const Profile = () => {
     setPhoneNumber(event.target.value)
   }
 
-  const handleProfilePhoneChange = async () => {
+  const handleProfilePhoneChange = async (event) => {
+    event.preventDefault()
+    console.log( phoneNumber)
+    console.log(uid)
+    const phonePush = {
+      phoneNumber: phoneNumber,
+    }
+    console.log(phonePush)
     try {
-      const phonePush = {
-        phoneNumber: phoneNumber,
-      }
+      
       console.log('Yeni telefon numarası gönderme öncesi:', phoneNumber)
       const response = await axios.put(
         `http://127.0.0.1:3001/api/v1/settings/${uid}/phoneNumber`,
@@ -182,6 +192,7 @@ const Profile = () => {
           </div>
           <form onSubmit={handleProfileAddressChange}>
           <button
+          type="submit"
             className="px-3 py-1 mb-5 bg-teal-500 text-white rounded text-sm md:text-base"
           >
             Change Address

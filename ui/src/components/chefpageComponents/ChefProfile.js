@@ -173,9 +173,7 @@ const ChefProfile = ({ isChef, chefInfo }) => {
 
       <div className="mt-14">
         <h1 className="sm:text-2xl text-xl font-bold">{chef.name}</h1>
-        <p className="sm:text-lg text-md font-semibold opacity-80">
-          {chef.distance} away - {chef.address}
-        </p>
+       
         <div className="flex items-center mt-2">
           <span className="sm:text-lg text-md font-semibold opacity-80">
             <StarRating stars={chef.rating} totalVotes={chef.totalVotes} />

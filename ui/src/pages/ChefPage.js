@@ -14,7 +14,6 @@ function makeChefObjectWithDbData(chef) {
     ...rest,
     name: userInfos.name + ' ' + userInfos.surname,
     totalVotes: chef.ratingCount,
-    distance: 'XXX km', //Should be computed
     address: userInfos.district,
     backgroundImage: chef.thumbnail,
     profileImage: userInfos.image,
