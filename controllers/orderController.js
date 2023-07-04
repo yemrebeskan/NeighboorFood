@@ -55,9 +55,18 @@ exports.getAllOrdersForUser = catchAsync(async (req, res, next) => {
     path: 'orderHistory',
     model: 'Order',
     populate: {
-      path: 'foods.orderedFood', // 'foods' is an array of Food references in the Menu model
-      model: 'Food', // 'Food' is the model name for our foods
+      path: 'foods.orderedFood',
+      model: 'Food',
     },
+    populate: {
+      path: 'chef',
+      model: 'Chef',
+      populate: {
+        path: 'userInfos',
+        model: 'User',
+        select: 'name surname'
+      },
+    }
   })
 
   const order = user.orderHistory
@@ -72,6 +81,7 @@ exports.getAllOrdersForUser = catchAsync(async (req, res, next) => {
     },
   })
 })
+
 
 //belki olmaz
 exports.cancelOrder = catchAsync(async (req, res, next) => {
