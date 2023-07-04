@@ -314,6 +314,7 @@ const ChefMenus = ({ isChef, chefMenu }) => {
     price: 0,
     image: '',
   })
+  const [errorMessage, setErrorMessage] = useState('')
   const { id } = useParams()
   const uid = localStorage.getItem('uid')
 
@@ -342,14 +343,13 @@ const ChefMenus = ({ isChef, chefMenu }) => {
       console.log(selectedImage)
       const image64 = await convertFileToBase64(selectedImage)
       newMenu.image = image64.split(',')[1]
-      console.log(newMenu.image)
+      newMenu.chef = chef
       const config = {
         headers: {
           'Content-Type': 'application/json',
         },
       }
 
-      console.log(newMenu)
       const response = await axios.post(
         `http://127.0.0.1:3001/api/v1/chefs/${uid}/menu`,
         newMenu,
@@ -358,7 +358,8 @@ const ChefMenus = ({ isChef, chefMenu }) => {
       console.log(response)
       if (response.status === 200) {
         console.log('Afied')
-        window.location.reload()
+        setMenus((prevState) => [...prevState, newMenu])
+        setIsAdding(false)
       } else {
         console.log('Aç kal kardeşim')
       }
