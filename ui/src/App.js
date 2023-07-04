@@ -3,6 +3,7 @@ import './App.css'
 import { BrowserRouter } from 'react-router-dom'
 import NavBar from './components/nav-bar'
 import SignInPage from './components/homepageComponents/SignInPage'
+import SignUpPage from './components/homepageComponents/SignUpPage'
 import Footer from './components/footer'
 
 import AuthContext from './context/AuthContext'
