@@ -18,4 +18,8 @@ router
   .put(/*authController.protect,*/ settingsController.changeImage)
   .delete(/*authController.protect,*/ settingsController.removeImage)
 
+router
+  .route('/:id/adress')
+  .put(/*authController.protect,*/ settingsController.updateAdress)
+
 module.exports = router
