@@ -28,6 +28,7 @@ const Menu = ({
   const foodCtx = useContext(OrderedFoodContext)
   const [isInnerEditing, setIsInnerEditing] = useState(isEditing)
   const [isLoading, setIsLoading] = useState(false)
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModelOpen] = useState(false)
   const [isDirty, setIsDirty] = useState(false)
   const [editedMenu, setEditedMenu] = useState(menu)
@@ -74,9 +75,19 @@ const Menu = ({
     //}
     setIsDeleteModelOpen(true)
   }
-  const handleDelete = () => {
+  const handleDelete = async () => {
     //TODO: BACKEND
-    onDelete(menu._id)
+    setIsDeleteLoading(true)
+    const response = await axios.delete(
+      `http://127.0.0.1:3001/api/v1/chefs/${uid}/${menu._id}`
+    )
+    if (response.status == 200) {
+      onDelete(menu._id)
+      setIsDeleteLoading(false)
+    } else {
+      console.log('ERROR')
+    }
+    setIsDeleteModelOpen(false)
   }
 
   const onSaveSubmit = async (e) => {
@@ -90,7 +101,7 @@ const Menu = ({
     console.log(response)
     if (response.status === 200) {
       onMenuChange(editedMenu)
-      setIsInnerEditing(false);
+      setIsInnerEditing(false)
       setIsLoading(false)
     } else {
       console.log('ERROR')
@@ -128,6 +139,11 @@ const Menu = ({
             }}
           >
             <div className="flex flex-col relative">
+              {isDeleteLoading && (
+                <div className="flex items-center justify-center absolute right-80 top-1/4">
+                  <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500 "></div>
+                </div>
+              )}
               <h2 className="text-2xl text-center ">
                 Do you really want to delete <strong>{menu.name}</strong>?
               </h2>
@@ -167,7 +183,9 @@ const Menu = ({
         </div>
       </div>
       <div className="col-span-4 relative">
-      {isLoading && <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500 absolute right-1/2 bottom-1/4"></div>}
+        {isLoading && (
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500 absolute right-1/2 bottom-1/4"></div>
+        )}
         {isInnerEditing ? (
           // <form className="flex flex-col gap-2" onSubmit = {menuSubmit}>
           <form className="flex flex-col gap-2" onSubmit={onSaveSubmit}>
@@ -355,15 +373,8 @@ const ChefMenus = ({ isChef, chefMenu }) => {
     // Handle photo change here
   }
 
-  const handleDeleteMenu = async (id) => {
-    const response = await axios.delete(
-      `http://127.0.0.1:3001/api/v1/chefs/${uid}/${id}`
-    )
-    if (response.status == 200) {
-      setMenus(menus.filter((menu) => menu._id !== id))
-    } else {
-      console.log('ERROR')
-    }
+  const handleDeleteMenu = (id) => {
+    setMenus(menus.filter((menu) => menu._id !== id))
   }
 
   const handleAddMenu = () => {
