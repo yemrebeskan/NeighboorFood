@@ -25,7 +25,6 @@ exports.getAllReviewsForChef = catchAsync(async (req, res, next) => {
       },
     })
   } catch (e) {
-    console.log(e)
     return next(new AppError(`Error ${e.toString()}`, 500))
   }
 })

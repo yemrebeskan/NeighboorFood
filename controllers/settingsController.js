@@ -30,7 +30,6 @@ exports.getImage = catchAsync(async (req, res, next) => {
 })
 
 exports.changeImage = catchAsync(async (req, res, next) => {
-  console.log(req.body)
   const imageBase64 = req.body.image
 
   const userId = req.params.id
@@ -110,7 +109,7 @@ exports.updateAdress = catchAsync(async (req, res, next) => {
 
 exports.updatePhoneNumber = catchAsync(async (req, res, next) => {
   const id = req.params.id
-  const {phoneNumber} = req.body
+  const { phoneNumber } = req.body
   const user = await User.findByIdAndUpdate(
     id,
     { phoneNumber: phoneNumber },

@@ -48,12 +48,11 @@ exports.getAllChefs = catchAsync(async (req, res, next) => {
 })
 
 exports.getChefById = catchAsync(async (req, res, next) => {
-  console.log('a')
   const userId = req.params.id
   const chef = await Chef.find({ userInfos: userId }).populate({
     path: 'userInfos',
   })
-  console.log(chef)
+
   if (!chef || chef.length === 0) {
     const id = req.params.id
     return next(new AppError(`No chef found with that ${id}`, 404))
@@ -266,7 +265,6 @@ exports.getThumbnail = catchAsync(async (req, res, next) => {
 })
 
 exports.changeThumbnail = catchAsync(async (req, res, next) => {
-  console.log(req.body)
   const imageBase64 = req.body.thumbnail
   const userId = req.params.id
   const chef = await Chef.findOneAndUpdate(

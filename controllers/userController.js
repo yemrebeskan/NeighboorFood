@@ -43,7 +43,7 @@ exports.chefApply = catchAsync(async (req, res, next) => {
     return next(new AppError('You are already a chef or already apply', 400))
   }
   const body = { ...req.body }
-  console.log(req.body)
+
   const { aboutNewChef, country, streetAdress, city } = body
 
   const user = await User.findByIdAndUpdate(
@@ -107,7 +107,6 @@ exports.rateChefAndComment = catchAsync(async (req, res, next) => {
 
 exports.addToCart = async (req, res) => {
   try {
-    console.log(req.body)
     const userId = req.body.userId
     const foodId = req.body.foodId
 
@@ -213,7 +212,7 @@ exports.getPastOrders = async (req, res) => {
 exports.getNotifications = async (req, res, next) => {
   try {
     const uid = req.params.id
-    console.log(uid)
+
     const notifications = await Notification.find({ to: uid })
     res.status(200).json({
       status: 'success',

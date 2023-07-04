@@ -13,7 +13,7 @@ exports.getFavouriteChefsById = catchAsync(async (req, res, next) => {
       select: 'name surname', // Sadece isim ve soyisim alanlarını seçin
     },
   })
-  console.log(user)
+
   if (!user) {
     const id = req.params.id
     return next(new AppError(`No user found with that ${id}`, 404))
@@ -77,7 +77,6 @@ exports.deleteFavouriteChef = catchAsync(async (req, res, next) => {
   if (updatedFavouriteChefs) {
     if (
       updatedFavouriteChefs.some((chefId) => {
-        console.log(chefId, realChefId)
         return chefId === realChefId
       })
     ) {
@@ -86,7 +85,7 @@ exports.deleteFavouriteChef = catchAsync(async (req, res, next) => {
       )
     }
   }
-  console.log('a')
+
   updatedFavouriteChefs = updatedFavouriteChefs.filter(
     (favChefId) => favChefId.toString() !== chefId
   )
