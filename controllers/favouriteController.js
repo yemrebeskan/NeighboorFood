@@ -52,7 +52,8 @@ exports.addFavouriteChef = catchAsync(async (req, res, next) => {
       )
     }
   }
-
+  realChef.favouriteCount += 1
+  await realChef.save()
   updatedFavouriteChefs.push(realChefId)
   user.favouriteChefs = updatedFavouriteChefs
   await user.save()
@@ -103,3 +104,23 @@ exports.deleteFavouriteChef = catchAsync(async (req, res, next) => {
     },
   })
 })
+
+exports.isFavouriteChef = async (req, res, next) => {
+  try {
+    const uid = req.params.userId
+    const chefId = req.params.chefId
+    const user = await User.findById(uid)
+    const isFavourite = user.favouriteChefs.some((chef) => chef === chefId)
+
+    res.status(200).json({
+      status: 'success',
+      length: updatedFavouriteChefs.length,
+      isFavourite: isFavourite,
+    })
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err,
+    })
+  }
+}

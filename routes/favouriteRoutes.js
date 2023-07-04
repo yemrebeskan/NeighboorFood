@@ -11,5 +11,6 @@ router
   .route('/:userId/:chefId')
   .put(/*authController.protect,*/ favouriteController.addFavouriteChef)
   .delete(/*authController.protect,*/ favouriteController.deleteFavouriteChef)
+  .get(favouriteController.isFavouriteChef)
 
 module.exports = router
