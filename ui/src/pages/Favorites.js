@@ -12,36 +12,38 @@ const Favorites = () => {
   const authCtx = useContext(AuthContext)
   const [error, setError] = useState(null)
   const [favoriteChefs, setFavoriteChefs] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     // For now, I use localStorage
     const uid = localStorage.getItem('uid')
+    setIsLoading(true)
     axios
       .get(`http://127.0.0.1:3001/api/v1/favourites/${uid}`)
       .then((result) => {
         setFavoriteChefs(result.data.data.favouriteChefs)
       })
+    setIsLoading(false)
   }, [favCtx.favoriteChefs])
 
   const handleChefDelete = async (chefId) => {
-    const child = favoriteChefs.find((chef) => chef.chefId == chefId);
-  
-    const uid = localStorage.getItem('uid');
-  
+    const child = favoriteChefs.find((chef) => chef.chefId == chefId)
+
+    const uid = localStorage.getItem('uid')
+
     try {
       const res = await axios.delete(
         `http://127.0.0.1:3001/api/v1/favourites/${uid}/${chefId}`
-      );
-  
+      )
+
       if (res.data.status === 'success') {
-        favCtx.removeChefFromFavorites(child._id);
+        favCtx.removeChefFromFavorites(child._id)
       }
     } catch (error) {
-      setError('Error deleting chef from favorites. Please try again later.');
+      setError('Error deleting chef from favorites. Please try again later.')
     }
     // CALL API
-  };
-  
+  }
 
   useEffect(() => {
     if (!authCtx.isLoggedIn) {
@@ -51,31 +53,35 @@ const Favorites = () => {
 
   return (
     <div className="grid">
-    {favoriteChefs.length === 0 ? (
-      <div className="p-10 m-6 rounded-xl text-center h-80">
-      <p className="text-3xl text-gray-600">You don't have any favorite chefs.</p>
-    </div>
-    
-    ) : (
-      favoriteChefs.map((chef, index) => (
-        <ChefCard
-          name={chef.name}
-          image={chef.image}
-          rating={chef.rating}
-          key={index}
-          id={chef.chefId}
-          onDelete={handleChefDelete}
-        />
-      ))
-    )}
-    {error && (
+      {isLoading && (
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500 absolute right-1/2 bottom-1/4"></div>
+      )}
+      {!isLoading && favoriteChefs.length === 0 ? (
+        <div className="p-10 m-6 rounded-xl text-center h-80">
+          <p className="text-3xl text-gray-600">
+            You don't have any favorite chefs.
+          </p>
+        </div>
+      ) : (
+        favoriteChefs.map((chef, index) => (
+          <ChefCard
+            name={chef.name}
+            image={chef.image}
+            rating={chef.rating}
+            key={index}
+            id={chef.chefId}
+            onDelete={handleChefDelete}
+          />
+        ))
+      )}
+      {error && (
         <ErrorModal
           isOpen={error !== null}
           errorMessage={error}
           onClose={() => setError(null)}
         />
       )}
-  </div>
+    </div>
   )
 }
 

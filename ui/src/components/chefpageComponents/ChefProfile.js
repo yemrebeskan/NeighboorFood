@@ -15,9 +15,7 @@ const ChefProfile = ({ isChef, chefInfo }) => {
   const { id } = useParams()
   const uid = localStorage.getItem('uid')
 
-  const [isFavorited, setIsFavorited] = useState(
-    favCtx.favoriteChefs.find((chef) => chef.id == id) != null
-  )
+  const [isFavorited, setIsFavorited] = useState(false)
   const [favoritesCount, setFavoritesCount] = useState(0)
 
   useEffect(() => {
@@ -32,6 +30,8 @@ const ChefProfile = ({ isChef, chefInfo }) => {
         const response = await axios.get(
           `http://127.0.0.1:3001/api/v1/settings/${id}/image`
         )
+        const isFavourite = favCtx.favoriteChefs.some((chef) => chef.id == id)
+        setIsFavorited(isFavourite)
         setImageData(response.data)
       } catch (error) {
         console.error('Error fetching image:', error)
@@ -41,21 +41,21 @@ const ChefProfile = ({ isChef, chefInfo }) => {
     fetchImage()
   }, [])
 
-    const [imageThumbnail, setImageThumbnail] = useState('')
-    useEffect(() => {
-      const fetchImage = async () => {
-        try {
-          const response = await axios.get(
-            `http://127.0.0.1:3001/api/v1/chefs/${id}/thumbnail`
-          )
-          setImageThumbnail(response.data)
-        } catch (error) {
-          console.error('Error fetching image:', error)
-        }
+  const [imageThumbnail, setImageThumbnail] = useState('')
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:3001/api/v1/chefs/${id}/thumbnail`
+        )
+        setImageThumbnail(response.data)
+      } catch (error) {
+        console.error('Error fetching image:', error)
       }
+    }
 
-      fetchImage()
-    }, [])
+    fetchImage()
+  }, [])
 
   const onPictureChange = async (file) => {
     const reader = new FileReader()
@@ -124,13 +124,17 @@ const ChefProfile = ({ isChef, chefInfo }) => {
     <div className="bg-white sm:p-8 p-3 mb-8 rounded-lg relative">
       <div
         className="bg-cover bg-center sm:h-72 h-52 relative"
-        style={{ backgroundImage: `url(data:image/png;base64,${imageThumbnail})` }}
+        style={{
+          backgroundImage: `url(data:image/png;base64,${imageThumbnail})`,
+        }}
       >
         {isChef && uid == id && (
           <EditThumbnail
             className="absolute bottom-2 right-2"
             circle={false}
-            onThumbnailChange={() => {onThumbnailChange(), console.log('Thumbnail changed')}}
+            onThumbnailChange={() => {
+              onThumbnailChange(), console.log('Thumbnail changed')
+            }}
             onPictureRemove={() => console.log('Background picture removed')}
           />
         )}
@@ -173,7 +177,7 @@ const ChefProfile = ({ isChef, chefInfo }) => {
 
       <div className="mt-14">
         <h1 className="sm:text-2xl text-xl font-bold">{chef.name}</h1>
-       
+
         <div className="flex items-center mt-2">
           <span className="sm:text-lg text-md font-semibold opacity-80">
             <StarRating stars={chef.rating} totalVotes={chef.totalVotes} />
