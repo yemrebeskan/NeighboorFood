@@ -204,15 +204,20 @@ exports.removeFoodFromMenu = catchAsync(async (req, res, next) => {
 exports.updateFood = catchAsync(async (req, res, next) => {
   const chefId = req.params.id
   const foodId = req.params.foodId
-  const { name, kcali, price, likes, disslikes, image } = req.body
+  const newBody = {}
+  Object.keys(req.body).forEach((key) => {
+    if (typeof req.body[key] !== undefined) {
+      newBody[key] = req.body[key]
+    }
+  })
   const chef = await Chef.findOne({ userInfos: chefId })
   const menu = await Menu.findOne({ chefInfos: chef._id })
   const food = await Food.findByIdAndUpdate(
     foodId,
-    { name, kcali, price, likes, disslikes, image },
+    { ...newBody },
     { new: true, runValidators: true }
   )
-  await menu.save()
+  await food.save()
   res.status(200).json({
     status: 'success',
     data: {

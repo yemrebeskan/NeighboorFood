@@ -4,7 +4,7 @@ For Chefs:
     http://127.0.0.1:3001/api/v1/chefs/district/:district get(getChefByDistrict)
     http://127.0.0.1:3001/api/v1/chefs/:id/menu get(getChefMenu) || put(updateChefMenu)
     http://127.0.0.1:3001/api/v1/chefs/:id/thumbnail put(changeThumbnail) || delete(removeThumbnail)
-    http://127.0.0.1:3001/api/v1/chefs/:id/foodId delete(removeFoodFromMenu)
+    http://127.0.0.1:3001/api/v1/chefs/:id/:foodId delete(removeFoodFromMenu) || put (updateFood)
     http://127.0.0.1:3001/api/v1/chefs/:id/menu put(addFoodToMenu)
 
 For Favourite:

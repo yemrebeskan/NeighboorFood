@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import {
   AiOutlinePlus,
   AiFillLike,
@@ -16,7 +16,7 @@ import {
   convertFileToBase64,
   createImageFromBase64,
 } from '../../utils/convertToFileToBase64'
-
+import LoadingSpinner from './LoadingSpinner'
 const Menu = ({
   menu,
   isChef,
@@ -25,13 +25,31 @@ const Menu = ({
   onPhotoChange,
   onDelete,
 }) => {
-  console.log(menu.image)
   const foodCtx = useContext(OrderedFoodContext)
-
+  const [isInnerEditing, setIsInnerEditing] = useState(isEditing)
+  const [isLoading, setIsLoading] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModelOpen] = useState(false)
+  const [isDirty, setIsDirty] = useState(false)
+  const [editedMenu, setEditedMenu] = useState(menu)
+  useEffect(() => {
+    setIsInnerEditing(isEditing)
+  }, [isEditing])
+  useEffect(() => {
+    setEditedMenu(menu)
+  }, [menu])
   const { id } = useParams()
   const uid = localStorage.getItem('uid')
   const editingBorder = 'border-2 border-black pl-2 bg-gray-200 rounded-lg'
+
+  const checkIsDirty = useCallback(
+    (key, incomingValue) => {
+      let dirty = false
+      if (menu[key] !== incomingValue) dirty = true
+      setIsDirty(dirty)
+    },
+    [menu]
+  )
+
   const addBasketHandler = async (menu) => {
     const uid = localStorage.getItem('uid')
     const res = await axios.put('http://127.0.0.1:3001/api/v1/users/cart', {
@@ -57,14 +75,31 @@ const Menu = ({
     setIsDeleteModelOpen(true)
   }
   const handleDelete = () => {
-    ÛÛ
     //TODO: BACKEND
     onDelete(menu._id)
   }
 
+  const onSaveSubmit = async (e) => {
+    e.preventDefault()
+    console.log(editedMenu)
+    setIsLoading(true)
+    const response = await axios.put(
+      `http://127.0.0.1:3001/api/v1/chefs/${uid}/${editedMenu._id}`,
+      editedMenu
+    )
+    console.log(response)
+    if (response.status === 200) {
+      onMenuChange(editedMenu)
+      setIsInnerEditing(false);
+      setIsLoading(false)
+    } else {
+      console.log('ERROR')
+    }
+  }
+
   return (
     <div className="grid grid-cols-8 w-full py-8 my-4 mb-8 bg-white rounded-lg relative">
-      {isEditing && (
+      {isInnerEditing && (
         <button
           onClick={openDeleteModel}
           className="absolute right-0 top-0 m-2 text-white text-lg border-2 rounded-xl border-red-600 bg-red-600 p-2"
@@ -72,7 +107,7 @@ const Menu = ({
           Delete
         </button>
       )}
-      {isEditing && isDeleteModalOpen && (
+      {isInnerEditing && isDeleteModalOpen && (
         <div className="flex flex-col justify-center items-center">
           <Modal
             onRequestClose={() => {
@@ -121,7 +156,7 @@ const Menu = ({
             className="w-[150px] h-[150px] rounded-full bg-cover"
             src={menu.image}
           />
-          {isEditing && (
+          {isInnerEditing && (
             <EditImage
               className="absolute bottom-[-20px] left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2"
               circle={true}
@@ -131,34 +166,55 @@ const Menu = ({
           )}
         </div>
       </div>
-
-      <div className="col-span-4">
-        {isEditing ? (
+      <div className="col-span-4 relative">
+      {isLoading && <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500 absolute right-1/2 bottom-1/4"></div>}
+        {isInnerEditing ? (
           // <form className="flex flex-col gap-2" onSubmit = {menuSubmit}>
-          <form className="flex flex-col gap-2">
+          <form className="flex flex-col gap-2" onSubmit={onSaveSubmit}>
             <input
               className={`font-bold text-2xl text-[#484743] ${editingBorder} w-3/4`}
               type="text"
-              value={menu.name}
-              onChange={(e) => onMenuChange(menu._id, 'name', e.target.value)}
+              value={editedMenu.name}
+              onChange={(e) => {
+                setEditedMenu((prev) => {
+                  return { ...prev, name: e.target.value }
+                })
+                checkIsDirty('name', e.target.value)
+              }}
             />
             <input
               className={`font-thin text-md w-24 ${editingBorder}`}
               type="text"
-              value={menu.kcal}
-              onChange={(e) => onMenuChange(menu._id, 'kcal', e.target.value)}
+              value={editedMenu.kcal}
+              onChange={(e) => {
+                setEditedMenu((prev) => {
+                  return { ...prev, kcal: e.target.value }
+                })
+                checkIsDirty('kcal', e.target.value)
+              }}
             />
             <span className="text-3xl">
               $
               <input
                 className={`font-extrabold text-3xl mt-8 w-24 text-[#484743] ${editingBorder}`}
                 type="number"
-                value={menu.price}
-                onChange={(e) =>
-                  onMenuChange(menu._id, 'price', e.target.value)
-                }
+                value={editedMenu.price}
+                onChange={(e) => {
+                  setEditedMenu((prev) => {
+                    return { ...prev, price: e.target.value }
+                  })
+                  checkIsDirty('price', e.target.value)
+                }}
               />
             </span>
+            {isDirty && (
+              <button
+                className="mt-2 ml-64 w-32 bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-600"
+                type="submit"
+              >
+                Save
+              </button>
+            )}
           </form>
         ) : (
           <div>
@@ -243,13 +299,22 @@ const ChefMenus = ({ isChef, chefMenu }) => {
   const { id } = useParams()
   const uid = localStorage.getItem('uid')
 
-  const handleMenuChange = (id, field, value) => {
+  /* const handleMenuChange = (id, field, value) => {
     // Since we use MongoDB we don't have .id property. Instead we have _id.
     setMenus(
       menus.map((menu) =>
         menu._id === id ? { ...menu, [field]: value } : menu
       )
     )
+  } */
+
+  const handleEditMenu = (editedMenu) => {
+    const menuIndex = menus.findIndex((menu) => menu._id === editedMenu._id)
+    setMenus([
+      ...menus.slice(0, menuIndex),
+      editedMenu,
+      ...menus.slice(menuIndex + 1),
+    ])
   }
 
   const menuSubmit = async (e) => {
@@ -277,7 +342,7 @@ const ChefMenus = ({ isChef, chefMenu }) => {
         console.log('Afied')
         window.location.reload()
       } else {
-        console.log('Aç kal oç')
+        console.log('Aç kal kardeşim')
       }
       // TODO: Think later for base64 strings
       //handleSaveNewMenu(newMenu)
@@ -290,8 +355,15 @@ const ChefMenus = ({ isChef, chefMenu }) => {
     // Handle photo change here
   }
 
-  const handleDeleteMenu = (id) => {
-    setMenus(menus.filter((menu) => menu.id !== id))
+  const handleDeleteMenu = async (id) => {
+    const response = await axios.delete(
+      `http://127.0.0.1:3001/api/v1/chefs/${uid}/${id}`
+    )
+    if (response.status == 200) {
+      setMenus(menus.filter((menu) => menu._id !== id))
+    } else {
+      console.log('ERROR')
+    }
   }
 
   const handleAddMenu = () => {
@@ -300,6 +372,8 @@ const ChefMenus = ({ isChef, chefMenu }) => {
 
   const handleSaveNewMenu = () => {
     // Save the new menu here
+    console.log(newMenu)
+
     setMenus([...menus, { id: Date.now(), ...newMenu }])
     setIsAdding(false)
   }
@@ -318,7 +392,7 @@ const ChefMenus = ({ isChef, chefMenu }) => {
             className="mt-2 bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-600"
             onClick={() => setIsEditing(!isEditing)}
           >
-            {isEditing ? 'Save' : 'Edit'}
+            {isEditing ? 'Cancel' : 'Edit'}
           </button>
           <button
             className="mt-2 bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-600"
@@ -336,7 +410,7 @@ const ChefMenus = ({ isChef, chefMenu }) => {
             key={menu.id}
             menu={menu}
             isEditing={isEditing}
-            onMenuChange={handleMenuChange}
+            onMenuChange={handleEditMenu}
             onPhotoChange={handlePhotoChange}
             isChef={isChef}
             onDelete={handleDeleteMenu}
