@@ -19,7 +19,12 @@ router
   .delete(/*authController.protect,*/ settingsController.removeImage)
 
 router
-  .route('/:id/adress')
+  .route('/:id/address')
   .put(/*authController.protect,*/ settingsController.updateAdress)
+
+router
+  .route('/:id/phoneNumber')
+  .put(/*authController.protect,*/ settingsController.updatePhoneNumber)
+
 
 module.exports = router

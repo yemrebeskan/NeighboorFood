@@ -108,6 +108,25 @@ exports.updateAdress = catchAsync(async (req, res, next) => {
   })
 })
 
+exports.updatePhoneNumber = catchAsync(async (req, res, next) => {
+  const id = req.params.id
+  const {phoneNumber} = req.body
+  const user = await User.findByIdAndUpdate(
+    id,
+    { phoneNumber: phoneNumber },
+    { new: true, runValidators: true }
+  )
+  if (!user) {
+    return next(new AppError('No user found with that ID', 404))
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user,
+    },
+  })
+})
+
 exports.deleteUser = catchAsync(async (req, res, next) => {
   const user = await User.findByIdAndDelete(req.params.id)
   if (!user) {
