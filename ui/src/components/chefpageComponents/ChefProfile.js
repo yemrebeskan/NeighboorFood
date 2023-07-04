@@ -135,7 +135,14 @@ const ChefProfile = ({ isChef, chefInfo }) => {
             onThumbnailChange={() => {
               onThumbnailChange(), console.log('Thumbnail changed')
             }}
-            onPictureRemove={() => console.log('Background picture removed')}
+            onPictureRemove={async() => {try {
+        const response = await axios.delete(
+          `http://127.0.0.1:3001/api/v1/chefs/${uid}/thumbnail`)
+             }
+            catch (error) {
+              setError("Error deleting thumbnail")
+            }
+            }}
           />
         )}
         {imageData && (
@@ -154,7 +161,16 @@ const ChefProfile = ({ isChef, chefInfo }) => {
               onPictureChange()
               console.log('Profile picture changed')
             }}
-            onPictureRemove={() => console.log('Profile picture removed')}
+            onPictureRemove={() => {
+              try{
+              const response = axios.delete(
+                `http://127.0.0.1:3001/api/v1/settings/${uid}/image`
+              )
+              }
+              catch (error) {
+                setError("Error deleting profile picture")
+              }
+            }}
           />
         )}
         <div className="absolute -bottom-20 right-4">
