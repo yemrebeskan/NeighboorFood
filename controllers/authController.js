@@ -11,7 +11,6 @@ const signToken = (id) => {
   })
 }
 
-
 exports.signup = catchAsync(async (req, res, next) => {
   const body = { ...req.body }
   try {
@@ -77,9 +76,6 @@ exports.googleLogin = catchAsync(async (req, res, next) => {
 })
 */
 
-
-
-
 exports.login = catchAsync(async (req, res, next) => {
   try {
     const body = { ...req.body }
@@ -99,6 +95,8 @@ exports.login = catchAsync(async (req, res, next) => {
         status: 'success',
         token,
         uid: user._id,
+        name: user.name,
+        surname: user.surname,
         ischef: user.isChef,
         isApplied: user.isApplied,
         isAdmin: user.isAdmin,
