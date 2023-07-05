@@ -210,7 +210,6 @@ exports.getPastOrders = async (req, res) => {
           },
         },
       })
-    console.log(user.orderHistory)
 
     res.status(200).json({
       status: 'success',
