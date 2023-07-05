@@ -2,23 +2,22 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { createImageFromBase64 } from '../../utils/convertToFileToBase64'
+import { Navigate } from 'react-router-dom'
 
 const MenuCard = ({ menu }) => {
+  const navigation = useNavigate()
   // This component will display individual menu
   // You can customize this as per your needs
 
   return (
-    <div className="max-w-[500px] grid grid-cols-8 py-8 bg-white rounded-lg relative shrink-0 cursor-pointer sm:text-[16px] text-[12px]">
+    <div
+      className="max-w-[500px] grid grid-cols-8 py-8 bg-white rounded-lg relative shrink-0 cursor-pointer sm:text-[16px] text-[12px]"
+      onClick={() => {
+        navigation(`/chef/${menu.chefId}`)
+      }}
+    >
       <div className="m-2 col-span-2 flex justify-center items-center w-full h-full relative">
-        <div className="flex flex-col items-center justify-center">
-          <Link to={`/chef/${menu.chefId}`}>
-            <img
-              className="sm:w-[150px] sm:h-[150px] w-[80px] h-[80px] rounded-full bg-cover"
-              src={menu.image}
-              alt={menu.name}
-            />
-          </Link>
-        </div>
+        <div className="flex flex-col items-center justify-center"></div>
       </div>
       <div className="col-span-4">
         <div className="ml-6">
