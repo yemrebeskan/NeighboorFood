@@ -1,9 +1,21 @@
 import React from 'react'
 import AuthContext from '../context/AuthContext'
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 const PrivacyPage = () => {
   const authCtx = useContext(AuthContext)
+  const [isLoading, setIsLoading] = useState(true)
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
+  }, [])
   return (
+    <div style={{ minHeight: '400px', position: 'relative' }}>
+      {isLoading ? (
+        <div className="absolute flex items-center justify-center inset-1/4">
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+        </div>
+      ) : (
     <div
       className={
         authCtx.isOnClickedSignButton
@@ -65,6 +77,7 @@ const PrivacyPage = () => {
         Please review this Privacy Policy periodically to stay informed about
         how we collect, use, and protect your information.
       </p>
+    </div>)}
     </div>
   )
 }

@@ -82,7 +82,8 @@ const Settings = () => {
   }, [authCtx.isLoggedIn, navigate])
 
   return (
-    <div>{isLoading ? (
+    <div style={{ minHeight: '400px', position: 'relative' }}>
+      {isLoading ? (
       <div className="absolute flex items-center justify-center inset-1/4">
       <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
     </div>      

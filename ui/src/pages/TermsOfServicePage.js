@@ -1,9 +1,22 @@
 import React from 'react'
 import AuthContext from '../context/AuthContext'
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 const TermsOfServicePage = () => {
   const authCtx = useContext(AuthContext)
+  const [isLoading, setIsLoading] = useState(true)
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
+  }, [])
+
   return (
+    <div style={{ minHeight: '400px', position: 'relative' }}>
+      {isLoading ? (
+        <div className="absolute flex items-center justify-center inset-1/4">
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+        </div>
+      ) : (
     <div
       className={
         authCtx.isOnClickedSignButton
@@ -55,6 +68,7 @@ const TermsOfServicePage = () => {
         If you have any questions or concerns regarding our Terms of Service,
         please contact us for further assistance.
       </p>
+      </div>)}
     </div>
   )
 }

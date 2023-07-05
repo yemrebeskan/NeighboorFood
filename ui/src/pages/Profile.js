@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
 import axios from 'axios'
-
 import profileImage from './adminpage/image.jpg'
 import { FiEdit2 } from 'react-icons/fi'
 import ErrorModal from '../errorModal/errorModal'
@@ -15,13 +14,14 @@ const Profile = () => {
   const [image, setImage] = useState(profileImage)
   const [user, setUser] = useState({})
   const [error, setError] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
           `http://127.0.0.1:3001/api/v1/users/${uid}`
         )
-
+        setIsLoading(false)
         setImage(response.data.data.user.image)
         setUser(response.data.data.user)
         setAddress(response.data.data.user.district)
@@ -29,6 +29,7 @@ const Profile = () => {
         console.log(response.data.data.user)
       } catch (error) {
         setError('Error fetching user data. Please try again later.')
+        setIsLoading(false)
         console.log(error)
       }
     }
@@ -40,6 +41,7 @@ const Profile = () => {
       navigate('/')
     }
   }, [authCtx.isLoggedIn, navigate])
+
 
   const [address, setAddress] = useState(user.district)
   const handleProfileAddressChange = async (event) => {
@@ -63,10 +65,8 @@ const Profile = () => {
   }
 
   const handleAddressInputChange = (event) => {
-    
     setAddress(event.target.value)
   }
-
   const handleProfileImageChange = async (event) => {
     const file = event.target.files[0]
     const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i
@@ -137,6 +137,13 @@ const Profile = () => {
   }
 
   return (
+    <div style={{ minHeight: '400px', position: 'relative' }}>
+      {isLoading ? (
+        <div className="absolute flex items-center justify-center inset-1/4">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+      </div>      
+      ):
+        (
     <div className="flex flex-col items-center justify-center mb-64 max-w mx-auto mt-10 mb-10 p-6 bg-white rounded-lg shadow">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center justify-center">
         <div className="m-8  ml-24 right-0 ">
@@ -242,6 +249,7 @@ const Profile = () => {
           />
         )}
       </div>
+    </div>)}
     </div>
   )
 }

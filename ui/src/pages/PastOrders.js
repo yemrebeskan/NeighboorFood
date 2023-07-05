@@ -81,30 +81,47 @@ const OrderCart = ({ order, date, state }) => {
 }
 
 const PastOrders = () => {
-  const [pastOrders, setPastOrders] = useState([])
-  const [error, setError] = useState(null)
+  const [pastOrders, setPastOrders] = useState([]);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    const uid = localStorage.getItem('uid')
+    const uid = localStorage.getItem('uid');
     axios
       .get(`http://127.0.0.1:3001/api/v1/users/${uid}/pastorders`)
       .then((res) => {
-        setPastOrders(res.data.orderHistory)
+        setPastOrders(res.data.orderHistory);
+        setIsLoading(false);
       })
       .catch((err) => {
-        setError("Couldn't fetch past orders")
-      })
-  }, [])
+        setIsLoading(false);
+        setError("Couldn't fetch past orders");
+      });
+  }, []);
 
   return (
+    <div style={{ minHeight: '400px', position: 'relative' }}>
+      {isLoading ? (
+        <div className="absolute flex items-center justify-center inset-1/4">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+      </div>      
+      ):
+        (
     <div>
-      {pastOrders.reverse().map((order, index) => (
-        <OrderCart
-          key={index}
-          order={order}
-          date={order.date}
-          state={order.state}
-        />
-      ))}
+      {pastOrders.length === 0 ? (
+        <p className="text-center text-gray-500 text-lg mt-4">
+          There are no past orders.
+        </p>
+      ) : (
+        pastOrders.reverse().map((order, index) => (
+          <OrderCart
+            key={index}
+            order={order}
+            date={order.date}
+            state={order.state}
+          />
+        ))
+      )}
       {error && (
         <ErrorModal
           isOpen={error !== null}
@@ -112,8 +129,9 @@ const PastOrders = () => {
           onClose={() => setError(null)}
         />
       )}
+    </div>)}
     </div>
-  )
-}
+  );
+};
 
-export default PastOrders
+export default PastOrders;

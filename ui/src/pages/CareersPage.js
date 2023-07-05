@@ -1,9 +1,22 @@
 import React from 'react'
 import AuthContext from '../context/AuthContext'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 const CareersPage = () => {
   const authCtx = useContext(AuthContext)
+  const [isLoading, setIsLoading] = useState(true)
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
+  }, [])
+
   return (
+    <div style={{ minHeight: '400px', position: 'relative' }}>
+       {isLoading ? (
+        <div className="absolute flex items-center justify-center inset-1/4">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+      </div>      
+      ):(
     <div
       className={
         authCtx.isOnClickedSignButton
@@ -21,6 +34,7 @@ const CareersPage = () => {
           <p className="text-gray-700">No available positions at the moment.</p>
         </div>
       </div>
+    </div>)}
     </div>
   )
 }

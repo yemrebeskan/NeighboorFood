@@ -3,7 +3,7 @@ import AuthContext from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import './Orders.css'
 import PaymentModal from './PaymentModal'
-
+import ErrorModal from '../errorModal/errorModal'
 import {
   AiOutlineArrowLeft,
   AiOutlineArrowRight,
@@ -52,6 +52,8 @@ const Orders = () => {
   const [totalPrice, setTotalPrice] = useState(0)
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
   const [chef, setChef] = useState({})
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null);
 
   const closeSelectedOrder = () => {
     setSelectedOrder(null)
@@ -69,34 +71,48 @@ const Orders = () => {
   }
 
   useEffect(() => {
-    const uid = localStorage.getItem('uid')
+    const uid = localStorage.getItem('uid');
+  
     axios
       .get(`http://127.0.0.1:3001/api/v1/orders/order/${uid}`)
       .then((result) => {
         if (result.data.data.activeOrder) {
-          setOrderId(result.data.data.activeOrder._id)
-          setChef(result.data.data.activeOrder.chef.userInfos)
+          setOrderId(result.data.data.activeOrder._id);
+          setChef(result.data.data.activeOrder.chef.userInfos);
         }
-        console.log(result)
+        console.log(result);
         
-        const orderList = []
+        const orderList = [];
         if (result.data.data.activeOrder) {
           result.data.data.activeOrder.foods.map((order) => {
-            orderList.push(order)
-          })
+            orderList.push(order);
+          });
         }
-
+  
         if (orderList.length === 0) {
-          setIsEmty(true)
+          setIsEmty(true);
         } else {
-          setIsEmty(false)
+          setIsEmty(false);
         }
-        calculateTotalPrice(orderList)
-        setOrders(orderList)
+        calculateTotalPrice(orderList);
+        setOrders(orderList);
+        setIsLoading(false); // Set isLoading to false after fetching and updating state
       })
-  }, [])
+      .catch((error) => {
+        setError("Error while fetching orders")
+        setIsLoading(false); // Set isLoading to false in case of an error
+      });
+  }, []);
+  
 
   return (
+    <div style={{ minHeight: '400px', position: 'relative' }}>
+       {isLoading ? (
+        <div className="absolute flex items-center justify-center inset-1/4">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+      </div>      
+      ):
+        (
     <div className="mb-64">
       <div className={`${isPaymentModalOpen ? 'blur' : ''}`}>
         {isEmpty ? (
@@ -155,6 +171,14 @@ const Orders = () => {
         onClose={() => setIsPaymentModalOpen(false)}
         totalAmount={totalPrice}
       />
+      {error && (
+        <ErrorModal
+          isOpen={error !== null}
+          errorMessage={error}
+          onClose={() => setError(null)}
+        />
+      )}
+    </div>)}
     </div>
   )
 }

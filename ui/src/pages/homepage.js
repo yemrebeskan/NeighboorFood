@@ -3,7 +3,7 @@ import SearchBar from '../components/homepageComponents/SearchBar'
 import img from './photo4.png'
 import CardItem from '../components/homepageComponents/CardItem'
 import AuthContext from '../context/AuthContext'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import LocationSearchResults from '../components/homepageComponents/LocationSearchResults.js'
 import axios from 'axios'
 
@@ -11,6 +11,13 @@ const HomePage = () => {
   const authCtx = useContext(AuthContext)
   const [searchResults, setSearchResults] = useState({ menus: [], chefs: [] })
   const [isSearched, setIsSearched] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
+  }, [])
 
   const handleSearch = async (location) => {
     //console.log(location)
@@ -39,6 +46,12 @@ const HomePage = () => {
   }
 
   return (
+    <div style={{ minHeight: '400px', position: 'relative' }}>
+       {isLoading ? (
+        <div className="absolute flex items-center justify-center inset-1/4">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+      </div>      
+      ):(
     <div className={authCtx.isOnClickedSignButton ? 'blur' : ''}>
       <div className="container max-w-[90rem] mx-auto py-6 px-4 flex xl:justify-between justify-center items-center flex-col xl:flex-row">
         <div className="w-full">
@@ -74,6 +87,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+    </div>)}
     </div>
   )
 }
