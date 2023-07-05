@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import ErrorModal from '../errorModal/errorModal'
 
 const MenuCompleted = () => {
-  const [menus, setMenus] = useState([])
+  const [orders, setOrders] = useState([])
   const [error, setError] = useState(null)
   const [name, setName] = useState('')
   const fetchData = async () => {
@@ -12,8 +12,7 @@ const MenuCompleted = () => {
       const res = await axios.get(
         `http://127.0.0.1:3001/api/v1/orders/${uid}/accepted`
       )
-      setMenus(res.data.data.order)
-      console.log(res.data.data.order)
+      setOrders(res.data.data.order)
     } catch (error) {
       setError('Error fetching menus. Please try again later.')
     }
@@ -23,14 +22,17 @@ const MenuCompleted = () => {
     fetchData()
   }, [])
 
-  const handleCompleted = async (menu) => {
-    const updatedMenus = menus.filter((m) => menu.id !== m.id)
-    setMenus(updatedMenus)
-    /*await axios.delete(
-      `https://isces.onrender.com/api/v1/admin/menus/${menu.id}`
-    )*/
+  const handleCompleted = async (order) => {
+    const res = await axios.put(
+      `http://127.0.0.1:3001/api/v1/orders/order/${order._id}/complete`
+    )
+    if (res.data.status === 'success') {
+      const updatedOrders = orders.filter((m) => order.id !== m.id)
+      setOrders(updatedOrders)
+    } else {
+      setError('Error to complete order. Please try again later.')
+    }
   }
-
   return (
     <div style={{ minHeight: '400px' }}>
       <h1 className="text-3xl font-bold flex justify-center mt-4">
@@ -47,7 +49,7 @@ const MenuCompleted = () => {
           flexWrap: 'wrap',
         }}
       >
-        {menus.map((menu, index) => (
+        {orders.map((order, index) => (
           <div
             key={index}
             style={{
@@ -65,7 +67,7 @@ const MenuCompleted = () => {
               margin: '0.5rem',
             }}
           >
-            {menu.foods.map((food, index) => (
+            {order.foods.map((food, index) => (
               <div
                 key={index}
                 style={{
@@ -93,9 +95,11 @@ const MenuCompleted = () => {
             ))}
             <div style={{ textAlign: 'center' }}>
               <p style={{ margin: 0 }}>
-                Customer: {menu.user.name + ' ' + menu.user.surname}
+                Customer: {order.user.name + ' ' + order.user.surname}
               </p>
-              <p style={{ margin: 0 }}>Phone Number: {menu.user.phoneNumber}</p>
+              <p style={{ margin: 0 }}>
+                Phone Number: {order.user.phoneNumber}
+              </p>
             </div>
 
             <button
@@ -108,7 +112,7 @@ const MenuCompleted = () => {
                 fontWeight: 'bold',
                 cursor: 'pointer',
               }}
-              onClick={() => handleCompleted(menu)}
+              onClick={() => handleCompleted(order)}
             >
               Complete
             </button>

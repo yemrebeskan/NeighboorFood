@@ -9,6 +9,7 @@ const Notification = require('../models/notificationModel')
 exports.makeOrder = catchAsync(async (req, res, next) => {
   const userId = req.params.id
   const { orderedFoods, chefId } = req.body
+
   const user = await User.findById(userId)
   const chef = await Chef.findById(chefId)
   const chefNotification = new Notification({
