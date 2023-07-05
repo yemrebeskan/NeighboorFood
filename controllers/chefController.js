@@ -25,6 +25,7 @@ exports.getAllChefs = catchAsync(async (req, res, next) => {
       id: chef.userInfos.id,
       name: chef.userInfos.name,
       surname: chef.userInfos.surname,
+      image: chef.userInfos.image,
       chefFoods: chef.menu
         ? chef.menu.foods.map((food) => {
             return {
