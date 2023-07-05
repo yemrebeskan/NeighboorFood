@@ -6,6 +6,7 @@ const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 const Application = require('../models/applicationModel')
 const Menu = require('../models/menuModel')
+const Notification = require('../models/notificationModel')
 
 exports.createAdmin = catchAsync(async (req, res, next) => {
   const { name, surname, email, password } = req.body
@@ -41,12 +42,14 @@ exports.getAllApplications = catchAsync(async (req, res, next) => {
 exports.acceptApplication = catchAsync(async (req, res, next) => {
   const applicationId = req.params.id
   const application = await Application.findById(applicationId)
+
   const user = await User.findByIdAndUpdate(
     application.userInfos,
     { isChef: true, isApplied: false },
     { new: true, runValidators: true }
   )
   const body = { ...req.body }
+
   const { aboutNewChef, country, streetAdress, city } = body
   const newChef = new Chef({
     userInfos: user._id,
