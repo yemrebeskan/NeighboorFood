@@ -164,21 +164,21 @@ const Profile = () => {
           <h2 className="text-lg md:text-xl font-bold mb-2">
             {user.name} {user.surname}
           </h2>
-          {user.isChef ? (
+          {!user?.isAdmin && user.isChef ? (
             <button
               className="mb-2 md:mb-0 md:mr-2 bg-teal-500 text-white px-4 py-2 rounded"
               onClick={handleMyChefPage}
             >
               My Chef Page
             </button>
-          ) : (
+          ) : (!user?.isAdmin &&(
             <button
               className="mb-2 md:mb-0 md:mr-2 bg-teal-500 text-white px-4 py-2 rounded"
               onClick={handleBecomeChef}
             >
               Be Chef
             </button>
-          )}
+          ))}
         </div>
         <div className="m-8 flex flex-col items-center">
           <div className="flex items-center mb-4">

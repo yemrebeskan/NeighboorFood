@@ -46,8 +46,8 @@ const NavBar = () => {
         <div>
           <img
             onClick={() => {
-              navigation('/')}
-              }
+              navigation('/')
+            }}
             src={logo}
             className="md:w-40 w-28 absolute mt-3 cursor-pointer"
             alt="Logo"
@@ -82,7 +82,7 @@ const NavBar = () => {
               </button>
             )}
 
-            {authCtx.isLoggedIn && user?.isChef && (
+            {authCtx.isLoggedIn && user?.isChef && !user?.isAdmin && (
               <NavLink
                 to={`/chef/${uid}`}
                 className="text-green-700 items-end hover:bg-green-700 px-2 py-2 sm:mr-8 mr-2 hover:text-stone-200 rounded"
@@ -91,10 +91,18 @@ const NavBar = () => {
               </NavLink>
             )}
 
-            {authCtx.isLoggedIn && !user?.isChef && (
+            {authCtx.isLoggedIn && !user?.isChef && !user?.isAdmin && (
               <Link to="/bechef">
                 <button className="text-green-700 items-end hover:bg-green-700 px-2 py-2 sm:mr-8 mr-2 hover:text-stone-200 rounded">
                   Be a Chef
+                </button>
+              </Link>
+            )}
+
+            {authCtx.isLoggedIn && !user?.isChef && user?.isAdmin && (
+              <Link to="/admin/chefcontrol">
+                <button className="text-green-700 items-end hover:bg-green-700 px-2 py-2 sm:mr-8 mr-2 hover:text-stone-200 rounded">
+                  Chef Control
                 </button>
               </Link>
             )}

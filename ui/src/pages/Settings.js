@@ -113,25 +113,26 @@ const Settings = () => {
         </button>
       </div>
 
-      {/* Rol Kontrolü */}
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-2">Chef Operations</h2>
-        {user?.isChef ? (
-          <button
-            className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded w-full"
-            onClick={() => navigate('/')}
-          >
-            Resignation from Chef
-          </button>
-        ) : (
-          <button
-            className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded w-full"
-            onClick={() => navigate('/bechef')}
-          >
-            Be Chef
-          </button>
-        )}
-      </div>
+      {!user?.isAdmin && (
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold mb-2">Chef Operations</h2>
+          {user?.isChef ? (
+            <button
+              className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded w-full"
+              onClick={() => navigate('/')}
+            >
+              Resignation from Chef
+            </button>
+          ) : (
+            <button
+              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded w-full"
+              onClick={() => navigate('/bechef')}
+            >
+              Be Chef
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Hesap Silme */}
       <div>

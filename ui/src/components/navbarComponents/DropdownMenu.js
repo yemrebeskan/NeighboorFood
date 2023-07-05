@@ -37,7 +37,7 @@ const DropdownMenu = ({ user }) => {
         </div>
       </li>
 
-      {!user.isChef ? (
+      {!user?.isAdmin && !user.isChef ? (
         <li className="hover:bg-gray-100">
           <div
             onClick={() => navigation('/bechef')}
@@ -46,7 +46,7 @@ const DropdownMenu = ({ user }) => {
             Be Chef
           </div>
         </li>
-      ) : (
+      ) : ( !user?.isAdmin && (
         <li className="hover:bg-gray-100">
           <div
             onClick={() => navigation('/menuconfirmation')}
@@ -55,7 +55,7 @@ const DropdownMenu = ({ user }) => {
             Menu Confirmation
           </div>
         </li>
-      )}
+      ))}
 
       {user.isChef && (
         <li className="hover:bg-gray-100">

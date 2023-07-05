@@ -30,19 +30,19 @@ const CardItem = () => {
         warmth. There was no way to anticipate what was about to happen. It was
         a worst-case scenario and there was no way out of it.
       </p>
-      {user?.isChef ? (
+      {!user?.isAdmin && user?.isChef ? (
         <NavLink to={`/chef/${uid}`}>
           <button className="sm:text-[16px] text-[12px] border-solid border-2 border-slate-400 mt-4 mb-4 bg-teal-500 mr-4 rounded-lg sm:p-3 p-1 w-28 text-slate-50 hover:bg-teal-700 place-self-center">
             My Chef Page
           </button>
         </NavLink>
-      ) : (
+      ) : (!user?.isAdmin &&(
         <Link to="/bechef">
           <button className="sm:text-[16px] text-[12px] border-solid border-2 border-slate-400 mt-4 mb-4 bg-teal-500 mr-4 rounded-lg sm:p-3 p-1 w-28 text-slate-50 hover:bg-teal-700 place-self-center">
             Be Chef
           </button>
         </Link>
-      )}
+      ))}
     </div>
   )
 }
