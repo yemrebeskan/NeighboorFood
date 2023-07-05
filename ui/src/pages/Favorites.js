@@ -20,7 +20,7 @@ const Favorites = () => {
     const uid = localStorage.getItem('uid')
     setIsLoading(true)
     axios
-      .get(`http://127.0.0.1:3001/api/v1/favourites/${uid}`)
+      .get(`https://neighboorfood-s5im.onrender.com/api/v1/favourites/${uid}`)
       .then((result) => {
         setFavoriteChefs(result.data.data.favouriteChefs)
       })
@@ -35,7 +35,7 @@ const Favorites = () => {
 
     try {
       const res = await axios.delete(
-        `http://127.0.0.1:3001/api/v1/favourites/${uid}/${child.chefId}`
+        `https://neighboorfood-s5im.onrender.com/api/v1/favourites/${uid}/${child.chefId}`
       )
 
       if (res.data.status === 'success') {

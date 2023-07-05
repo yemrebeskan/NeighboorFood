@@ -20,7 +20,7 @@ const AnounceAChef = (props) => {
 
     try {
       const res = await axios.delete(
-        `http://127.0.0.1:3001/api/v1/admin/application/${props.data.id}`
+        `https://neighboorfood-s5im.onrender.com/api/v1/admin/application/${props.data.id}`
       )
     } catch (error) {
       setError(
@@ -40,7 +40,7 @@ const AnounceAChef = (props) => {
 
     if (confirmation === 'Evet') {
       const res = await axios.post(
-        `http://127.0.0.1:3001/api/v1/admin/application/${props.data.id}`,
+        `https://neighboorfood-s5im.onrender.com/api/v1/admin/application/${props.data.id}`,
         application
       )
 

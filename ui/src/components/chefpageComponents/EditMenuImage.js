@@ -26,7 +26,7 @@ const EditImage = ({ className, circle, menu, onPictureRemove }) => {
         }
 
         const response = await axios.put(
-          `http://127.0.0.1:3001/api/v1/chefs/${menu._id}/change`,
+          `https://neighboorfood-s5im.onrender.com/api/v1/chefs/${menu._id}/change`,
           menuImagedata
         )
         //window.location.reload()

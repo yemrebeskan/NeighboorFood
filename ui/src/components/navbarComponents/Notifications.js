@@ -24,7 +24,7 @@ const Notifications = () => {
 
       try {
         const response = await axios.get(
-          `http://127.0.0.1:3001/api/v1/users/${uid}/notifications`
+          `https://neighboorfood-s5im.onrender.com/api/v1/users/${uid}/notifications`
         )
 
         setNotifications(response.data.notifications)
@@ -44,17 +44,17 @@ const Notifications = () => {
     if (notification.message === 'Order is completed and delivered.') {
       setIsModalOpen(true)
     }
-        deleteNotification(notification._id)
+    deleteNotification(notification._id)
   }
 
   const deleteNotification = async (id) => {
     const uid = localStorage.getItem('uid')
     try {
       await axios.delete(
-        `http://127.0.0.1:3001/api/v1/users/${id}/notification`
+        `https://neighboorfood-s5im.onrender.com/api/v1/users/${id}/notification`
       )
       const response = await axios.get(
-        `http://127.0.0.1:3001/api/v1/users/${uid}/notifications`
+        `https://neighboorfood-s5im.onrender.com/api/v1/users/${uid}/notifications`
       )
       setNotifications(response.data.notifications)
     } catch (error) {

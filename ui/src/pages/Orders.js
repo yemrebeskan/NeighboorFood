@@ -77,7 +77,7 @@ const Orders = () => {
     const uid = localStorage.getItem('uid')
 
     axios
-      .get(`http://127.0.0.1:3001/api/v1/orders/order/${uid}`)
+      .get(`https://neighboorfood-s5im.onrender.com/api/v1/orders/order/${uid}`)
       .then((result) => {
         if (result.data.data.activeOrder) {
           setOrderId(result.data.data.activeOrder._id)

@@ -20,7 +20,7 @@ const FoodBasket = () => {
     })
 
     const res = await axios.post(
-      `http://127.0.0.1:3001/api/v1/orders/createOrder/${uid}`,
+      `https://neighboorfood-s5im.onrender.com/api/v1/orders/createOrder/${uid}`,
       {
         orderedFoods: orderedFoodIds,
         chefId: foodCtx.orderedFoods[0].chef,

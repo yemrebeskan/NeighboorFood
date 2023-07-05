@@ -52,10 +52,13 @@ const Menu = ({
 
   const addBasketHandler = async (menu) => {
     const uid = localStorage.getItem('uid')
-    const res = await axios.put('http://127.0.0.1:3001/api/v1/users/cart', {
-      userId: uid,
-      foodId: menu._id,
-    })
+    const res = await axios.put(
+      'https://neighboorfood-s5im.onrender.com/api/v1/users/cart',
+      {
+        userId: uid,
+        foodId: menu._id,
+      }
+    )
 
     if (res.data.status === 'success') {
       if (foodCtx.orderedFoods.some((item) => item._id === menu._id)) {
@@ -78,7 +81,7 @@ const Menu = ({
     //TODO: BACKEND
     setIsDeleteLoading(true)
     const response = await axios.delete(
-      `http://127.0.0.1:3001/api/v1/chefs/${uid}/${menu._id}`
+      `https://neighboorfood-s5im.onrender.com/api/v1/chefs/${uid}/${menu._id}`
     )
     if (response.status == 200) {
       onDelete(menu._id)
@@ -93,7 +96,7 @@ const Menu = ({
 
     setIsLoading(true)
     const response = await axios.put(
-      `http://127.0.0.1:3001/api/v1/chefs/${uid}/${editedMenu._id}`,
+      `https://neighboorfood-s5im.onrender.com/api/v1/chefs/${uid}/${editedMenu._id}`,
       editedMenu
     )
 
@@ -339,7 +342,7 @@ const ChefMenus = ({ isChef, chefMenu }) => {
       }
 
       const response = await axios.post(
-        `http://127.0.0.1:3001/api/v1/chefs/${uid}/menu`,
+        `https://neighboorfood-s5im.onrender.com/api/v1/chefs/${uid}/menu`,
         newMenu,
         config
       )

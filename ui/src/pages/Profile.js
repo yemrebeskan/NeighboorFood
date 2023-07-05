@@ -19,7 +19,7 @@ const Profile = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:3001/api/v1/users/${uid}`
+          `https://neighboorfood-s5im.onrender.com/api/v1/users/${uid}`
         )
         setIsLoading(false)
         setImage(response.data.data.user.image)
@@ -48,7 +48,7 @@ const Profile = () => {
     }
     try {
       const response = await axios.put(
-        `http://127.0.0.1:3001/api/v1/settings/${uid}/address`,
+        `https://neighboorfood-s5im.onrender.com/api/v1/settings/${uid}/address`,
         addressPush
       )
       //window.location.reload()
@@ -72,7 +72,7 @@ const Profile = () => {
             image: base64Data,
           }
           const response = await axios.put(
-            `http://127.0.0.1:3001/api/v1/settings/${uid}/image`,
+            `https://neighboorfood-s5im.onrender.com/api/v1/settings/${uid}/image`,
             imagedata
           )
           window.location.reload()
@@ -99,7 +99,7 @@ const Profile = () => {
 
     try {
       const response = await axios.put(
-        `http://127.0.0.1:3001/api/v1/settings/${uid}/phoneNumber`,
+        `https://neighboorfood-s5im.onrender.com/api/v1/settings/${uid}/phoneNumber`,
         phonePush
       )
       //window.location.reload()

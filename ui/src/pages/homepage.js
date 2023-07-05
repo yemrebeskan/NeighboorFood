@@ -21,9 +21,9 @@ const HomePage = () => {
 
   const handleSearch = async (location) => {
     const chefsRes = await axios.get(
-      `http://127.0.0.1:3001/api/v1/chefs/location/${location}`
+      `https://neighboorfood-s5im.onrender.com/api/v1/chefs/location/${location}`
     )
-      console.log(chefsRes)
+    console.log(chefsRes)
     if (chefsRes.data.status !== 'success') {
       //ERROR HANDLING
     }

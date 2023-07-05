@@ -27,7 +27,7 @@ const EditImage = ({ className, circle, onPictureRemove }) => {
           image: base64Data,
         }
         const response = await axios.put(
-          `http://127.0.0.1:3001/api/v1/settings/${uid}/image`,
+          `https://neighboorfood-s5im.onrender.com/api/v1/settings/${uid}/image`,
           imagedata
         )
         window.location.reload()
@@ -47,7 +47,7 @@ const EditImage = ({ className, circle, onPictureRemove }) => {
           thumbnail: base64Data,
         }
         const response = await axios.put(
-          `http://127.0.0.1:3001/api/v1/settings/${uid}/thumbnail`,
+          `https://neighboorfood-s5im.onrender.com/api/v1/settings/${uid}/thumbnail`,
           thumbnaildata
         )
         window.location.reload()

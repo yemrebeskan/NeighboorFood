@@ -178,7 +178,7 @@ const SignUpPage = () => {
 
     try {
       const res = await axios.post(
-        'http://127.0.0.1:3001/api/v1/users/signup',
+        'https://neighboorfood-s5im.onrender.com/api/v1/users/signup',
         signUpInfo
       )
       if (res.data.status === 'success') {

@@ -15,7 +15,7 @@ const ChefReviews = ({ isChef, reviews }) => {
       updatedReview.reply = incomingReply
       // There is no endpoint for making reviews rn.
       // const res = await axios.put(
-      //   'http://127.0.0.1:3001/api/v1/users/login',
+      //   'https://neighboorfood-s5im.onrender.com/api/v1/users/login',
       //   updatedReview
       // )
       setAllReviews([

@@ -9,7 +9,7 @@ const ControlChef = () => {
   const [isLoading, setIsLoading] = useState(true)
   const fetchNominations = async () => {
     const res = await axios.get(
-      'http://127.0.0.1:3001/api/v1/admin/applications'
+      'https://neighboorfood-s5im.onrender.com/api/v1/admin/applications'
     )
     if (res.data.status === 'success') {
       const nominations = res.data.data.users.map((nom) => {

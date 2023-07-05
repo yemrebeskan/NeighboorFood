@@ -16,7 +16,7 @@ const ChefAbout = ({ isChef, about, phone, email }) => {
 
   const handleSave = () => {
     axios
-      .put(`http://127.0.0.1:3001/api/v1/chefs/${id}/about`, {
+      .put(`https://neighboorfood-s5im.onrender.com/api/v1/chefs/${id}/about`, {
         about: aboutText,
         phone: phoneText,
         email: emailText,

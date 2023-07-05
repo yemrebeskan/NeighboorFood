@@ -28,7 +28,7 @@ const ChefProfile = ({ isChef, chefInfo }) => {
     const fetchImage = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:3001/api/v1/settings/${id}/image`
+          `https://neighboorfood-s5im.onrender.com/api/v1/settings/${id}/image`
         )
         const isFavourite = favCtx.favoriteChefs.some((chef) => chef.id == id)
         setIsFavorited(isFavourite)
@@ -46,7 +46,7 @@ const ChefProfile = ({ isChef, chefInfo }) => {
     const fetchImage = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:3001/api/v1/chefs/${id}/thumbnail`
+          `https://neighboorfood-s5im.onrender.com/api/v1/chefs/${id}/thumbnail`
         )
         setImageThumbnail(response.data)
       } catch (error) {
@@ -68,7 +68,7 @@ const ChefProfile = ({ isChef, chefInfo }) => {
           },
         }
         const response = await axios.put(
-          `http://127.0.0.1:3001/api/v1/settings/${uid}/image`,
+          `https://neighboorfood-s5im.onrender.com/api/v1/settings/${uid}/image`,
           JSON.stringify({ image: base64Data }),
           config
         )
@@ -89,7 +89,7 @@ const ChefProfile = ({ isChef, chefInfo }) => {
       const child = favCtx.favoriteChefs.find((chef) => chef.id == id)
       const uid = localStorage.getItem('uid')
       const res = await axios.delete(
-        `http://127.0.0.1:3001/api/v1/favourites/${uid}/${chefInfo._id}`
+        `https://neighboorfood-s5im.onrender.com/api/v1/favourites/${uid}/${chefInfo._id}`
       )
       if (res.data.status === 'success') {
         favCtx.removeChefFromFavorites(child.id)
@@ -100,7 +100,7 @@ const ChefProfile = ({ isChef, chefInfo }) => {
       // for now localStorage
       const uid = localStorage.getItem('uid')
       const res = await axios.put(
-        `http://127.0.0.1:3001/api/v1/favourites/${uid}/${chefInfo._id}`
+        `https://neighboorfood-s5im.onrender.com/api/v1/favourites/${uid}/${chefInfo._id}`
       )
 
       if (res.data.status === 'success') {
@@ -135,7 +135,7 @@ const ChefProfile = ({ isChef, chefInfo }) => {
             onPictureRemove={async () => {
               try {
                 const response = await axios.delete(
-                  `http://127.0.0.1:3001/api/v1/chefs/${uid}/thumbnail`
+                  `https://neighboorfood-s5im.onrender.com/api/v1/chefs/${uid}/thumbnail`
                 )
               } catch (error) {
                 setError('Error deleting thumbnail')
@@ -161,7 +161,7 @@ const ChefProfile = ({ isChef, chefInfo }) => {
             onPictureRemove={() => {
               try {
                 const response = axios.delete(
-                  `http://127.0.0.1:3001/api/v1/settings/${uid}/image`
+                  `https://neighboorfood-s5im.onrender.com/api/v1/settings/${uid}/image`
                 )
               } catch (error) {
                 setError('Error deleting profile picture')

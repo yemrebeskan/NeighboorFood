@@ -1,98 +1,98 @@
-import React, { useState, useEffect, useContext } from 'react';
-import './signin.css';
-import AuthContext from '../../context/AuthContext';
-import axios from 'axios';
-import ErrorModal from '../../errorModal/errorModal';
+import React, { useState, useEffect, useContext } from 'react'
+import './signin.css'
+import AuthContext from '../../context/AuthContext'
+import axios from 'axios'
+import ErrorModal from '../../errorModal/errorModal'
 
 const SignInPage = () => {
-  const [enteredEmail, setEnteredEmail] = useState('');
-  const [enteredPassword, setEnteredPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [formIsValid, setFormIsValid] = useState(false);
-  const [error, setError] = useState(null); 
+  const [enteredEmail, setEnteredEmail] = useState('')
+  const [enteredPassword, setEnteredPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [formIsValid, setFormIsValid] = useState(false)
+  const [error, setError] = useState(null)
 
-  const authCtx = useContext(AuthContext);
+  const authCtx = useContext(AuthContext)
 
   useEffect(() => {
     const identifier = setTimeout(() => {
       setFormIsValid(
         enteredEmail.includes('@') && enteredPassword.trim().length > 6
-      );
-    }, 500);
+      )
+    }, 500)
 
     return () => {
-      clearTimeout(identifier);
-    };
-  }, [enteredEmail, enteredPassword]);
+      clearTimeout(identifier)
+    }
+  }, [enteredEmail, enteredPassword])
 
   const togglePasswordVisibility = (event) => {
-    event.preventDefault();
-    setShowPassword(!showPassword);
-  };
+    event.preventDefault()
+    setShowPassword(!showPassword)
+  }
 
   const emailChangeHandler = (event) => {
-    event.preventDefault();
-    setEnteredEmail(event.target.value);
+    event.preventDefault()
+    setEnteredEmail(event.target.value)
     setFormIsValid(
       event.target.value.includes('@') && enteredPassword.trim().length > 6
-    );
-  };
+    )
+  }
 
   const passwordChangeHandler = (event) => {
-    event.preventDefault();
-    setEnteredPassword(event.target.value);
+    event.preventDefault()
+    setEnteredPassword(event.target.value)
     setFormIsValid(
       enteredEmail.includes('@') && event.target.value.trim().length > 6
-    );
-  };
+    )
+  }
 
   const submitHandler = async (event) => {
-    const signInInfo = { email: enteredEmail, password: enteredPassword };
-    event.preventDefault();
+    const signInInfo = { email: enteredEmail, password: enteredPassword }
+    event.preventDefault()
     try {
       const res = await axios.post(
-        'http://127.0.0.1:3001/api/v1/users/login',
+        'https://neighboorfood-s5im.onrender.com/api/v1/users/login',
         signInInfo
-      );
+      )
       if (res.data.status === 'success') {
-        localStorage.setItem('uid', res.data.uid);
+        localStorage.setItem('uid', res.data.uid)
         localStorage.setItem(
           'userInfo',
           JSON.stringify({ email: signInInfo.email })
-        );
-        const userRole = res.data.role;
-        const userFullName = res.data.name;
-        const userSurname = res.data.surname;
-        const userName = userFullName + ' ' + userSurname;
+        )
+        const userRole = res.data.role
+        const userFullName = res.data.name
+        const userSurname = res.data.surname
+        const userName = userFullName + ' ' + userSurname
         //const chefId = res.data.chefId
 
         //authCtx.setUserData(userRole, chefId)
-        authCtx.setUserData(userRole, userName);
+        authCtx.setUserData(userRole, userName)
         authCtx.onLogin({
           email: enteredEmail,
           password: enteredPassword,
-        });
-      } 
+        })
+      }
       // assump log in is successful
     } catch (err) {
-      setError('Wrong password or email'); 
+      setError('Wrong password or email')
     }
-  };
+  }
 
   const exitHandlerSignInPage = (event) => {
-    event.preventDefault();
-    authCtx.exitHandler();
-  };
+    event.preventDefault()
+    authCtx.exitHandler()
+  }
 
   const createAnAccountHandler = (event) => {
-    event.preventDefault();
-    authCtx.exitHandler();
-    authCtx.handleSignUp();
-  };
+    event.preventDefault()
+    authCtx.exitHandler()
+    authCtx.handleSignUp()
+  }
 
   const closeModal = () => {
-    setError(null); 
-  };
+    setError(null)
+  }
 
   return (
     <div className="signin flex -mt-[50%] rounded sm:w-[600px] w-screen sm:h-auto h-screen">
@@ -152,9 +152,9 @@ const SignInPage = () => {
         isOpen={error !== null}
         errorMessage={error}
         onClose={closeModal}
-      /> 
+      />
     </div>
-  );
-};
+  )
+}
 
-export default SignInPage;
+export default SignInPage

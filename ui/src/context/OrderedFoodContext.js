@@ -33,18 +33,20 @@ export const OrderedFoodContextProvider = (props) => {
 
   useEffect(() => {
     const uid = localStorage.getItem('uid')
-    axios.get(`http://127.0.0.1:3001/api/v1/users/${uid}/cart`).then((res) => {
-      const basketFoods = res.data.cart.foods.map((food) => {
-        food._id = food.foodId._id
-        food.chef = food.foodId.chef
-        food.count = food.quantity
-        food.name = food.foodId.name
-        food.image = food.foodId.image
-        food.price = food.foodId.price
-        return food
+    axios
+      .get(`https://neighboorfood-s5im.onrender.com/api/v1/users/${uid}/cart`)
+      .then((res) => {
+        const basketFoods = res.data.cart.foods.map((food) => {
+          food._id = food.foodId._id
+          food.chef = food.foodId.chef
+          food.count = food.quantity
+          food.name = food.foodId.name
+          food.image = food.foodId.image
+          food.price = food.foodId.price
+          return food
+        })
+        setOrderedFoods(basketFoods)
       })
-      setOrderedFoods(basketFoods)
-    })
   }, [authCtx.isLoggedIn])
 
   useEffect(() => {

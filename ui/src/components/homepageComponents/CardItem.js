@@ -11,7 +11,7 @@ const CardItem = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:3001/api/v1/users/${uid}`
+          `https://neighboorfood-s5im.onrender.com/api/v1/users/${uid}`
         )
         setUser(response.data.data.user)
       } catch (error) {
@@ -36,13 +36,15 @@ const CardItem = () => {
             My Chef Page
           </button>
         </NavLink>
-      ) : (!user?.isAdmin &&(
-        <Link to="/bechef">
-          <button className="sm:text-[16px] text-[12px] border-solid border-2 border-slate-400 mt-4 mb-4 bg-teal-500 mr-4 rounded-lg sm:p-3 p-1 w-28 text-slate-50 hover:bg-teal-700 place-self-center">
-            Be Chef
-          </button>
-        </Link>
-      ))}
+      ) : (
+        !user?.isAdmin && (
+          <Link to="/bechef">
+            <button className="sm:text-[16px] text-[12px] border-solid border-2 border-slate-400 mt-4 mb-4 bg-teal-500 mr-4 rounded-lg sm:p-3 p-1 w-28 text-slate-50 hover:bg-teal-700 place-self-center">
+              Be Chef
+            </button>
+          </Link>
+        )
+      )}
     </div>
   )
 }

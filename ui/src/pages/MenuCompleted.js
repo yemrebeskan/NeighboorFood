@@ -1,51 +1,50 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import ErrorModal from '../errorModal/errorModal';
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import ErrorModal from '../errorModal/errorModal'
 
 const MenuCompleted = () => {
-  const [orders, setOrders] = useState([]);
-  const [error, setError] = useState(null);
-  const [name, setName] = useState('');
-  const [isLoading, setIsLoading] = useState(true); 
+  const [orders, setOrders] = useState([])
+  const [error, setError] = useState(null)
+  const [name, setName] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
 
   const fetchData = async () => {
     try {
-      const uid = localStorage.getItem('uid');
+      const uid = localStorage.getItem('uid')
       const res = await axios.get(
-        `http://127.0.0.1:3001/api/v1/orders/${uid}/accepted`
-      );
-      setOrders(res.data.data.order);
-      setIsLoading(false); 
+        `https://neighboorfood-s5im.onrender.com/api/v1/orders/${uid}/accepted`
+      )
+      setOrders(res.data.data.order)
+      setIsLoading(false)
     } catch (error) {
-      setError('Error fetching menus. Please try again later.');
-      setIsLoading(false);
+      setError('Error fetching menus. Please try again later.')
+      setIsLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   const handleCompleted = async (order) => {
     const res = await axios.put(
-      `http://127.0.0.1:3001/api/v1/orders/order/${order._id}/complete`
-    );
+      `https://neighboorfood-s5im.onrender.com/api/v1/orders/order/${order._id}/complete`
+    )
     if (res.data.status === 'success') {
-      const updatedOrders = orders.filter((m) => order.id !== m.id);
-      setOrders(updatedOrders);
+      const updatedOrders = orders.filter((m) => order.id !== m.id)
+      setOrders(updatedOrders)
     } else {
-      setError('Error completing the order. Please try again later.');
+      setError('Error completing the order. Please try again later.')
     }
-  };
+  }
 
   return (
     <div style={{ minHeight: '400px', position: 'relative' }}>
       {isLoading ? (
         <div className="absolute flex items-center justify-center inset-1/4">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
-      </div>      
-      ):
-        (
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+        </div>
+      ) : (
         <>
           <h1 className="text-3xl font-bold flex justify-center mt-4">
             Menu Completed
@@ -148,7 +147,7 @@ const MenuCompleted = () => {
         />
       )}
     </div>
-  );
-};
+  )
+}
 
-export default MenuCompleted;
+export default MenuCompleted

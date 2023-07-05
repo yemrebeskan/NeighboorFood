@@ -13,10 +13,13 @@ const FoodCard = ({ food }) => {
 
   const incrementCount = async (id) => {
     const uid = localStorage.getItem('uid')
-    const res = await axios.put('http://127.0.0.1:3001/api/v1/users/cart', {
-      userId: uid,
-      foodId: id,
-    })
+    const res = await axios.put(
+      'https://neighboorfood-s5im.onrender.com/api/v1/users/cart',
+      {
+        userId: uid,
+        foodId: id,
+      }
+    )
     if (res.data.status === 'success') {
       foodCtx.incrementCountOfFood(id)
     }
@@ -25,7 +28,7 @@ const FoodCard = ({ food }) => {
   const decreaseCount = async (id) => {
     const uid = localStorage.getItem('uid')
     const res = await axios.delete(
-      `http://127.0.0.1:3001/api/v1/users/${uid}/cart/${id}`
+      `https://neighboorfood-s5im.onrender.com/api/v1/users/${uid}/cart/${id}`
     )
 
     if (res.data === '') {

@@ -18,7 +18,7 @@ const NavBar = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:3001/api/v1/users/${uid}`
+          `https://neighboorfood-s5im.onrender.com/api/v1/users/${uid}`
         )
         setUser(response.data.data.user)
       } catch (error) {}

@@ -20,7 +20,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, orderId }) => {
 
   const handleSubmit = async () => {
     const res = await axios.put(
-      `http://127.0.0.1:3001/api/v1/orders/order/${orderId}/completed`
+      `https://neighboorfood-s5im.onrender.com/api/v1/orders/order/${orderId}/completed`
     )
     if (res.data.status === 'success') {
       onClose()

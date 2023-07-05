@@ -34,7 +34,9 @@ export const FavoriteChefsContextProvider = (props) => {
     const fetchFavoriteChefs = async () => {
       try {
         const uid = localStorage.getItem('uid')
-        const response = await axios.get(`http://127.0.0.1:3001/api/v1/favourites/${uid}`)
+        const response = await axios.get(
+          `https://neighboorfood-s5im.onrender.com/api/v1/favourites/${uid}`
+        )
         setFavoriteChefs(response.data.data.favouriteChefs)
       } catch (error) {
         console.log('Error fetching favorite chefs:', error)
