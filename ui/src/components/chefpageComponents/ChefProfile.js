@@ -74,9 +74,7 @@ const ChefProfile = ({ isChef, chefInfo }) => {
         )
 
         setImageData(response.data)
-      } catch (error) {
-        console.log(error)
-      }
+      } catch (error) {}
     }
     reader.readAsDataURL(file)
   }
@@ -159,7 +157,6 @@ const ChefProfile = ({ isChef, chefInfo }) => {
             circle={true}
             onPictureChange={() => {
               onPictureChange()
-              console.log('Profile picture changed')
             }}
             onPictureRemove={() => {
               try {

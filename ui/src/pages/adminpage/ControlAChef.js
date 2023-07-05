@@ -37,7 +37,7 @@ const AnounceAChef = (props) => {
       streetAddress: props.data.streetAddress,
       city: props.data.city,
     }
-    console.log(application)
+
     if (confirmation === 'Evet') {
       const res = await axios.post(
         `http://127.0.0.1:3001/api/v1/admin/application/${props.data.id}`,

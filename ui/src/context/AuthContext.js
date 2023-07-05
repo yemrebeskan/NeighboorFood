@@ -35,7 +35,7 @@ export const AuthContextProvider = (props) => {
     if (uid !== undefined && uid !== null) {
       setIsLoggedIn(true)
     }
-  }, []);
+  }, [])
   const logoutHandler = () => {
     localStorage.removeItem('uid')
     localStorage.removeItem('userInfo')
@@ -43,13 +43,13 @@ export const AuthContextProvider = (props) => {
   }
 
   const handleLogin = () => {
-    setIsClickedLogInButton((prevState) => !prevState);
-    setIsOnClickedSignButton((prevState) => !prevState);
+    setIsClickedLogInButton((prevState) => !prevState)
+    setIsOnClickedSignButton((prevState) => !prevState)
   }
 
   const handleSignUp = () => {
-    setIsClickedSignUpButton((prevState) => !prevState);
-    setIsOnClickedSignButton((prevState) => !prevState);
+    setIsClickedSignUpButton((prevState) => !prevState)
+    setIsOnClickedSignButton((prevState) => !prevState)
   }
 
   const signUpHandler = () => {
@@ -71,10 +71,8 @@ export const AuthContextProvider = (props) => {
   }
 
   const setUserData = (role, name) => {
-    //console.log('Setting userRole and chefId:', role, id);
     setUserRole(role)
     setUserName(name)
-    //setChefId(id);
   }
 
   return (

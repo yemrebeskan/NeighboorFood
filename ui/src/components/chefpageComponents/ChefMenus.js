@@ -84,7 +84,6 @@ const Menu = ({
       onDelete(menu._id)
       setIsDeleteLoading(false)
     } else {
-      console.log('ERROR')
     }
     setIsDeleteModelOpen(false)
   }
