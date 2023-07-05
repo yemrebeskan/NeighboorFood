@@ -10,7 +10,6 @@ import OrderedFoodContext from '../../context/OrderedFoodContext'
 import Modal from 'react-modal'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import { set } from 'mongoose'
 import {
   convertFileToBase64,
   createImageFromBase64,
@@ -339,7 +338,6 @@ const ChefMenus = ({ isChef, chefMenu }) => {
         },
       }
 
-      
       const response = await axios.post(
         `http://127.0.0.1:3001/api/v1/chefs/${uid}/menu`,
         newMenu,

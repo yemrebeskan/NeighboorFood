@@ -5,7 +5,6 @@ import './BeChefPage.css'
 import chefImg from '../components/homepageComponents/chef_img.jpeg'
 import axios from 'axios'
 import ErrorModal from '../errorModal/errorModal'
-import { set } from 'mongoose'
 const BeShefPage = () => {
   const navigate = useNavigate()
   const authCtx = useContext(AuthContext)
