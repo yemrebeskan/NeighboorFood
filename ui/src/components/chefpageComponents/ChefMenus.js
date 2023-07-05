@@ -28,6 +28,7 @@ const Menu = ({
   const [isInnerEditing, setIsInnerEditing] = useState(isEditing)
   const [isLoading, setIsLoading] = useState(false)
   const [isDeleteLoading, setIsDeleteLoading] = useState(false)
+  const [error, setError] = useState(null)
   const [isDeleteModalOpen, setIsDeleteModelOpen] = useState(false)
   const [isDirty, setIsDirty] = useState(false)
   const [editedMenu, setEditedMenu] = useState(menu)
