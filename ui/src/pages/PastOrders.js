@@ -12,7 +12,7 @@ const OrderCart = ({ order, date, state }) => {
     name += ', '
     total += m.orderedFood.price
   })
-  console.log(menu)
+
   return (
     <div className="container max-w-7xl m-auto my-10">
       <div
@@ -87,7 +87,6 @@ const PastOrders = () => {
     axios
       .get(`http://127.0.0.1:3001/api/v1/users/${uid}/pastorders`)
       .then((res) => {
-        console.log(res)
         setPastOrders(res.data.orderHistory)
       })
       .catch((err) => {
