@@ -3,15 +3,15 @@ import React, { useEffect, useState } from 'react'
 import ErrorModal from '../errorModal/errorModal'
 
 const MenuConfirmation = () => {
-  const [menus, setMenus] = useState([])
+  const [orders, setOrders] = useState([])
   const [error, setError] = useState(null)
   const fetchData = async () => {
     try {
       const uid = localStorage.getItem('uid')
       const res = await axios.get(`http://127.0.0.1:3001/api/v1/orders/${uid}`)
-      setMenus(res.data.data.order)
+      setOrders(res.data.data.order)
     } catch (error) {
-      setError('Error fetching menus. Please try again later.')
+      setError('Error fetching pending orders. Please try again later.')
     }
   }
 
@@ -19,20 +19,28 @@ const MenuConfirmation = () => {
     fetchData()
   }, [])
 
-  const handleAccept = async (menu) => {
-    const updatedMenus = menus.filter((m) => menu.id !== m.id)
-    setMenus(updatedMenus)
-    /*await axios.delete(
-      `https://isces.onrender.com/api/v1/admin/menus/${menu.id}`
-    )*/
+  const handleAccept = async (order) => {
+    const res = await axios.put(
+      `http://127.0.0.1:3001/api/v1/orders/order/${order._id}/accept`
+    )
+    if (res.data.status === 'success') {
+      const updatedOrders = orders.filter((o) => order.id !== o.id)
+      setOrders(updatedOrders)
+    } else {
+      setError('Error accepting order, Please try again later.')
+    }
   }
 
-  const handleReject = async (menu) => {
-    const updatedMenus = menus.filter((m) => menu.id !== m.id)
-    setMenus(updatedMenus)
-    /*await axios.delete(
-      `https://isces.onrender.com/api/v1/admin/menus/${menu.id}`
-    )*/
+  const handleReject = async (order) => {
+    const res = await axios.put(
+      `http://127.0.0.1:3001/api/v1/orders/order/${order._id}/reject`
+    )
+    if (res.data.status === 'success') {
+      const updatedOrders = orders.filter((o) => order.id !== o.id)
+      setOrders(updatedOrders)
+    } else {
+      setError('Error rejecting order, Please try again later.')
+    }
   }
 
   return (
@@ -51,7 +59,7 @@ const MenuConfirmation = () => {
           flexWrap: 'wrap',
         }}
       >
-        {menus.map((menu, index) => (
+        {orders.map((order, index) => (
           <div
             key={index}
             style={{
@@ -69,7 +77,7 @@ const MenuConfirmation = () => {
               margin: '0.5rem',
             }}
           >
-            {menu.foods.map((food, index) => (
+            {order.foods.map((food, index) => (
               <div
                 key={index}
                 style={{
@@ -97,9 +105,11 @@ const MenuConfirmation = () => {
             ))}
             <div style={{ textAlign: 'center' }}>
               <p style={{ margin: 0 }}>
-                Customer: {menu.user.name + ' ' + menu.user.surname}
+                Customer: {order.user.name + ' ' + order.user.surname}
               </p>
-              <p style={{ margin: 0 }}>Phone Number: {menu.user.phoneNumber}</p>
+              <p style={{ margin: 0 }}>
+                Phone Number: {order.user.phoneNumber}
+              </p>
             </div>
 
             <button
@@ -112,7 +122,7 @@ const MenuConfirmation = () => {
                 fontWeight: 'bold',
                 cursor: 'pointer',
               }}
-              onClick={() => handleAccept(menu)}
+              onClick={() => handleAccept(order)}
             >
               Accept
             </button>
@@ -126,7 +136,7 @@ const MenuConfirmation = () => {
                 fontWeight: 'bold',
                 cursor: 'pointer',
               }}
-              onClick={() => handleReject(menu)}
+              onClick={() => handleReject(order)}
             >
               Reject
             </button>

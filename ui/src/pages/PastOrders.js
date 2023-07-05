@@ -4,7 +4,7 @@ import { BsArrowDownCircleFill, BsFillArrowUpCircleFill } from 'react-icons/bs'
 import ErrorModal from '../errorModal/errorModal'
 const OrderCart = ({ menu, date, state }) => {
   const [isOpen, setIsOpen] = useState(false)
-  
+
   let name = ''
   let total = 0
   menu.forEach((m) => {
@@ -87,7 +87,9 @@ const PastOrders = () => {
       .then((res) => {
         setPastOrders(res.data.orderHistory)
       })
-      .catch((err) => { setError("Couldn't fetch past orders") })
+      .catch((err) => {
+        setError("Couldn't fetch past orders")
+      })
   }, [])
 
   return (
