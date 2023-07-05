@@ -76,7 +76,6 @@ const Favorites = () => {
           {favoriteChefs.map((chef, index) => (
             <ChefCard
               name={chef.name}
-              image={chef.image}
               rating={chef.rating}
               key={index}
               id={chef.id} //We should use chef's userId instead chefId to redirect our users to chef pages

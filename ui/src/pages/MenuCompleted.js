@@ -5,7 +5,6 @@ import ErrorModal from '../errorModal/errorModal'
 const MenuCompleted = () => {
   const [orders, setOrders] = useState([])
   const [error, setError] = useState(null)
-  const [name, setName] = useState('')
   const [isLoading, setIsLoading] = useState(true)
 
   const fetchData = async () => {
@@ -93,16 +92,6 @@ const MenuCompleted = () => {
                         width: '100%',
                       }}
                     >
-                      <img
-                        src={food.orderedFood.image}
-                        alt="Menu"
-                        style={{
-                          width: '100px',
-                          height: '100px',
-                          objectFit: 'cover',
-                          borderRadius: '50%',
-                        }}
-                      ></img>
                       <div style={{ textAlign: 'center' }}>
                         <p style={{ margin: 0 }}>{food.orderedFood.name}</p>
                         <p style={{ margin: 0 }}>Quantity: {food.quantity}</p>

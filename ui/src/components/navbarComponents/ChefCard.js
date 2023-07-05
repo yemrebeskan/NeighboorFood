@@ -1,6 +1,6 @@
 import React from 'react'
 import './ChefCard.css'
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
+import { AiFillHeart } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import StarRating from '../chefpageComponents/StarRating'
 
@@ -22,9 +22,7 @@ const ChefCard = (props) => {
       <Link to={`/chef/${props.id}`}>
         <div className="min-h-full">
           <div className="name flex font-bold">{props.name}</div>
-          <div className="flex">
-            <img className="chefPhoto" src={props.image} alt={props.name} />
-          </div>
+
           <div className="chefRating font-bold">
             <StarRating stars={props.rating} totalVotes={props.totalVotes} />
           </div>
