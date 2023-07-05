@@ -59,13 +59,19 @@ exports.makeOrder = catchAsync(async (req, res, next) => {
 
 exports.getActiveOrderForUser = catchAsync(async (req, res, next) => {
   const uid = req.params.id
-  const activeOrder = await Order.findOne({ user: uid, active: true }).populate(
-    {
+  const activeOrder = await Order.findOne({ user: uid, active: true })
+    .populate({
       path: 'foods.orderedFood',
       model: 'Food',
-    }
-    
-  )
+    })
+    .populate({
+      path: 'chef',
+      model: 'Chef',
+      populate: {
+        path: 'userInfos',
+        model: 'User',
+      },
+    })
 
   res.status(200).json({
     status: 'success',
