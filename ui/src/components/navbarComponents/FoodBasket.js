@@ -1,14 +1,19 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import OrderedFoodContext from '../../context/OrderedFoodContext'
 import FoodCard from './FoodCard'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import ErrorModal from '../../errorModal/errorModal'
 
 const FoodBasket = () => {
   const foodCtx = useContext(OrderedFoodContext)
+  const [error, setError] = useState(null)
   const uid = localStorage.getItem('uid')
   const navigate = useNavigate()
 
+  const closeModal = () => {
+    setError(null)
+  }
   const giveOrder = async () => {
     const orderedFoodIds = foodCtx.orderedFoods.map((food) => {
       return { foodId: food._id, quantity: food.count }
@@ -22,9 +27,12 @@ const FoodBasket = () => {
         chefId: foodCtx.orderedFoods[0].chef,
       }
     )
+    console.log(res)
     if (res.data.status === 'success') {
       navigate('/orders')
       window.location.reload()
+    } else {
+      setError('First you should confirm your active order.')
     }
   }
 
@@ -57,6 +65,11 @@ const FoodBasket = () => {
           </button>
         </div>
       )}
+      <ErrorModal
+        isOpen={error !== null}
+        errorMessage={error}
+        onClose={closeModal}
+      />
     </div>
   )
 }
