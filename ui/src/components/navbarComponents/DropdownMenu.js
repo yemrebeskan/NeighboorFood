@@ -9,9 +9,12 @@ const DropdownMenu = ({ user }) => {
   return (
     //   {authCtx.isAdmin  && ()} bu eklencek chefcontrol için
     //  {authCtx.isChef  && ()} bu eklencek menuconfirmation için
-
+    <>
+    
     <ul className="absolute sm:right-7 right-5 md:mt-12 mt-16 bg-white shadow-lg rounded-md text-green-800 md:w-48 w-36 scale-125 z-10 sm:text-sm text-xs">
+    <div className=" mt-2">{user.name} {user.surname}</div>
       <li className="hover:bg-gray-100 rounded-t-md">
+        
         <div
           onClick={() => navigation('/profile')}
           className="w-full text-left p-4"
@@ -99,7 +102,7 @@ const DropdownMenu = ({ user }) => {
         </div>
       </li>
     </ul>
-  )
+  </>)
 }
 
 export default DropdownMenu
