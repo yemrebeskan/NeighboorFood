@@ -8,7 +8,7 @@ const EditImage = ({ className, circle, onPictureRemove }) => {
   const fileInputRef = useRef(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const uid = localStorage.getItem('uid')
-    const { id } = useParams()
+  const { id } = useParams()
 
   const handlePictureChange = (event) => {
     const file = event.target.files[0]
@@ -18,13 +18,11 @@ const EditImage = ({ className, circle, onPictureRemove }) => {
   }
   const onPictureChange = async (file) => {
     const reader = new FileReader()
-    console.log('burdayız')
-    console.log(file)
-    console.log(reader)
+
     reader.onloadend = async () => {
       try {
         const base64Data = reader.result.split(',')[1]
-        console.log(base64Data)
+
         const imagedata = {
           image: base64Data,
         }

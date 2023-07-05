@@ -18,8 +18,7 @@ const FoodBasket = () => {
     const orderedFoodIds = foodCtx.orderedFoods.map((food) => {
       return { foodId: food._id, quantity: food.count }
     })
-    console.log(orderedFoodIds)
-    console.log(foodCtx.orderedFoods[0].chef)
+
     const res = await axios.post(
       `http://127.0.0.1:3001/api/v1/orders/createOrder/${uid}`,
       {
@@ -27,7 +26,7 @@ const FoodBasket = () => {
         chefId: foodCtx.orderedFoods[0].chef,
       }
     )
-    console.log(res)
+
     if (res.data.status === 'success') {
       navigate('/orders')
       window.location.reload()

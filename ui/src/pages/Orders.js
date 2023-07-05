@@ -27,9 +27,12 @@ const OrderCart = ({ menu, ordersCtx, chef }) => {
           <p className="text-black/60 font-light text-sm">
             {menu.orderedFood.kcal} kcal
           </p>
-          <p  onClick={() => navigate(`/chef/${chef._id}`)} className="italic underline cursor-pointer flex items-center hover:text-blue-700">
-          <AiOutlineLink className="mr-1" size={14} /> from{' '}
-            {chef.name} {chef.surname}
+          <p
+            onClick={() => navigate(`/chef/${chef._id}`)}
+            className="italic underline cursor-pointer flex items-center hover:text-blue-700"
+          >
+            <AiOutlineLink className="mr-1" size={14} /> from {chef.name}{' '}
+            {chef.surname}
           </p>
         </div>
       </div>
@@ -53,7 +56,7 @@ const Orders = () => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
   const [chef, setChef] = useState({})
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null)
 
   const closeSelectedOrder = () => {
     setSelectedOrder(null)
@@ -71,114 +74,114 @@ const Orders = () => {
   }
 
   useEffect(() => {
-    const uid = localStorage.getItem('uid');
-  
+    const uid = localStorage.getItem('uid')
+
     axios
       .get(`http://127.0.0.1:3001/api/v1/orders/order/${uid}`)
       .then((result) => {
         if (result.data.data.activeOrder) {
-          setOrderId(result.data.data.activeOrder._id);
-          setChef(result.data.data.activeOrder.chef.userInfos);
+          setOrderId(result.data.data.activeOrder._id)
+          setChef(result.data.data.activeOrder.chef.userInfos)
         }
-        console.log(result);
-        
-        const orderList = [];
+
+        const orderList = []
         if (result.data.data.activeOrder) {
           result.data.data.activeOrder.foods.map((order) => {
-            orderList.push(order);
-          });
+            orderList.push(order)
+          })
         }
-  
+
         if (orderList.length === 0) {
-          setIsEmty(true);
+          setIsEmty(true)
         } else {
-          setIsEmty(false);
+          setIsEmty(false)
         }
-        calculateTotalPrice(orderList);
-        setOrders(orderList);
-        setIsLoading(false); // Set isLoading to false after fetching and updating state
+        calculateTotalPrice(orderList)
+        setOrders(orderList)
+        setIsLoading(false) // Set isLoading to false after fetching and updating state
       })
       .catch((error) => {
-        setError("Error while fetching orders")
-        setIsLoading(false); // Set isLoading to false in case of an error
-      });
-  }, []);
-  
+        setError('Error while fetching orders')
+        setIsLoading(false) // Set isLoading to false in case of an error
+      })
+  }, [])
 
   return (
     <div style={{ minHeight: '400px', position: 'relative' }}>
-       {isLoading ? (
+      {isLoading ? (
         <div className="absolute flex items-center justify-center inset-1/4">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
-      </div>      
-      ):
-        (
-    <div className="mb-64">
-      <div className={`${isPaymentModalOpen ? 'blur' : ''}`}>
-        {isEmpty ? (
-          <div className="w-screen h-full flex flex-col justify-center items-center text-center">
-            <p className="text-2xl text-black/70">
-              You do not have any orders yet...
-            </p>
-            <div className="w-full container max-w-xs m-auto mt-16">
-              <button
-                onClick={() => navigate('/')}
-                className="bg-blue-600 py-2 px-6 rounded-md text-white w-full flex justify-between"
-              >
-                <AiOutlineArrowLeft className="mt-[4.5px]" /> Go Home
-              </button>
-              <button
-                onClick={() => navigate('/pastorders')}
-                className="bg-[#134e4a] mt-3 py-2 px-6 rounded-md text-white w-full flex justify-between"
-              >
-                Review Your Past Orders{' '}
-                <AiOutlineArrowRight className="mt-[4.5px]" />
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="mt-12 container max-w-7xl m-auto">
-            <div className="flex justify-between items-center">
-              <p className="text-3xl font-bold">Total Price: ${totalPrice}</p>
-              <button
-                className="my-3 py-4 px-6 bg-[#219b4e] rounded-lg text-white font-bold"
-                onClick={completeOrder}
-              >
-                Complete Order
-              </button>
-            </div>
-
-            <h1 className="text-xl font-bold mt-12">Your Orders:</h1>
-            {orders.reverse().map((food, index) => (
-              <div>
-                <OrderCart menu={food} key={index} chef={chef}/>
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+        </div>
+      ) : (
+        <div className="mb-64">
+          <div className={`${isPaymentModalOpen ? 'blur' : ''}`}>
+            {isEmpty ? (
+              <div className="w-screen h-full flex flex-col justify-center items-center text-center">
+                <p className="text-2xl text-black/70">
+                  You do not have any orders yet...
+                </p>
+                <div className="w-full container max-w-xs m-auto mt-16">
+                  <button
+                    onClick={() => navigate('/')}
+                    className="bg-blue-600 py-2 px-6 rounded-md text-white w-full flex justify-between"
+                  >
+                    <AiOutlineArrowLeft className="mt-[4.5px]" /> Go Home
+                  </button>
+                  <button
+                    onClick={() => navigate('/pastorders')}
+                    className="bg-[#134e4a] mt-3 py-2 px-6 rounded-md text-white w-full flex justify-between"
+                  >
+                    Review Your Past Orders{' '}
+                    <AiOutlineArrowRight className="mt-[4.5px]" />
+                  </button>
+                </div>
               </div>
-            ))}
+            ) : (
+              <div className="mt-12 container max-w-7xl m-auto">
+                <div className="flex justify-between items-center">
+                  <p className="text-3xl font-bold">
+                    Total Price: ${totalPrice}
+                  </p>
+                  <button
+                    className="my-3 py-4 px-6 bg-[#219b4e] rounded-lg text-white font-bold"
+                    onClick={completeOrder}
+                  >
+                    Complete Order
+                  </button>
+                </div>
 
-            <button
-              onClick={() => navigate('/pastorders')}
-              className="bg-[#134e4a] mt-20 py-2 px-6 rounded-md text-white"
-            >
-              Review Your Past Orders
-            </button>
+                <h1 className="text-xl font-bold mt-12">Your Orders:</h1>
+                {orders.reverse().map((food, index) => (
+                  <div>
+                    <OrderCart menu={food} key={index} chef={chef} />
+                  </div>
+                ))}
+
+                <button
+                  onClick={() => navigate('/pastorders')}
+                  className="bg-[#134e4a] mt-20 py-2 px-6 rounded-md text-white"
+                >
+                  Review Your Past Orders
+                </button>
+              </div>
+            )}
           </div>
-        )}
-      </div>
 
-      <PaymentModal
-        orderId={orderId}
-        isOpen={isPaymentModalOpen}
-        onClose={() => setIsPaymentModalOpen(false)}
-        totalAmount={totalPrice}
-      />
-      {error && (
-        <ErrorModal
-          isOpen={error !== null}
-          errorMessage={error}
-          onClose={() => setError(null)}
-        />
+          <PaymentModal
+            orderId={orderId}
+            isOpen={isPaymentModalOpen}
+            onClose={() => setIsPaymentModalOpen(false)}
+            totalAmount={totalPrice}
+          />
+          {error && (
+            <ErrorModal
+              isOpen={error !== null}
+              errorMessage={error}
+              onClose={() => setError(null)}
+            />
+          )}
+        </div>
       )}
-    </div>)}
     </div>
   )
 }

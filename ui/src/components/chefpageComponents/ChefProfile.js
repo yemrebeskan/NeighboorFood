@@ -74,7 +74,6 @@ const ChefProfile = ({ isChef, chefInfo }) => {
         )
 
         setImageData(response.data)
-        console.log('Profile picture changed21')
       } catch (error) {
         console.log(error)
       }
@@ -133,15 +132,16 @@ const ChefProfile = ({ isChef, chefInfo }) => {
             className="absolute bottom-2 right-2"
             circle={false}
             onThumbnailChange={() => {
-              onThumbnailChange(), console.log('Thumbnail changed')
+              onThumbnailChange()
             }}
-            onPictureRemove={async() => {try {
-        const response = await axios.delete(
-          `http://127.0.0.1:3001/api/v1/chefs/${uid}/thumbnail`)
-             }
-            catch (error) {
-              setError("Error deleting thumbnail")
-            }
+            onPictureRemove={async () => {
+              try {
+                const response = await axios.delete(
+                  `http://127.0.0.1:3001/api/v1/chefs/${uid}/thumbnail`
+                )
+              } catch (error) {
+                setError('Error deleting thumbnail')
+              }
             }}
           />
         )}
@@ -162,13 +162,12 @@ const ChefProfile = ({ isChef, chefInfo }) => {
               console.log('Profile picture changed')
             }}
             onPictureRemove={() => {
-              try{
-              const response = axios.delete(
-                `http://127.0.0.1:3001/api/v1/settings/${uid}/image`
-              )
-              }
-              catch (error) {
-                setError("Error deleting profile picture")
+              try {
+                const response = axios.delete(
+                  `http://127.0.0.1:3001/api/v1/settings/${uid}/image`
+                )
+              } catch (error) {
+                setError('Error deleting profile picture')
               }
             }}
           />
@@ -190,7 +189,7 @@ const ChefProfile = ({ isChef, chefInfo }) => {
           <p className="text-sm text-center scale-150">{favoritesCount}</p>
         </div>
       </div>
-          
+
       <div className="mt-14">
         <h1 className="sm:text-2xl text-xl font-bold">{chef.name}</h1>
         <p className="sm:text-lg text-md opacity-80">{chef.address}</p>

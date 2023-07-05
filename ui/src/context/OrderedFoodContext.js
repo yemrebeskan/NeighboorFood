@@ -60,7 +60,7 @@ export const OrderedFoodContextProvider = (props) => {
       }
       return food
     })
-    console.log(updatedFoods)
+
     setOrderedFoods(updatedFoods)
   }
 

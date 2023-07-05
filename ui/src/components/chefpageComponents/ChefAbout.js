@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import { FaPen } from 'react-icons/fa';
-import axios from 'axios';
-import ErrorModal from '../../errorModal/errorModal';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react'
+import { FaPen } from 'react-icons/fa'
+import axios from 'axios'
+import ErrorModal from '../../errorModal/errorModal'
+import { useParams } from 'react-router-dom'
 
 const ChefAbout = ({ isChef, about, phone, email }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [aboutText, setAboutText] = useState(about);
-  const [phoneText, setPhoneText] = useState(phone);
-  const [emailText, setEmailText] = useState(email);
-  const [error, setError] = useState(null);
+  const [isEditing, setIsEditing] = useState(false)
+  const [aboutText, setAboutText] = useState(about)
+  const [phoneText, setPhoneText] = useState(phone)
+  const [emailText, setEmailText] = useState(email)
+  const [error, setError] = useState(null)
 
-  const { id } = useParams();
-  const uid = localStorage.getItem('uid');
+  const { id } = useParams()
+  const uid = localStorage.getItem('uid')
 
   const handleSave = () => {
     axios
@@ -22,27 +22,24 @@ const ChefAbout = ({ isChef, about, phone, email }) => {
         email: emailText,
       })
       .then((response) => {
-        console.log('Data saved successfully!');
-        setIsEditing(false);
+        setIsEditing(false)
       })
       .catch((error) => {
-        setError("Error saving data. Please try again later.");
-      });
+        setError('Error saving data. Please try again later.')
+      })
 
-    setIsEditing(false);
-  };
+    setIsEditing(false)
+  }
 
   const handleEditClick = () => {
     if (isEditing) {
-      handleSave();
+      handleSave()
     }
-    setIsEditing(!isEditing);
-  };
+    setIsEditing(!isEditing)
+  }
 
   return (
     <div>
-
-
       {isEditing ? (
         <div>
           <textarea
@@ -90,7 +87,7 @@ const ChefAbout = ({ isChef, about, phone, email }) => {
         />
       )}
     </div>
-  );
-};
+  )
+}
 
-export default ChefAbout;
+export default ChefAbout

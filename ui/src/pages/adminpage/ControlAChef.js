@@ -37,28 +37,27 @@ const AnounceAChef = (props) => {
       streetAddress: props.data.streetAddress,
       city: props.data.city,
     }
+    console.log(application)
+    if (confirmation === 'Evet') {
+      const res = await axios.post(
+        `http://127.0.0.1:3001/api/v1/admin/application/${props.data.id}`,
+        application
+      )
 
-    try {
-      if (confirmation === 'Evet') {
+      if (res.data.status === 'success') {
         props.onUpdate(props.data.id)
         setIsSubmitted(false)
-
-        const res = await axios.post(
-          `http://127.0.0.1:3001/api/v1/admin/application/${props.data.id}`,
-          application
+      } else {
+        setError(
+          'An error occurred while confirming the application. Please try again later.'
         )
       }
-    } catch (error) {
-      setError(
-        'An error occurred while confirming the application. Please try again later.'
-      )
     }
   }
 
   if (isSubmitted) {
     return null
   }
-  console.log(props.data)
 
   return (
     <div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-8">

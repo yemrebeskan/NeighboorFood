@@ -12,7 +12,6 @@ const ControlChef = () => {
       'http://127.0.0.1:3001/api/v1/admin/applications'
     )
     if (res.data.status === 'success') {
-      console.log(res.data.data.users)
       const nominations = res.data.data.users.map((nom) => {
         return {
           id: nom._id,
@@ -25,6 +24,7 @@ const ControlChef = () => {
           Image: nom.userInfos.image,
         }
       })
+
       setNominees(nominations)
       setIsLoading(false)
     } else {

@@ -91,19 +91,18 @@ const Menu = ({
 
   const onSaveSubmit = async (e) => {
     e.preventDefault()
-    console.log(editedMenu)
+
     setIsLoading(true)
     const response = await axios.put(
       `http://127.0.0.1:3001/api/v1/chefs/${uid}/${editedMenu._id}`,
       editedMenu
     )
-    console.log(response)
+
     if (response.status === 200) {
       onMenuChange(editedMenu)
       setIsInnerEditing(false)
       setIsLoading(false)
     } else {
-      console.log('ERROR')
     }
   }
 
@@ -340,18 +339,16 @@ const ChefMenus = ({ isChef, chefMenu }) => {
         },
       }
 
-      console.log(newMenu)
+      c
       const response = await axios.post(
         `http://127.0.0.1:3001/api/v1/chefs/${uid}/menu`,
         newMenu,
         config
       )
-      console.log(response)
+
       if (response.status === 200) {
-        console.log('Afied')
         window.location.reload()
       } else {
-        console.log('Aç kal kardeşim')
       }
       // TODO: Think later for base64 strings
       //handleSaveNewMenu(newMenu)
@@ -374,7 +371,6 @@ const ChefMenus = ({ isChef, chefMenu }) => {
 
   const handleSaveNewMenu = () => {
     // Save the new menu here
-    console.log(newMenu)
 
     setMenus([...menus, { id: Date.now(), ...newMenu }])
     setIsAdding(false)

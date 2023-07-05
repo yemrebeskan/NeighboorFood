@@ -15,7 +15,6 @@ const EditImage = ({ className, circle, onPictureRemove }) => {
     }
   }
 
-
   const thumbnailChange = async (file) => {
     const uid = localStorage.getItem('uid')
     const reader = new FileReader()
@@ -25,7 +24,7 @@ const EditImage = ({ className, circle, onPictureRemove }) => {
         const thumbnaildata = {
           thumbnail: base64Data,
         }
-        console.log(thumbnaildata)
+
         const response = await axios.put(
           `http://127.0.0.1:3001/api/v1/chefs/${uid}/thumbnail`,
           thumbnaildata

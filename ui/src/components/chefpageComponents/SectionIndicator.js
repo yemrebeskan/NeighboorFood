@@ -49,7 +49,6 @@ function SectionIndicator({ isChef, chefInfo }) {
           />
         )
       case 'Reviews':
-        console.log(chefReviews)
         return (
           <ChefReviews
             isChef={isChef}

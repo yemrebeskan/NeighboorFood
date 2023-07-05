@@ -6,7 +6,7 @@ import { createImageFromBase64 } from '../../utils/convertToFileToBase64'
 const MenuCard = ({ menu }) => {
   // This component will display individual menu
   // You can customize this as per your needs
-  //console.log(menu)
+
   return (
     <div className="max-w-[500px] grid grid-cols-8 py-8 bg-white rounded-lg relative shrink-0 cursor-pointer sm:text-[16px] text-[12px]">
       <div className="m-2 col-span-2 flex justify-center items-center w-full h-full relative">

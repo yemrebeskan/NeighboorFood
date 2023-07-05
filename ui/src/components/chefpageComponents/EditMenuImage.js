@@ -9,7 +9,6 @@ const EditImage = ({ className, circle, menu, onPictureRemove }) => {
   const uid = localStorage.getItem('uid')
 
   const handlePictureChange = (event) => {
-    console.log('a')
     const file = event.target.files[0]
     if (file) {
       menuImageChange(file)
