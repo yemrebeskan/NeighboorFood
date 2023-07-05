@@ -60,8 +60,9 @@ const OrderCart = ({ order, date, state }) => {
           }`}
         >
           {menu.map((m) => (
-            <div className="grid grid-cols-5 py-1 items-center">
+            <div className="grid grid-cols-6 py-1 items-center">
               <p className="col-span-2">{m.orderedFood.name}</p>
+              <p className="font-bold text-xl">x{m.quantity}</p>
               <p className="col-span-2 italic text-black/60">
                 from{' '}
                 {order.chef.userInfos.name + ' ' + order.chef.userInfos.surname}
