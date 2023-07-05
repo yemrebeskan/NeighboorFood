@@ -353,7 +353,7 @@ const ChefMenus = ({ isChef, chefMenu }) => {
       // TODO: Think later for base64 strings
       //handleSaveNewMenu(newMenu)
     } catch (error) {
-      setErrorMessage('Error adding menu')
+      setError('Error adding menu')
     }
   }
 
