@@ -15,7 +15,8 @@ import {
 } from 'react-icons/bs'
 import axios from 'axios'
 
-const OrderCart = ({ menu, ordersCtx }) => {
+const OrderCart = ({ menu, ordersCtx, chef }) => {
+  const navigate = useNavigate()
   return (
     <div className="border-4 border-[#134e4a] rounded-2xl w-full p-3 grid grid-cols-4 items-center my-2">
       <div className="col-span-2 flex justify-start items-center">
@@ -26,9 +27,9 @@ const OrderCart = ({ menu, ordersCtx }) => {
           <p className="text-black/60 font-light text-sm">
             {menu.orderedFood.kcal} kcal
           </p>
-          <p className="italic underline cursor-pointer flex items-center hover:text-blue-700">
-            <AiOutlineLink className="mr-1" size={14} /> from{' '}
-            {menu.orderedFood.chef}
+          <p  onClick={() => navigate(`/chef/${chef._id}`)} className="italic underline cursor-pointer flex items-center hover:text-blue-700">
+          <AiOutlineLink className="mr-1" size={14} /> from{' '}
+            {chef.name} {chef.surname}
           </p>
         </div>
       </div>
@@ -50,6 +51,7 @@ const Orders = () => {
   const [orders, setOrders] = useState([])
   const [totalPrice, setTotalPrice] = useState(0)
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
+  const [chef, setChef] = useState({})
 
   const closeSelectedOrder = () => {
     setSelectedOrder(null)
@@ -74,7 +76,8 @@ const Orders = () => {
         if (result.data.data.activeOrder) {
           setOrderId(result.data.data.activeOrder._id)
         }
-
+        console.log(result)
+        setChef(result.data.data.activeOrder.chef.userInfos)
         const orderList = []
         if (result.data.data.activeOrder) {
           result.data.data.activeOrder.foods.map((order) => {
@@ -131,7 +134,7 @@ const Orders = () => {
             <h1 className="text-xl font-bold mt-12">Your Orders:</h1>
             {orders.reverse().map((food, index) => (
               <div>
-                <OrderCart menu={food} key={index} />
+                <OrderCart menu={food} key={index} chef={chef}/>
               </div>
             ))}
 
