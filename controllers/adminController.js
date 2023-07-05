@@ -61,7 +61,7 @@ exports.acceptApplication = catchAsync(async (req, res, next) => {
   await newChef.save()
 
   const chefsMenu = new Menu({
-    chef: newChef._id,
+    chefInfos: newChef._id,
   })
   await chefsMenu.save()
 

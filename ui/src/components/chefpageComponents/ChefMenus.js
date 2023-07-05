@@ -293,7 +293,7 @@ const Menu = ({
 
 const ChefMenus = ({ isChef, chefMenu }) => {
   // TODO: This should come from backend
-
+  const [error, setError] = useState(null)
   const [menus, setMenus] = useState(chefMenu ? chefMenu : undefined)
   const [isEditing, setIsEditing] = useState(false)
   const [isAdding, setIsAdding] = useState(false)
@@ -339,7 +339,7 @@ const ChefMenus = ({ isChef, chefMenu }) => {
         },
       }
 
-      c
+      
       const response = await axios.post(
         `http://127.0.0.1:3001/api/v1/chefs/${uid}/menu`,
         newMenu,
