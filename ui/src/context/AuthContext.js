@@ -1,4 +1,3 @@
-import { set } from 'mongoose'
 import React, { useState, useEffect } from 'react'
 
 const AuthContext = React.createContext({
