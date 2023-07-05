@@ -1,3 +1,4 @@
+import { set } from 'mongoose'
 import React, { useState, useEffect } from 'react'
 
 const AuthContext = React.createContext({
@@ -6,10 +7,10 @@ const AuthContext = React.createContext({
   isClickedLogInButton: false,
   isClickedSignUpButton: false,
   userRole: null,
-  
   isChef: false,
   chefId: null,
   userId: null,
+  userName: null,
 
   onLogout: () => {},
   onLogin: () => {},
@@ -26,6 +27,7 @@ export const AuthContextProvider = (props) => {
   const [isClickedLogInButton, setIsClickedLogInButton] = useState(false)
   const [isClickedSignUpButton, setIsClickedSignUpButton] = useState(false)
   const [userRole, setUserRole] = useState(null)
+  const [userName, setUserName] = useState(null)
   //const [chefId, setChefId] = useState(null);
 
   useEffect(() => {
@@ -68,9 +70,10 @@ export const AuthContextProvider = (props) => {
     setIsOnClickedSignButton((prevState) => !prevState)
   }
 
-  const setUserData = (role, id) => {
+  const setUserData = (role, name) => {
     //console.log('Setting userRole and chefId:', role, id);
     setUserRole(role)
+    setUserName(name)
     //setChefId(id);
   }
 
@@ -82,6 +85,7 @@ export const AuthContextProvider = (props) => {
         isClickedLogInButton: isClickedLogInButton,
         isClickedSignUpButton: isClickedSignUpButton,
         userRole: userRole,
+        userName: userName,
         //chefId: chefId,
         setUserData: setUserData,
         onLogout: logoutHandler,

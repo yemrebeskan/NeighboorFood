@@ -61,10 +61,13 @@ const SignInPage = () => {
           JSON.stringify({ email: signInInfo.email })
         );
         const userRole = res.data.role;
+        const userFullName = res.data.name;
+        const userSurname = res.data.surname;
+        const userName = userFullName + ' ' + userSurname;
         //const chefId = res.data.chefId
 
         //authCtx.setUserData(userRole, chefId)
-        authCtx.setUserData(userRole);
+        authCtx.setUserData(userRole, userName);
         authCtx.onLogin({
           email: enteredEmail,
           password: enteredPassword,
