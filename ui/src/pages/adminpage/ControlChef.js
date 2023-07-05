@@ -6,7 +6,7 @@ import ErrorModal from '../../errorModal/errorModal';
 const ControlChef = () => {
   const [nominees, setNominees] = useState([]);
   const [error, setError] = useState(null);
-
+  const [isLoading, setIsLoading] = useState(true);
   const fetchNominations = async () => {
     try {
       const res = await axios.get('http://127.0.0.1:3001/api/v1/admin/applications');
@@ -23,8 +23,11 @@ const ControlChef = () => {
         };
       });
       setNominees(nominations);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       setError('Error fetching nominations. Please try again later.');
+      
     }
   };
 
@@ -43,6 +46,13 @@ const ControlChef = () => {
   
 
   return (
+    <div style={{ minHeight: '400px', position: 'relative' }}>
+      {isLoading ? (
+        <div className="absolute flex items-center justify-center inset-1/4">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+      </div>      
+  ):(
+    
     <div>
       <h1 className="text-3xl font-bold flex justify-center mt-4 ">Aday Kontrol</h1>
       <div className="justify-center m-16" style={{ minHeight: '336px' }}>
@@ -60,6 +70,7 @@ const ControlChef = () => {
           onClose={() => setError(null)}
         />
       )}
+      </div>)}
     </div>
   );
 };

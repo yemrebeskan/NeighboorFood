@@ -5,6 +5,7 @@ import './BeChefPage.css'
 import chefImg from '../components/homepageComponents/chef_img.jpeg'
 import axios from 'axios'
 import ErrorModal from '../errorModal/errorModal'
+import { set } from 'mongoose'
 const BeShefPage = () => {
   const navigate = useNavigate()
   const authCtx = useContext(AuthContext)
@@ -13,6 +14,7 @@ const BeShefPage = () => {
   const [streetAddress, setStreetAdress] = useState('')
   const [city, setCity] = useState('')
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true)
 
   const aboutHandler = (event) => {
     setAboutNewChef(event.target.value)
@@ -57,6 +59,12 @@ const BeShefPage = () => {
     }
   };
   
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
+  }, [])
+
 
   useEffect(() => {
     if (!localStorage.getItem('uid')) {
@@ -65,6 +73,12 @@ const BeShefPage = () => {
   }, [authCtx.isLoggedIn])
 
   return (
+    <div style={{ minHeight: '400px', position: 'relative' }}>
+       {isLoading ? (
+        <div className="absolute flex items-center justify-center inset-1/4">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+      </div>      
+      ):(
     <div className="">
       <form className="flex justify-center bg-teal-600 grid">
         <div className="space-y-12">
@@ -190,6 +204,7 @@ const BeShefPage = () => {
           onClose={() => setError(null)}
         />
       )}
+    </div>)}
     </div>
   )
 }

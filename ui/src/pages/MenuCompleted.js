@@ -6,7 +6,7 @@ const MenuCompleted = () => {
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState(null);
   const [name, setName] = useState('');
-  const [isLoading, setIsLoading] = useState(true); // New state variable
+  const [isLoading, setIsLoading] = useState(true); 
 
   const fetchData = async () => {
     try {
@@ -15,10 +15,10 @@ const MenuCompleted = () => {
         `http://127.0.0.1:3001/api/v1/orders/${uid}/accepted`
       );
       setOrders(res.data.data.order);
-      setIsLoading(false); // Set loading state to false after fetching is done
+      setIsLoading(false); 
     } catch (error) {
       setError('Error fetching menus. Please try again later.');
-      setIsLoading(false); // Set loading state to false in case of error
+      setIsLoading(false);
     }
   };
 

@@ -7,9 +7,16 @@ import hasan from './teamphotos/hasan.jpg';
 import gozde from './teamphotos/gözde.jpg';
 import tugce from './teamphotos/tuğçe.jpg';
 import AuthContext from '../context/AuthContext';
-import { useContext } from 'react';
+import { useContext, useEffect, useState  } from 'react';
 
 const AboutUs = (props) => {
+  const [isLoading, setIsLoading] = useState(true)
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false)
+    }
+    , 1000)
+  }, []);
   const authCtx = useContext(AuthContext);
   const developerTeams = [
     {
@@ -51,6 +58,12 @@ const AboutUs = (props) => {
   ];
 
   return (
+    <div style={{ minHeight: '400px', position: 'relative' }}>
+      {isLoading ? (
+        <div className="absolute flex items-center justify-center inset-1/4">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+      </div>      
+      ):(
     <div className={authCtx.isOnClickedSignButton ? 'blur-sm bg-white mb-10' : 'bg-white mb-10' }>
       <div className="container mx-auto px-4 py-8">
         <h3 className="text-2xl text-center text-teal-500 mb-6">About NeighborFood</h3>
@@ -83,6 +96,7 @@ const AboutUs = (props) => {
         })}
       </div>
  
+    </div>)}
     </div>
   );
 };

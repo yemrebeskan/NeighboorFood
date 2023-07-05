@@ -10,6 +10,7 @@ const Settings = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [deleteAccount, setDeleteAccount] = useState(false)
   const [error, setError] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   const uid = localStorage.getItem('uid')
 
@@ -24,9 +25,11 @@ const Settings = () => {
           `http://127.0.0.1:3001/api/v1/users/${uid}`
         )
         setUser(response.data.data.user)
+        setIsLoading(false)
       } catch (error) {
         console.log(error)
         setError('Error fetching user data')
+        setIsLoading(false)
       }
     }
     fetchUser()
@@ -51,6 +54,7 @@ const Settings = () => {
     }
   }
   const handleDeleteAccount = async () => {
+
     if (deleteAccount) {
       try {
         await axios
@@ -78,6 +82,12 @@ const Settings = () => {
   }, [authCtx.isLoggedIn, navigate])
 
   return (
+    <div>{isLoading ? (
+      <div className="absolute flex items-center justify-center inset-1/4">
+      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+    </div>      
+    ):(
+    
     <div className="max-w-md mx-auto mt-10 mb-10 p-6 bg-white rounded-lg shadow">
       <h1 className="text-2xl font-bold mb-6">Settings</h1>
 
@@ -158,6 +168,7 @@ const Settings = () => {
         errorMessage={error}
         onClose={closeModal}
       />
+      </div>)}
     </div>
   )
 }

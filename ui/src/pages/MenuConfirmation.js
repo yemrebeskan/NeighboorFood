@@ -5,13 +5,16 @@ import ErrorModal from '../errorModal/errorModal'
 const MenuConfirmation = () => {
   const [orders, setOrders] = useState([])
   const [error, setError] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
   const fetchData = async () => {
     try {
       const uid = localStorage.getItem('uid')
       const res = await axios.get(`http://127.0.0.1:3001/api/v1/orders/${uid}`)
-      setOrders(res.data.data.order)
+      setOrders(res.data.data.order),
+        setIsLoading(false)
     } catch (error) {
       setError('Error fetching pending orders. Please try again later.')
+      setIsLoading(false)
     }
   }
 
@@ -44,7 +47,14 @@ const MenuConfirmation = () => {
   }
 
   return (
-    <div style={{ minHeight: '400px' }}>
+    <div>
+       {isLoading ? (
+        <div className="absolute flex items-center justify-center inset-1/4">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+      </div>      
+      ):(
+      <div style={{ minHeight: '400px' }}>
+      
       <h1 className="text-3xl font-bold flex justify-center mt-4">
         Menu Confirmation
       </h1>
@@ -150,6 +160,7 @@ const MenuConfirmation = () => {
           onClose={() => setError(null)}
         />
       )}
+    </div>)}
     </div>
   )
 }
