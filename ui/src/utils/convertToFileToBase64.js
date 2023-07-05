@@ -8,5 +8,6 @@ export function convertFileToBase64(file) {
 }
 
 export function createImageFromBase64(base64String) {
+  console.log(base64String)
   return 'data:image/png;base64,' + base64String
 }

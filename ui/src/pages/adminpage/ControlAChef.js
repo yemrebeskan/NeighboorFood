@@ -1,61 +1,102 @@
-import React, { useState } from 'react';
-import defaultimage from './image.jpg';
-import axios from 'axios';
-import ErrorModal from '../../errorModal/errorModal';
+import React, { useState } from 'react'
+import defaultimage from './image.jpg'
+import axios from 'axios'
+import ErrorModal from '../../errorModal/errorModal'
+import { createImageFromBase64 } from '../../utils/convertToFileToBase64'
 
 const AnounceAChef = (props) => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-  const [error, setError] = useState(null);
+  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false)
+  const [error, setError] = useState(null)
 
   const handleDuyurClick = () => {
-    setIsConfirmationOpen(true);
-  };
+    setIsConfirmationOpen(true)
+  }
 
   const handleRetClick = async () => {
-    setIsConfirmationOpen(false);
-    props.onUpdate(props.data.id);
-    setIsSubmitted(false);
+    setIsConfirmationOpen(false)
+    props.onUpdate(props.data.id)
+    setIsSubmitted(false)
 
     try {
-      const res = await axios.delete(`http://127.0.0.1:3001/api/v1/admin/application/${props.data.id}`);
+      const res = await axios.delete(
+        `http://127.0.0.1:3001/api/v1/admin/application/${props.data.id}`
+      )
     } catch (error) {
-      setError('An error occurred while rejecting the application. Please try again later.');
+      setError(
+        'An error occurred while rejecting the application. Please try again later.'
+      )
     }
-  };
+  }
 
   const handleConfirmation = async (confirmation) => {
-    setIsConfirmationOpen(false);
+    setIsConfirmationOpen(false)
     const application = {
       aboutNewChef: props.data.aboutNewChef,
       country: props.data.country,
       streetAddress: props.data.streetAddress,
       city: props.data.city,
-    };
+    }
 
     try {
       if (confirmation === 'Evet') {
-        props.onUpdate(props.data.id);
-        setIsSubmitted(false);
+        props.onUpdate(props.data.id)
+        setIsSubmitted(false)
 
         const res = await axios.post(
           `http://127.0.0.1:3001/api/v1/admin/application/${props.data.id}`,
           application
-        );
+        )
       }
     } catch (error) {
-      setError('An error occurred while confirming the application. Please try again later.');
+      setError(
+        'An error occurred while confirming the application. Please try again later.'
+      )
     }
-  };
+  }
 
   if (isSubmitted) {
-    return null;
+    return null
   }
+  console.log(props.data)
 
   return (
     <div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-8">
-      {/* Rest of the component code */}
-      
+      <div className="rounded-full overflow-hidden h-16 w-16 m-2">
+        <img
+          src={
+            props.data.Image
+              ? createImageFromBase64(props.data.Image)
+              : defaultimage
+          }
+          alt="Profile"
+          className="h-full w-full object-cover"
+        />
+      </div>
+      <div className="text-center sm:text-left">
+        <p className="font-bold">
+          {props.data.name} {props.data.surname}
+        </p>
+
+        <p className="text-sm text-gray-500">
+          Country : {props.data.country} , City: {props.data.city}
+        </p>
+        <p className="text-sm text-gray-500">
+          Street Address : {props.data.streetAddress}
+        </p>
+        <p className="text-sm text-gray-500">
+          About : {props.data.aboutNewChef}
+        </p>
+      </div>
+      <div className="flex justify-center sm:justify-end w-full sm:w-auto">
+        <button
+          className="bg-green-500 hover:bg-green-700 text-white px-8 py-2 rounded"
+          onClick={handleDuyurClick}
+        >
+          Adayı Onayla
+        </button>
+      </div>
+
       {isConfirmationOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-opacity-50 bg-gray-500">
           <div className="bg-white p-4 rounded shadow">
@@ -92,7 +133,7 @@ const AnounceAChef = (props) => {
         />
       )}
     </div>
-  );
-};
+  )
+}
 
-export default AnounceAChef;
+export default AnounceAChef
