@@ -75,9 +75,10 @@ const Orders = () => {
       .then((result) => {
         if (result.data.data.activeOrder) {
           setOrderId(result.data.data.activeOrder._id)
+          setChef(result.data.data.activeOrder.chef.userInfos)
         }
         console.log(result)
-        setChef(result.data.data.activeOrder.chef.userInfos)
+        
         const orderList = []
         if (result.data.data.activeOrder) {
           result.data.data.activeOrder.foods.map((order) => {
