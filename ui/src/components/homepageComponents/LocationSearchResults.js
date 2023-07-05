@@ -1,10 +1,12 @@
 // LocationSearchResults.js
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { createImageFromBase64 } from '../../utils/convertToFileToBase64'
 
 const MenuCard = ({ menu }) => {
   // This component will display individual menu
   // You can customize this as per your needs
+  //console.log(menu)
   return (
     <div className="max-w-[500px] grid grid-cols-8 py-8 bg-white rounded-lg relative shrink-0 cursor-pointer sm:text-[16px] text-[12px]">
       <div className="m-2 col-span-2 flex justify-center items-center w-full h-full relative">
@@ -39,7 +41,7 @@ const ChefProfile = ({ chef }) => {
     <div className="flex flex-col items-center shrink-0 cursor-pointer sm:text-[16px] text-[12px]">
       <img
         className="sm:w-32 sm:h-32 w-24 h-24 object-cover rounded-full border-4 border-white"
-        src={chef.image}
+        src={createImageFromBase64(chef.image)}
         alt={chef.name}
         onClick={() => {
           navigate(`/chef/${chef.id}`)
