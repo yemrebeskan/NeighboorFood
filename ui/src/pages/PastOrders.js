@@ -2,9 +2,9 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { BsArrowDownCircleFill, BsFillArrowUpCircleFill } from 'react-icons/bs'
 import ErrorModal from '../errorModal/errorModal'
-const OrderCart = ({ menu, date, state }) => {
+const OrderCart = ({ order, date, state }) => {
   const [isOpen, setIsOpen] = useState(false)
-
+  const menu = order.foods
   let name = ''
   let total = 0
   menu.forEach((m) => {
@@ -12,6 +12,7 @@ const OrderCart = ({ menu, date, state }) => {
     name += ', '
     total += m.orderedFood.price
   })
+  console.log(menu)
   return (
     <div className="container max-w-7xl m-auto my-10">
       <div
@@ -62,7 +63,8 @@ const OrderCart = ({ menu, date, state }) => {
             <div className="grid grid-cols-5 py-1 items-center">
               <p className="col-span-2">{m.orderedFood.name}</p>
               <p className="col-span-2 italic text-black/60">
-                from {m.orderedFood.chef}
+                from{' '}
+                {order.chef.userInfos.name + ' ' + order.chef.userInfos.surname}
               </p>
               <p className="text-end font-bold text-xl">
                 ${m.orderedFood.price}
@@ -85,6 +87,7 @@ const PastOrders = () => {
     axios
       .get(`http://127.0.0.1:3001/api/v1/users/${uid}/pastorders`)
       .then((res) => {
+        console.log(res)
         setPastOrders(res.data.orderHistory)
       })
       .catch((err) => {
@@ -97,7 +100,7 @@ const PastOrders = () => {
       {pastOrders.reverse().map((order, index) => (
         <OrderCart
           key={index}
-          menu={order.foods}
+          order={order}
           date={order.date}
           state={order.state}
         />

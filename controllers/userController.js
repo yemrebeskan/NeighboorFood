@@ -188,25 +188,29 @@ exports.getCart = async (req, res) => {
 exports.getPastOrders = async (req, res) => {
   try {
     const uid = req.params.id
-    const user = await User.findById(uid).populate({
-      path: 'orderHistory',
-      model: 'Order',
-      populate: {
-        path: 'foods.orderedFood', // 'foods' is an array of Food references in the Menu model
-        model: 'Food', // 'Food' is the model name for our foods
-      },
-      populate: {
-        path: 'chef',
-        model: 'Chef',
-      populate: {
-        path: 'userInfos',
-        model: 'User',
-        select: 'name surname',
-      },
-      },
-
-
-    })
+    const user = await User.findById(uid)
+      .populate({
+        path: 'orderHistory',
+        model: 'Order',
+        populate: {
+          path: 'foods.orderedFood', // 'foods' is an array of Food references in the Menu model
+          model: 'Food', // 'Food' is the model name for our foods
+        },
+      })
+      .populate({
+        path: 'orderHistory',
+        model: 'Order',
+        populate: {
+          path: 'chef',
+          model: 'Chef',
+          populate: {
+            path: 'userInfos',
+            model: 'User',
+            select: 'name surname',
+          },
+        },
+      })
+    console.log(user.orderHistory)
 
     res.status(200).json({
       status: 'success',
