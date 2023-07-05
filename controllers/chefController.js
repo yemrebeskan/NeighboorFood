@@ -4,6 +4,7 @@ const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 const User = require('../models/userModel')
 const Menu = require('../models/menuModel')
+const Order = require('../models/orderModel')
 
 exports.getAllChefs = catchAsync(async (req, res, next) => {
   const city = req.params.location
@@ -170,11 +171,12 @@ exports.addFoodToMenu = catchAsync(async (req, res, next) => {
   if (!menu) {
     // Create a new menu if it doesn't exist
     menu = new Menu({ chefInfos: chef._id, foods: [] })
+    chef.menu = menu._id
   }
 
   menu.foods.push(savedFood._id)
   await menu.save()
-
+  await chef.save()
   res.status(200).json({
     status: 'success',
     data: {
@@ -189,7 +191,8 @@ exports.removeFoodFromMenu = catchAsync(async (req, res, next) => {
   const foodId = req.params.foodId
   const chef = await Chef.findOne({ userInfos: chefId })
   const menu = await Menu.findOne({ chefInfos: chef._id })
-  menu.foods.pull(foodId)
+  menu.foods.filter((food) => food._id !== foodId)
+
   await menu.save()
   await Food.findByIdAndDelete(foodId)
   res.status(200).json({

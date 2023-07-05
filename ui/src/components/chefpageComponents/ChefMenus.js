@@ -171,7 +171,6 @@ const Menu = ({
             className="w-[150px] h-[150px] rounded-full bg-cover"
             src={menu.image}
           />
-          
         </div>
       </div>
       <div className="col-span-4 relative">
@@ -331,10 +330,10 @@ const ChefMenus = ({ isChef, chefMenu }) => {
     e.preventDefault()
     try {
       const uid = localStorage.getItem('uid')
-      console.log(selectedImage)
+
       const image64 = await convertFileToBase64(selectedImage)
       newMenu.image = image64.split(',')[1]
-      console.log(newMenu.image)
+
       const config = {
         headers: {
           'Content-Type': 'application/json',
