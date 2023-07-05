@@ -195,6 +195,17 @@ exports.getPastOrders = async (req, res) => {
         path: 'foods.orderedFood', // 'foods' is an array of Food references in the Menu model
         model: 'Food', // 'Food' is the model name for our foods
       },
+      populate: {
+        path: 'chef',
+        model: 'Chef',
+      populate: {
+        path: 'userInfos',
+        model: 'User',
+        select: 'name surname',
+      },
+      },
+
+
     })
 
     res.status(200).json({

@@ -64,6 +64,7 @@ exports.getActiveOrderForUser = catchAsync(async (req, res, next) => {
       path: 'foods.orderedFood',
       model: 'Food',
     }
+    
   )
 
   res.status(200).json({
